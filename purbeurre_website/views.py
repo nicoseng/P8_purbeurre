@@ -52,7 +52,7 @@ def logout_user(request):
 def check_my_products(request):
     return render(request, 'purbeurre_website/check_my_products.html')
 
-
+@login_required(login_url='login')
 def display_results(request):
     # product_name = SearchForm()
     if request.method == "GET":
