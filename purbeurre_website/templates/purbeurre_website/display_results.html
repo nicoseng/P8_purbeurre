@@ -8,14 +8,19 @@
             <div class="container px-4 px-lg-5">
 
 
-                <a class="navbar-brand" href="../welcome"><img src="{% static 'images/pur_beurre_logo.png' %}" alt="pur_beurre_logo">Pur Beurre</a>
+                <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/pur_beurre_logo.png' %}" alt="pur_beurre_logo">Pur Beurre</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#recherche"><input type="search" class="form-control rounded" placeholder="Recherche" aria-label="rehercher" aria-describedby="search-addon" /></a></li>
-                        <li class="nav-item"><a class="nav-link" href="../check_my_account"><img src="{% static 'images/user.png' %}" alt="user_icon"></a></li>
-                        <li class="nav-item"><a class="nav-link" href="../display_results"><img src="{% static 'images/carrot.png' %}" alt="carrot_icon"></a></li>
-                        <li class="nav-item"><a class="nav-link" href="#page-top"><img src="{% static 'images/logout.png' %}" alt="logout_icon"></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#recherche"><input type="search" class="form-control rounded" placeholder="Recherche" aria-label="rechercher" aria-describedby="search-addon" /></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'check_my_products' %}"><img src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits</a></li>
+                        {% if user is None %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'images/create_account.png' %}" alt="create_account_icon">Se connecter</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'check_my_account' %}"><img src="{% static 'images/my_account.png' %}" alt="my_account_icon">{{user.username}}</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><img src="{% static 'images/logout.png' %}" alt="logout_icon">Se déconnecter</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -28,50 +33,29 @@
                         <h1 class="text-white font-weight-bold">Aliment recherché </h1>
                         <hr class="divider" />
                     </div>
+
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 mb-5">Vous pouvez remplacer cet aliment par : </p>
                     </div>
-                    <div class="container" id="resultats">
-                      <div class="row">
-                        <div class="col-sm">
-                                            <p>Nutriscore</p>
-                                            <p>Nom de l'aliment</p>
-                                            <button type="button" class="btn btn-outline-primary">Sauvegarder</button>
-                        </div>
-                        <div class="col-sm">
-                                            <p>Nutriscore</p>
-                                            <p>Nom de l'aliment</p>
-                                            <button type="button" class="btn btn-outline-primary">Sauvegarder</button>
-                        </div>
-                        <div class="col-sm">
-                                            <p>Nutriscore</p>
-                                            <p>Nom de l'aliment</p>
-                                            <button type="button" class="btn btn-outline-primary">Sauvegarder</button>
-                        </div>
-                                                  <div class="col-sm">
-                                            <p>Nutriscore</p>
-                                            <p>Nom de l'aliment</p>
-                                            <button type="button" class="btn btn-outline-primary">Sauvegarder</button>
-                        </div>
-                                                  <div class="col-sm">
-                                            <p>Nutriscore</p>
-                                            <p>Nom de l'aliment</p>
-                                            <button type="button" class="btn btn-outline-primary">Sauvegarder</button>
-                        </div>
-                                                  <div class="col-sm">
-                                            <p>Nutriscore</p>
-                                            <p>Nom de l'aliment</p>
-                                            <button type="button" class="btn btn-outline-primary">Sauvegarder</button>
-                        </div>
-                      </div>
-                    </div>
-
-
                 </div>
             </div>
         </header>
 
+        <table class="table is-fullwidth is-striped is-bordered">
+            <thead>
+                <tr>
+                    <th>Produits</th>
+                </tr>
+            </thead>
 
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <th>{{product}}</th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         <!-- Contact-->
         <section class="page-section" id="contact">
             <div class="container px-4 px-lg-5">

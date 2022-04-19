@@ -3,11 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from purbeurre_website.category_loader import CategoryExtractor
-from .forms import CreateUser
+from .forms import CreateUser, SearchForm
+from .product_extractor import ProductExtractor
 
 
-# Create your views here.
 @login_required(login_url='login')
 def home(request):
     return render(request, 'purbeurre_website/home.html')
@@ -55,11 +54,21 @@ def check_my_products(request):
 
 
 def display_results(request):
+    # product_name = SearchForm()
+    if request.method == "GET":
+        #     product_name = SearchForm(request.POST)
+        #     if product_name.is_valid():
+        #         product_name.save()
+        #         return redirect('/')
+        product_name = request.GET.get('product_name')
+        product_data = ProductExtractor()
+        get_products = product_data.extract_products(product_name)
+        context = {"products": get_products}
+        return render(request, 'purbeurre_website/display_results.html', context)
+
+    else:
+        return render(request, 'purbeurre_website/display_results.html')
+
+
+def add_product(request):
     return render(request, 'purbeurre_website/display_results.html')
-
-
-def get_categories(request):
-    data = CategoryExtractor()
-    get_data = data.load_categories()
-    context = {"data": get_data}
-    return render(request,'purbeurre_website/categories.html',context )
