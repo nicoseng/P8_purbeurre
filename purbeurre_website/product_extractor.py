@@ -7,44 +7,45 @@ class ProductExtractor:
     """
     Extracts products from the API OpenFoodFacts(OFF).
     """
-    @staticmethod
-    def extract_products(product_name, retry=3):
-        """
-        This function extracts the products datas
 
-        from the URL address in OFF.
 
-        Parameters
-        ----------
-        retry : type int
-            The number of attempts if there are errors.
+def extract_products(product_name, retry=3):
+    """
+    This function extracts the products datas
 
-        product_name : type str
-            The name of the product
+    from the URL address in OFF.
 
-        """
-        products_loaded_list = []
-        nb_of_pages = list(range(10))
+    Parameters
+    ----------
+    retry : type int
+        The number of attempts if there are errors.
 
-        for page in nb_of_pages:
-            print(page)
-            while page <= len(nb_of_pages):
+    product_name : type str
+        The name of the product
 
-                try:
+    """
+    products_loaded_list = []
+    nb_of_pages = list(range(10))
 
-                    product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
-                                  "&search_terms=" + product_name + "&page="+ str(page)
-                    request = get(product_url)
+    for page in nb_of_pages:
+        print(page)
+        while page <= len(nb_of_pages):
 
-                    # To get the json format
-                    products_url_json = request.json()
+            try:
 
-                    for product in products_url_json["products"]:
-                        products_loaded_list.append(product["product_name_fr"])
+                product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
+                              "&search_terms=" + product_name + "&page=" + str(page)
+                request = get(product_url)
 
-                except exceptions.RequestException:
+                # To get the json format
+                products_url_json = request.json()
 
-                    if retry > 0:
-                        return ProductExtractor.extract_products(retry - 1)
-                page += 1
-                return products_loaded_list
+                for product in products_url_json["products"]:
+                    products_loaded_list.append(product["product_name_fr"])
+
+            except exceptions.RequestException:
+
+                if retry > 0:
+                    return ProductExtractor.extract_products(retry - 1)
+            page += 1
+            return products_loaded_list

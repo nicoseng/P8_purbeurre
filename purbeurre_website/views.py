@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from .forms import CreateUser, SearchForm
-from .product_extractor import ProductExtractor
+from .product_extractor import ProductExtractor, extract_products
 
 
 @login_required(login_url='login')
@@ -62,7 +62,7 @@ def display_results(request):
         #         return redirect('/')
         product_name = request.GET.get('product_name')
         product_data = ProductExtractor()
-        get_products = product_data.extract_products(product_name)
+        get_products = extract_products(product_name)
         context = {"products": get_products}
         return render(request, 'purbeurre_website/display_results.html', context)
 
