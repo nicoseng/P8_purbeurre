@@ -67,7 +67,8 @@ def display_results(request):
         return render(request, 'purbeurre_website/display_results.html', context)
 
     else:
-        return render(request, 'purbeurre_website/display_results.html')
+        messages.info(request, "Le nom du produit est introuvable.")
+    return render(request, 'purbeurre_website/display_results.html', messages)
 
 
 def add_product(request):

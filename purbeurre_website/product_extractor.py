@@ -24,21 +24,27 @@ class ProductExtractor:
 
         """
         products_loaded_list = []
+        nb_of_pages = list(range(10))
 
-        try:
+        for page in nb_of_pages:
+            print(page)
+            while page <= len(nb_of_pages):
 
-            product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms="+ product_name
-            request = get(product_url)
+                try:
 
-            # To get the json format
-            products_url_json = request.json()
+                    product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
+                                  "&search_terms=" + product_name + "&page="+ str(page)
+                    request = get(product_url)
 
-            for product in products_url_json["products"]:
-                products_loaded_list.append(product["product_name_fr"])
+                    # To get the json format
+                    products_url_json = request.json()
 
-        except exceptions.RequestException:
+                    for product in products_url_json["products"]:
+                        products_loaded_list.append(product["product_name_fr"])
 
-            if retry > 0:
-                return ProductExtractor.extract_products(retry - 1)
+                except exceptions.RequestException:
 
-        return products_loaded_list
+                    if retry > 0:
+                        return ProductExtractor.extract_products(retry - 1)
+                page += 1
+                return products_loaded_list

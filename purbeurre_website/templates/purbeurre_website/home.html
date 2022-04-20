@@ -12,7 +12,6 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'display_results' %}"><input type="search" class="form-control rounded" placeholder="Recherche" aria-label="rechercher" aria-describedby="search-addon" /></a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'check_my_products' %}"><img src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits</a></li>
                         {% if user is None %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'images/create_account.png' %}" alt="create_account_icon">Se connecter</a></li>
@@ -46,10 +45,14 @@
                         <div class="input-group" id="recherche">
 
                             <input type="search" class="form-control rounded" name="product_name" placeholder="Tapez ici le produit à remplacer" aria-label="rechercher" aria-describedby="search-addon" />
-                            <a href="{% url 'display_results' %}" type="submit"><button type="button" class="btn btn-outline-primary">Rechercher</button></a>
 
                         </div>
                     </form>
+                    {% for message in messages %}
+
+                    <p id="messages" class="text_align-center">{{ message }}</p>
+
+                    {% endfor %}
 
                 </div>
             </div>
