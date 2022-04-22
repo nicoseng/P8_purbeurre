@@ -31,7 +31,7 @@
                     <div class="col-lg-8 align-self-end">
 
                             {% for message in messages %}
-                            <p id="messages" class="text-white">{{ message }}</p>
+                                <p id="messages" class="text-white">{{ message }}</p>
                             {% endfor %}
 
                         <h1 class="text-white font-weight-bold">Du gras, oui, mais de qualité ! </h1>
@@ -48,11 +48,11 @@
 
                         </div>
                     </form>
-                    {% for message in messages %}
+                    <!--{% for message in messages %}
 
                     <p id="messages" class="text_align-center">{{ message }}</p>
 
-                    {% endfor %}
+                    {% endfor %}-->
 
                 </div>
             </div>
@@ -132,7 +132,7 @@ Pur Beurre est l'initiative de deux amoureux de la gastronomie française, Colet
                             </div>
                             <!-- Message input-->
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <textarea class="form-control" id="message" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
                                 <label for="message">Message</label>
                                 <div class="invalid-feedback" data-sb-feedback="message:required">Un message est requis.</div>
                             </div>

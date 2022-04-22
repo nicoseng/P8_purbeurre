@@ -1,51 +1,75 @@
 """Internal imports"""
 
 from requests import get, exceptions
+from urllib3.util import retry
 
 
 class ProductExtractor:
-    """
-    Extracts products from the API OpenFoodFacts(OFF).
-    """
 
+    @staticmethod
+    def extract_products_url(product_name):
 
-def extract_products(product_name, retry=3):
-    """
-    This function extracts the products datas
+        """
+        Extracts products URLS from the API OpenFoodFacts(OFF).
+        """
 
-    from the URL address in OFF.
+        products_list_url = []
+        nb_of_page = range(0,1)
+        for page in nb_of_page:
 
-    Parameters
-    ----------
-    retry : type int
-        The number of attempts if there are errors.
+            while page <= max(nb_of_page):
 
-    product_name : type str
-        The name of the product
+                try:
 
-    """
-    products_loaded_list = []
-    nb_of_pages = list(range(10))
+                    product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
+                                  "&search_terms=" + product_name + "&page=" + str(page)
+                    products_list_url.append(product_url)
 
-    for page in nb_of_pages:
-        print(page)
-        while page <= len(nb_of_pages):
+                except exceptions.RequestException:
 
-            try:
+                    if retry <= 0:
+                        return ProductExtractor.extract_products_url(product_name)
+                page += 1
+        print(products_list_url)
+        return products_list_url
 
-                product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
-                              "&search_terms=" + product_name + "&page=" + str(page)
-                request = get(product_url)
+    @staticmethod
+    def extract_products(products_list_url, start_product_nb, page_count):
 
-                # To get the json format
-                products_url_json = request.json()
+        """To extract the product url.
 
-                for product in products_url_json["products"]:
-                    products_loaded_list.append(product["product_name_fr"])
+                :param start_product_nb: Indicate the numbers of position of the products
+                :param last_product_nb: The last number of the interval.
+                :param products_list_url: list of product URLS
 
-            except exceptions.RequestException:
+        """
 
-                if retry > 0:
-                    return ProductExtractor.extract_products(retry - 1)
-            page += 1
-            return products_loaded_list
+        products_list = []
+
+        for url in products_list_url:
+            while start_product_nb <= page_count:
+
+                try:
+                    product_page_url = get(url)
+                    product_page_json = product_page_url.json()
+
+                    product_dict = {"product_name": "", "nutriscore": ""}
+
+                    product_name = product_page_json["products"][
+                        start_product_nb]["product_name"]
+                    product_dict["product_name"] = product_name
+
+                    nutriscore = product_page_json["products"][
+                        start_product_nb]["nutrition_grade_fr"]
+                    product_dict["nutriscore"] = nutriscore
+
+                    products_list.append(product_dict)
+
+                # To avoid empty field from OpenFoodFacts
+                except KeyError:
+                    pass
+                except IndexError:
+                    pass
+
+            start_product_nb += 1
+        print(products_list)

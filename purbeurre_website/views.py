@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .forms import CreateUser, SearchForm
-from .product_extractor import ProductExtractor, extract_products
+from .forms import CreateUser
+from .product_extractor import ProductExtractor
 
 
 @login_required(login_url='login')
@@ -52,18 +52,15 @@ def logout_user(request):
 def check_my_products(request):
     return render(request, 'purbeurre_website/check_my_products.html')
 
-@login_required(login_url='login')
+
 def display_results(request):
-    # product_name = SearchForm()
     if request.method == "GET":
-        #     product_name = SearchForm(request.POST)
-        #     if product_name.is_valid():
-        #         product_name.save()
-        #         return redirect('/')
         product_name = request.GET.get('product_name')
         product_data = ProductExtractor()
-        get_products = extract_products(product_name)
-        context = {"products": get_products}
+        get_products_url = product_data.extract_products_url(product_name)
+        get_products_data = product_data.extract_products(get_products_url)
+        context = {"products": get_products_data}
+
         return render(request, 'purbeurre_website/display_results.html', context)
 
     else:
