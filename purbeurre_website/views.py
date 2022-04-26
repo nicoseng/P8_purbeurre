@@ -59,15 +59,14 @@ def display_results(request):
         product_data = ProductExtractor()
         get_products_url = product_data.extract_products_url(product_name)
         print(get_products_url)
-        #get_products_data = product_data.extract_products(get_products_url)
-        #print(get_products_data)
-        #context = {"products": get_products_data}
+        get_products_data = product_data.extract_products(get_products_url)
+        print(get_products_data)
+        context = {"products": get_products_data}
+        return render(request, 'purbeurre_website/display_results.html', context)
 
-    return render(request, 'purbeurre_website/display_results.html')
-    #
-    # else:
-    #     messages.info(request, "Le nom du produit est introuvable.")
-    #return render(request, 'purbeurre_website/display_results.html', messages)
+    else:
+        messages.info(request, "Le nom du produit est introuvable.")
+        return render(request, 'purbeurre_website/display_results.html', messages)
 
 
 def add_product(request):

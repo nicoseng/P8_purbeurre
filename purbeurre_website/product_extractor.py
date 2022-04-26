@@ -43,29 +43,28 @@ class ProductExtractor:
     @staticmethod
     def extract_products(products_list_url):
 
-        """To extract the product url.
-
-                :param products_list_url: list of product URLS
-
+        """
+        To extract the product url.
+        :param products_list_url: list of product URLS
         """
 
         products_list = []
+        product_dict = {"product_name": "", "nutriscore": ""}
 
         for url in products_list_url:
 
             try:
+                print(url)
                 product_page_url = get(url)
                 product_page_json = product_page_url.json()
 
-                product_dict = {"product_name": "", "nutriscore": ""}
                 page_count = product_page_json["page_count"]
                 number = 0
                 while number < page_count:
-                    product_name = product_page_json["products"][number]["product_name"]
+                    product_name = product_page_json["products"][number]["product_name_fr"]
                     product_dict["product_name"] = product_name
 
-                    nutriscore = product_page_json["products"][
-                        number]["nutrition_grade_fr"]
+                    nutriscore = product_page_json["products"][number]["nutrition_grade_fr"]
                     product_dict["nutriscore"] = nutriscore
 
                     products_list.append(product_dict)
@@ -77,4 +76,4 @@ class ProductExtractor:
             except IndexError:
                 pass
 
-        print(products_list)
+        return products_list
