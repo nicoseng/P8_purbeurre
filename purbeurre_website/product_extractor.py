@@ -16,7 +16,7 @@ class ProductExtractor:
 
         products_list_url = []
         product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
-                      "&search_terms=" + product_name
+                      "&search_terms=" + str(product_name)
         product_page_url = get(product_url)
         product_page_json = product_page_url.json()
 
@@ -29,7 +29,7 @@ class ProductExtractor:
                 try:
 
                     product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
-                                  "&search_terms=" + product_name + "&page=" + str(page)
+                                  "&search_terms=" + str(product_name) + "&page=" + str(page)
                     products_list_url.append(product_url)
 
                 except exceptions.RequestException:
@@ -47,9 +47,7 @@ class ProductExtractor:
         To extract the product url.
         :param products_list_url: list of product URLS
         """
-
         products_list = []
-        product_dict = {"product_name": "", "nutriscore": ""}
 
         for url in products_list_url:
 
@@ -61,6 +59,7 @@ class ProductExtractor:
                 page_count = product_page_json["page_count"]
                 number = 0
                 while number < page_count:
+                    product_dict = {"product_name": "", "nutriscore": ""}
                     product_name = product_page_json["products"][number]["product_name_fr"]
                     product_dict["product_name"] = product_name
 

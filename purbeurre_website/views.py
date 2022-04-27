@@ -58,7 +58,6 @@ def display_results(request):
         product_name = request.GET.get('product_name')
         product_data = ProductExtractor()
         get_products_url = product_data.extract_products_url(product_name)
-        print(get_products_url)
         get_products_data = product_data.extract_products(get_products_url)
         print(get_products_data)
         context = {"products": get_products_data}
