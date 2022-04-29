@@ -19,17 +19,18 @@ class ProductExtractor:
                       "&search_terms=" + str(product_name)
         product_page_url = get(product_url)
         product_page_json = product_page_url.json()
-
-        nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
+        nb_of_page = range(1)
+        # nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
         print(nb_of_page)
         for page in nb_of_page:
 
             while page <= len(nb_of_page):
 
                 try:
-
+                    product_name = product_name.split()
+                    product_name = "+".join(product_name)
                     product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
-                                  "&search_terms=" + str(product_name) + "&page=" + str(page)
+                                  "&search_terms=" + product_name + "&page=" + str(page)
                     products_list_url.append(product_url)
 
                 except exceptions.RequestException:
@@ -55,10 +56,10 @@ class ProductExtractor:
                 print(url)
                 product_page_url = get(url)
                 product_page_json = product_page_url.json()
-
-                page_count = product_page_json["page_count"]
                 number = 0
+                page_count = 24
                 while number < page_count:
+
                     product_dict = {"product_name": "", "nutriscore": ""}
                     product_name = product_page_json["products"][number]["product_name_fr"]
                     product_dict["product_name"] = product_name
