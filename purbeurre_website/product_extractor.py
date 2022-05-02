@@ -19,8 +19,7 @@ class ProductExtractor:
                       "&search_terms=" + str(product_name)
         product_page_url = get(product_url)
         product_page_json = product_page_url.json()
-        nb_of_page = range(1)
-        # nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
+        nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
         print(nb_of_page)
         for page in nb_of_page:
 
@@ -49,19 +48,25 @@ class ProductExtractor:
         :param products_list_url: list of product URLS
         """
         products_list = []
-
+        print(products_list_url)
         for url in products_list_url:
 
             try:
-                print(url)
+                #print(url)
                 product_page_url = get(url)
                 product_page_json = product_page_url.json()
                 number = 0
-                page_count = 24
+                page_count = product_page_json["page_count"]
                 while number < page_count:
 
-                    product_dict = {"product_name": "", "nutriscore": ""}
-                    product_name = product_page_json["products"][number]["product_name_fr"]
+                    page_count = product_page_json["page_count"]
+
+                    product_dict = {"product_name": "", "nutriscore": "", "id":""}
+
+                    product_id = product_page_json["products"][number]["_id"]
+                    product_dict["id"] = product_id
+
+                    product_name = product_page_json["products"][number]["product_name"]
                     product_dict["product_name"] = product_name
 
                     nutriscore = product_page_json["products"][number]["nutrition_grade_fr"]
@@ -75,5 +80,5 @@ class ProductExtractor:
                 pass
             except IndexError:
                 pass
-
+        print(len(products_list))
         return products_list
