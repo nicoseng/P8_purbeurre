@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 mb-5">Vous pouvez remplacer cet aliment par : </p>
+                        <p class="text-white-75 mb-5"></p>
                     </div>
                 </div>
             </div>
@@ -43,19 +43,32 @@
 
         <table class="table is-fullwidth is-striped is-bordered">
             <thead>
-                <tr>
+                <tr align="center">
+                    <th>Categorie(s) associée(s)</th>
                     <th>Produits</th>
                     <th>Nutriscore</th>
                     <th>Image</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
             {% for product in products %}
                 <tr>
+                    <th>{{product.categories}}</th>
                     <th>{{product.product_name}}</th>
                     <th><img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"</th>
                     <th><img src={{product.product_image}} alt="product_image"></th>
+                    <th>
+                        <form method="POST" action="">
+                        {% csrf_token %}
+                            <div class="input-group" id="enregistrer">
+                                <input type="submit" name="enregistrer" placeholder="enregistrer">
+                            </div>
+                        </form>
+
+
+                    </th>
                 </tr>
             {% endfor %}
             </tbody>
