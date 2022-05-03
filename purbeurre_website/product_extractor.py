@@ -62,7 +62,7 @@ class ProductExtractor:
 
                     product_dict = {"product_name": "", "nutriscore": "", "product_image":""}
 
-                    product_image = product_page_json["products"][number]["image_url"]
+                    product_image = product_page_json["products"][number]["image_small_url"]
                     product_dict["product_image"] = product_image
 
                     product_name = product_page_json["products"][number]["product_name_fr"]

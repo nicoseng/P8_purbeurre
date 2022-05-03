@@ -54,7 +54,7 @@
             {% for product in products %}
                 <tr>
                     <th>{{product.product_name}}</th>
-                    <th>{{product.nutriscore}}</th>
+                    <th><img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"</th>
                     <th><img src={{product.product_image}} alt="product_image"></th>
                 </tr>
             {% endfor %}
