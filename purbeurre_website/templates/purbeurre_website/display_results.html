@@ -51,7 +51,9 @@
             <tbody>
             {% for product in products %}
                 <tr>
-                    <th>{{product}}</th>
+                    <th>{{product.product_name}}</th>
+                    <th>{{product.nutriscore}}</th>
+                    <th>{{product.product_image}}</th>
                 </tr>
             {% endfor %}
             </tbody>

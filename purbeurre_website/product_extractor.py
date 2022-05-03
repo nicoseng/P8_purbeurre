@@ -17,15 +17,12 @@ class ProductExtractor:
         products_list_url = []
         product_name = product_name.split()
         product_name = "+".join(product_name)
-        product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1"
-        #product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
-                      #"&search_terms=" + str(product_name)
+        #product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1"
+        product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms=" + str(product_name)
         product_page_url = get(product_url)
         product_page_json = product_page_url.json()
-        nb_of_page = range(0,1)
 
-        #nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
-        print(nb_of_page)
+        nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
         for page in nb_of_page:
 
             while page <= len(nb_of_page):
@@ -33,7 +30,8 @@ class ProductExtractor:
                 try:
                     product_name = product_name.split()
                     product_name = "+".join(product_name)
-                    product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1&page=" + str(page)
+                    product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms=" + str(product_name) + "&page=" + str(page)
+                    #product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1&page=" + str(page)
                     products_list_url.append(product_url)
 
                 except exceptions.RequestException:
@@ -52,25 +50,22 @@ class ProductExtractor:
         :param products_list_url: list of product URLS
         """
         products_list = []
-        print(products_list_url)
         for url in products_list_url:
 
             try:
-                #print(url)
+                print(url)
                 product_page_url = get(url)
                 product_page_json = product_page_url.json()
                 number = 0
                 page_count = product_page_json["page_count"]
                 while number < page_count:
 
-                    page_count = product_page_json["page_count"]
+                    product_dict = {"product_name": "", "nutriscore": "", "product_image":""}
 
-                    product_dict = {"product_name": "", "nutriscore": "", "id":""}
+                    product_image = product_page_json["products"][number]["image_url"]
+                    product_dict["product_image"] = product_image
 
-                    product_id = product_page_json["products"][number]["_id"]
-                    product_dict["id"] = product_id
-
-                    product_name = product_page_json["products"][number]["product_name"]
+                    product_name = product_page_json["products"][number]["product_name_fr"]
                     product_dict["product_name"] = product_name
 
                     nutriscore = product_page_json["products"][number]["nutrition_grade_fr"]
@@ -84,5 +79,5 @@ class ProductExtractor:
                 pass
             except IndexError:
                 pass
-        print(len(products_list))
+
         return products_list
