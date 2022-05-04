@@ -17,12 +17,12 @@ class ProductExtractor:
         products_list_url = []
         product_name = product_name.split()
         product_name = "+".join(product_name)
-        #product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1"
+        # product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1"
         product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms=" + str(product_name)
         product_page_url = get(product_url)
         product_page_json = product_page_url.json()
-
-        nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
+        nb_of_page = range(0,1)
+        # nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
         for page in nb_of_page:
 
             while page <= len(nb_of_page):
@@ -31,7 +31,7 @@ class ProductExtractor:
                     product_name = product_name.split()
                     product_name = "+".join(product_name)
                     product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms=" + str(product_name) + "&page=" + str(page)
-                    #product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1&page=" + str(page)
+                    # product_url = "https://fr.openfoodfacts.org/categorie/" + product_name + "?json=1&page=" + str(page)
                     products_list_url.append(product_url)
 
                 except exceptions.RequestException:
@@ -60,7 +60,7 @@ class ProductExtractor:
                 page_count = product_page_json["page_count"]
                 while number < page_count:
 
-                    product_dict = {"categories": "", "product_name": "", "nutriscore": "", "product_image":""}
+                    product_dict = {"categories": "", "product_name": "", "nutriscore": "", "product_image": ""}
 
                     product_category = product_page_json["products"][number]["categories"]
                     product_dict["categories"] = product_category

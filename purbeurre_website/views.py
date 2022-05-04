@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 
 from .forms import CreateUser
 from .product_extractor import ProductExtractor
+from .substitute_extractor import SubstituteExtractor
 
 
 @login_required(login_url='login')
@@ -67,6 +68,27 @@ def display_results(request):
         messages.info(request, "Le nom du produit est introuvable.")
         return render(request, 'purbeurre_website/display_results.html', messages)
 
+# def display_substitute(request):
+#
+#     # if request.method == "GET":
+#     #     product_name = request.GET.get('product_name')
+#
+#     product_data = SubstituteExtractor()
+#     get_products_url = product_data.get_substitute(product_name)
+#     print(get_products_data)
+#     context = {"products": get_products_data}
+#     return render(request, 'purbeurre_website/display_substitute.html')
+#
+#     # else:
+#     #     messages.info(request, "Le nom du produit est introuvable.")
+#     #     return render(request, 'purbeurre_website/display_results.html', messages)
+
 
 def add_product(request):
     return render(request, 'purbeurre_website/display_results.html')
+
+
+def delete_product(request):
+    return render(request, 'purbeurre_website/display_results.html')
+
+

@@ -44,10 +44,10 @@
         <table class="table is-fullwidth is-striped is-bordered">
             <thead>
                 <tr align="center">
-                    <th>Categorie(s) associée(s)</th>
+                    <!--<th>Categorie(s) associée(s)</th>-->
                     <th>Produits</th>
-                    <th>Nutriscore</th>
                     <th>Image</th>
+                    <th>Nutriscore</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -55,20 +55,11 @@
             <tbody>
             {% for product in products %}
                 <tr>
-                    <th>{{product.categories}}</th>
+                    <!--<th>{{product.categories}}</th>-->
                     <th>{{product.product_name}}</th>
-                    <th><img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"</th>
                     <th><img src={{product.product_image}} alt="product_image"></th>
-                    <th>
-                        <form method="POST" action="">
-                        {% csrf_token %}
-                            <div class="input-group" id="enregistrer">
-                                <input type="submit" name="enregistrer" placeholder="enregistrer">
-                            </div>
-                        </form>
-
-
-                    </th>
+                    <th><img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"</th>
+                    <th><a class="btn btn-sm btn-success" href="{% url 'display_substitute' %}">Substitut</a></th>
                 </tr>
             {% endfor %}
             </tbody>
