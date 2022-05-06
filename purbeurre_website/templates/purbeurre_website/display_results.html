@@ -40,7 +40,27 @@
                 </div>
             </div>
         </header>
+        {% for product in products %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col">
+            <div class="card h-90">
 
+                  <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                    <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg" width="150">
+                  </span>
+
+              <img src={{product.product_image}} alt="product_image" width="150" align="center">
+              <div class="card-body">
+                <h5 class="card-title">{{product.product_name}}</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
         <table class="table is-fullwidth is-striped is-bordered">
             <thead>
                 <tr align="center">
@@ -53,15 +73,24 @@
             </thead>
 
             <tbody>
+
             {% for product in products %}
-                <tr>
+
+                <tr width="500" align="center" valign="middle">
                     <!--<th>{{product.categories}}</th>-->
                     <th>{{product.product_name}}</th>
-                    <th><img src={{product.product_image}} alt="product_image"></th>
-                    <th><img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"</th>
-                    <th><a class="btn btn-sm btn-success" href="{% url 'display_substitute' %}">Substitut</a></th>
+                    <th><img src={{product.product_image}} alt="product_image" width="150"></th>
+                    <th><img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg" width="150"></th>
+                    <th>
+                        <form method="GET" action="{% url 'display_substitute' %}">
+                            {% csrf_token %}
+                            <input type="submit" value="{{product}}" class="form-control rounded" name="substitute" placeholder="substitute" aria-label="rechercher" aria-describedby="search-addon" />
+                            <!--<a class="btn btn-sm btn-success" href="{% url 'display_substitute' %}" >Proposer un substitut</a>-->
+                        </form>
+                    </th>
                 </tr>
             {% endfor %}
+
             </tbody>
         </table>
         <!-- Contact-->
