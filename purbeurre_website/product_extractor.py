@@ -1,5 +1,6 @@
 """Internal imports"""
 from math import ceil
+import random
 
 from requests import get, exceptions
 from urllib3.util import retry
@@ -83,4 +84,4 @@ class ProductExtractor:
             except IndexError:
                 pass
 
-        return products_list
+        return random.choice(products_list)

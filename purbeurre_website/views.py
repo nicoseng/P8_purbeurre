@@ -60,13 +60,9 @@ def display_results(request):
         product_data = ProductExtractor()
         get_products_url = product_data.extract_products_url(product_name)
         get_products_data = product_data.extract_products(get_products_url)
-        #print(get_products_data)
+        print(get_products_data)
         context = {"products": get_products_data}
         return render(request, 'purbeurre_website/display_results.html', context)
-
-    #     test = SubstituteExtractor()
-    #     a = test.get_substitute(get_products_data)
-    #     print(a)
 
     else:
         messages.info(request, "Le nom du produit est introuvable.")
