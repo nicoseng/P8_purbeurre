@@ -84,4 +84,5 @@ class ProductExtractor:
             except IndexError:
                 pass
 
-        return random.choice(products_list)
+        return products_list
+
