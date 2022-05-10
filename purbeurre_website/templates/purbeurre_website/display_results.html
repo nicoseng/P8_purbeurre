@@ -58,23 +58,20 @@
             </div>
         </header>
         {% for product in products %}
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-                  <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
-                    <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg" width="100">
-                  </span>
-              <img src={{product.product_image}} alt="product_image" width="150" align="center">
-              <div class="card-body">
+        <div class="card mb-3" style="width: 18rem;">
+            <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
+                <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg" width="100">
+            </span>
+            <img src={{product.product_image}} alt="product_image" width="150" align="center">
+            <div class="card-body">
                 <h5 class="card-title">{{product.product_name}}</h5>
-              </div>
-              <div class="card-footer">
+
                 <button type="button" class="btn btn-success">Sauvegarder ce produit</button>
-              </div>
             </div>
-          </div>
         </div>
+
         {% endfor %}
+
 
         <!-- Contact-->
         <section class="page-section" id="contact">
