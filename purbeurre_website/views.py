@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .forms import CreateUser
+from .forms import CreateUser, ProductForm
 from .product_extractor import ProductExtractor
 from .substitute_extractor import SubstituteExtractor
 
@@ -46,13 +46,20 @@ def access_login(request):
 def check_my_account(request):
     return render(request, 'purbeurre_website/check_my_account.html')
 
-
 def logout_user(request):
     logout(request)
     return redirect('login')
 
 
 def check_my_products(request):
+
+    # form = ProductForm()
+    # if request.method == 'POST':
+    #     form = ProductForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #
+    # context = {'form':form}
     return render(request, 'purbeurre_website/check_my_products.html')
 
 
@@ -69,6 +76,8 @@ def display_results(request):
     else:
         messages.info(request, "Le nom du produit est introuvable.")
         return render(request, 'purbeurre_website/display_results.html', messages)
+
+
 
 def display_substitute(request):
 

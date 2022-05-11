@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.forms import ModelForm
+from .models import Product
 
 
 class AccountCreationForm(forms.Form):
@@ -25,3 +27,9 @@ class CreateUser(UserCreationForm):
 
 class SearchForm(forms.Form):
     search_product_name = forms.CharField(max_length=100, required=True)
+
+
+class ProductForm(ModelForm):
+    class Meta:
+        model= Product
+        fields = '__all__'
