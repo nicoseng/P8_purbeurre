@@ -53,19 +53,19 @@ def logout_user(request):
 
 def check_my_products(request):
 
-    # form = ProductForm()
-    # if request.method == 'POST':
-    #     form = ProductForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #
-    # context = {'form':form}
-    return render(request, 'purbeurre_website/check_my_products.html')
+    if request.method == "POST":
+        context = {}
+        product_name = request.POST.get('product_name')
+        context["product_name"] = product_name
+        # product_data = ProductExtractor()
+        # get_products_url = product_data.extract_products_url(product_name)
+        # get_products_data = product_data.extract_products(get_products_url)
+        return render(request, 'purbeurre_website/check_my_products.html', context)
 
 
 def display_results(request):
-    if request.method == "GET":
-        product_name = request.GET.get('product_name')
+    if request.method == "POST":
+        product_name = request.POST.get('product_name')
         product_data = ProductExtractor()
         get_products_url = product_data.extract_products_url(product_name)
         get_products_data = product_data.extract_products(get_products_url)

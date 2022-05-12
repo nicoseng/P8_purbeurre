@@ -35,7 +35,7 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</p>
                     </div>
-                    <form method="GET" action="{% url 'display_results' %}">
+                    <form method="POST" action="{% url 'display_results' %}">
                         {% csrf_token %}
                         <div class="input-group" id="recherche">
                             <input type="search" class="form-control rounded" name="product_name" placeholder="Tapez ici le nom d'un produit ou d'une catégorie (ex: yaourt)" aria-label="rechercher" aria-describedby="search-addon" />
