@@ -70,7 +70,7 @@ def display_results(request):
         get_products_url = product_data.extract_products_url(product_name)
         get_products_data = product_data.extract_products(get_products_url)
         print(get_products_data)
-        context = {"product_name": product_name, "products": get_products_data, "product_image": get_products_data[0]["product_image"]}
+        context = {"product_name": product_name, "products": get_products_data, "product_image": get_products_data[len(get_products_data)-1]["product_image"]}
         return render(request, 'purbeurre_website/display_results.html', context)
 
     else:
