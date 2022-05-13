@@ -54,7 +54,7 @@
              <div class="column">
                 <div class="card my-5 mx-5 bg-light border-0" style="width:90">
                     <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
-                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg" width="100" class="">
+                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg" width="100">
                     </span>
                     <img src={{product.product_image}} alt="product_image" width="100" class="rounded mx-auto d-block mt-4">
                     <div class="card-body">
@@ -62,10 +62,14 @@
                         <form method="POST" action="{% url 'check_my_products' %}">
                             {% csrf_token %}
                             <div class="text-center my-2">
-                                <button type="submit" class="btn btn-sm btn-warning text-center mb-2" name="product_name" value="{{product.product_name}}">{{product.product_name}}</button>
+                                <a href="{% url 'check_my_products' %}">{{product.product_name}}</a>
+
+<!--                                <button type="submit" class="btn btn-sm btn-danger text-center width: 78px" name="product_name" value="{{product.product_name}}">{{product.product_name}}</button>-->
 <!--                                        <input type="checkbox" id="sauvegarder" name="product_name" value="{{product.product_name}}">-->
-                                <!--<label for="sauvegarder"></label>-->
-                                <button type="submit" class="btn btn-success btn-sm text-center" name="product_name" value="{{product.product_name}}">Sauvegarder</button>
+<!--                                                                <label for="sauvegarder">sauvegarder</label>-->
+                                <input type="submit" id="product_name" name="product_name" value="{{product.product_name}}">
+                                <button type="submit" class="btn btn-success btn-sm text-center" name="product_name" value="{product.product_name}}">Sauvegarder</button>
+
                             </div>
                         </form>
 
