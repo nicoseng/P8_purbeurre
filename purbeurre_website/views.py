@@ -46,6 +46,7 @@ def access_login(request):
 def check_my_account(request):
     return render(request, 'purbeurre_website/check_my_account.html')
 
+
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -54,23 +55,30 @@ def logout_user(request):
 def check_my_products(request):
 
     if request.method == "POST":
-        context = {}
         product_name = request.POST.get('product_name')
-        context["product_name"] = product_name
-        # product_data = ProductExtractor()
-        # get_products_url = product_data.extract_products_url(product_name)
-        # get_products_data = product_data.extract_products(get_products_url)
+        product_data = ProductExtractor()
+        get_products_url = product_data.extract_products_url(product_name)
+        print(get_products_url)
+        get_products_data = product_data.extract_products(get_products_url)
+        context = {"product_name": product_name, "products": get_products_data}
         return render(request, 'purbeurre_website/check_my_products.html', context)
 
 
 def display_results(request):
     if request.method == "POST":
-        product_name = request.POST.get('product_name')
-        product_data = ProductExtractor()
-        get_products_url = product_data.extract_products_url(product_name)
-        get_products_data = product_data.extract_products(get_products_url)
-        print(get_products_data)
-        context = {"product_name": product_name, "products": get_products_data, "product_image": get_products_data[len(get_products_data)-1]["product_image"]}
+        searched_product_name = request.POST.get('searched_product_name')
+        print(searched_product_name)
+        searched_product_data = ProductExtractor()
+        searched_products_url = searched_product_data.extract_products_url(searched_product_name)
+        products_data = searched_product_data.extract_products(searched_products_url)
+        #print(products_data)
+
+        # random_selected_product_name = products_data[random.randint(0, len(products_data)-1)]["product_name"]
+        # print(random_selected_product_name)
+        # random_selected_product_image = products_data[random.randint(0, len(products_data)-1)]["product_image"]
+        # print(random_selected_product_image)
+
+        context = {"product_name": searched_product_name, "products": products_data}
         return render(request, 'purbeurre_website/display_results.html', context)
 
     else:
@@ -78,17 +86,20 @@ def display_results(request):
         return render(request, 'purbeurre_website/display_results.html', messages)
 
 
-
 def display_substitute(request):
 
-    if request.method == "GET":
-        product_data = request.GET.get('substitute')
+    if request.method == "POST":
+        product_selected = request.POST.get('product_selected')
+        print(product_selected)
+        product_data = request.POST.get('product_data')
+        print(product_data)
 
-        test = SubstituteExtractor()
-        get_products_data = test.get_substitute(product_data)
-        print(get_products_data)
-        context = {"products": get_products_data}
-        return render(request, 'purbeurre_website/display_substitute.html',context)
+
+        # test = SubstituteExtractor()
+        # get_products_data = test.get_substitute(product_data)
+        # print(get_products_data)
+        context = {"product_selected" : product_selected, "product_selected_image" : product_data}
+        return render(request, 'purbeurre_website/display_substitute.html', context)
 
     else:
         messages.info(request, "Le nom du produit est introuvable.")
@@ -96,7 +107,15 @@ def display_substitute(request):
 
 
 def add_product(request):
-    return render(request, 'purbeurre_website/display_results.html')
+    if request.method == "POST":
+        context = {}
+        product_name = request.POST.get('sauvegarder')
+        context["product_name"] = product_name
+        # product_data = ProductExtractor()
+        # get_products_url = product_data.extract_products_url(product_name)
+        # get_products_data = product_data.extract_products(get_products_url)
+        return render(request, 'purbeurre_website/add_product.html', context)
+    return render(request, 'purbeurre_website/add_product.html')
 
 
 def delete_product(request):

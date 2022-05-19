@@ -8,7 +8,6 @@ class SubstituteExtractor:
     def get_substitute(product_selected):
         print(product_selected)
         print(type(product_selected))
-        product_selected.json()
 
         print(product_selected[0:3])
         available_nutriscore_list = ["a", "b", "c", "d", "e"]

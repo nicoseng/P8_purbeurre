@@ -17,7 +17,6 @@
                             <li class="nav-item"><a class="nav-link" href="{% url 'check_my_account' %}"><img src="{% static 'images/my_account.png' %}" alt="my_account_icon">{{user.username}}</a></li>
                         {% endif %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><img src="{% static 'images/logout.png' %}" alt="logout_icon">Se déconnecter</a></li>
-
                     </ul>
                 </div>
             </div>
@@ -33,12 +32,13 @@
                         <h1 class="text-white font-weight-bold">Du gras, oui, mais de qualité ! </h1>
                     </div>
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</p>
+                        <p class="text-white-75">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</p>
                     </div>
                     <form method="POST" action="{% url 'display_results' %}">
                         {% csrf_token %}
                         <div class="input-group" id="recherche">
-                            <input type="search" class="form-control rounded" name="product_name" placeholder="Tapez ici le nom d'un produit ou d'une catégorie (ex: yaourt)" aria-label="rechercher" aria-describedby="search-addon" />
+                            <input type="search" class="form-control rounded" name="searched_product_name" placeholder="Tapez ici le nom d'un produit ou d'une catégorie (ex: yaourt)" aria-label="rechercher" aria-describedby="search-addon" required />
+                            <input class="btn btn-success" type="submit" name="Chercher" value="Chercher">
                         </div>
                     </form>
                     <!--{% for message in messages %}
@@ -72,10 +72,6 @@
                                     <figcaption>Rémy</figcaption>
                             </figure>
 
-                        </div>
-
-                        <div>
-                            <a class="btn btn-light btn-xl" href="#services">En savoir plus</a>
                         </div>
 
                     </div>
