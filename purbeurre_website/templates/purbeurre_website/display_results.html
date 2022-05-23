@@ -29,7 +29,7 @@
                 <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 align-self-end mb-5">
                         <img src="{{product_image}}" width="100" class="my-3">
-                        <h2 class="text-white font-weight-bold">Vous avez tapé :<br>{{product_name}}</br></h2>
+                        <h1 class="text-white font-weight-bold">Vous avez tapé :<br>{{product_name}}</br></h1>
                     </div>
                 </div>
             </div>
@@ -62,11 +62,11 @@
                         <form method="POST" action="{% url 'display_substitute'%}">
                             {% csrf_token %}
                             <div class="text-center my-2">
-                                <input class="text-center" type="submit" id="product_selected" name="product_selected" value="{{product.product_name}}">
-                                <input class="text-center" type="hidden" name="product_data" value="{{product}}">
-
+                                <input class="text-center btn btn-success" type="submit" id="product_selected" name="product_selected" value="{{product.product_name}}">
+                                <input type="hidden" name="product_selected_data" value="{{product}}"><br>
+<!--                            <input type="checkbox" id="product_data" name="product_data" value="{{product}}">-->
+<!--                            <label for="product_data">Sauvegarder</label><br>-->
                             </div>
-
                         </form>
 
 <!--                        <fieldset>-->

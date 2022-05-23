@@ -1,4 +1,4 @@
-import random
+import ast
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -7,7 +7,6 @@ from django.shortcuts import render, redirect
 
 from .forms import CreateUser, ProductForm
 from .product_extractor import ProductExtractor
-from .substitute_extractor import SubstituteExtractor
 
 
 @login_required(login_url='login')
@@ -71,13 +70,6 @@ def display_results(request):
         searched_product_data = ProductExtractor()
         searched_products_url = searched_product_data.extract_products_url(searched_product_name)
         products_data = searched_product_data.extract_products(searched_products_url)
-        #print(products_data)
-
-        # random_selected_product_name = products_data[random.randint(0, len(products_data)-1)]["product_name"]
-        # print(random_selected_product_name)
-        # random_selected_product_image = products_data[random.randint(0, len(products_data)-1)]["product_image"]
-        # print(random_selected_product_image)
-
         context = {"product_name": searched_product_name, "products": products_data}
         return render(request, 'purbeurre_website/display_results.html', context)
 
@@ -90,15 +82,12 @@ def display_substitute(request):
 
     if request.method == "POST":
         product_selected = request.POST.get('product_selected')
+        product_selected_data = request.POST.get('product_selected_data')
         print(product_selected)
-        product_data = request.POST.get('product_data')
-        print(product_data)
-
-
-        # test = SubstituteExtractor()
-        # get_products_data = test.get_substitute(product_data)
-        # print(get_products_data)
-        context = {"product_selected" : product_selected, "product_selected_image" : product_data}
+        print(product_selected_data)
+        test = ast.literal_eval(product_selected_data)
+        print(type(test))
+        context = {"product_selected" : product_selected, "product_selected_data": test}
         return render(request, 'purbeurre_website/display_substitute.html', context)
 
     else:
