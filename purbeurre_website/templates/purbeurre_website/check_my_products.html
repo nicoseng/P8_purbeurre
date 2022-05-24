@@ -23,7 +23,8 @@
             </div>
         </nav>
         <!-- Masthead-->
-        <header class="masthead">
+        <header style="background-image:url('{{product_selected_data.product_image}}');" class="masthead">
+
             <div class="container px-4 px-lg-5 h-100">
                 <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 ">
@@ -40,7 +41,6 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm text-center">
-                            <p>Nutriscore :</p><br>
                             <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product_selected_data.nutriscore}}.svg" width="200">
                         </div>
                         <div class="col-sm text-center">
