@@ -54,19 +54,19 @@ def logout_user(request):
 def check_my_products(request):
 
     if request.method == "POST":
-        product_name = request.POST.get('product_name')
-        product_data = ProductExtractor()
-        get_products_url = product_data.extract_products_url(product_name)
-        print(get_products_url)
-        get_products_data = product_data.extract_products(get_products_url)
-        context = {"product_name": product_name, "products": get_products_data}
+        product_selected_data = request.POST.get('product_selected_data')
+        print(product_selected_data)
+        product_selected_data = ast.literal_eval(product_selected_data)
+        print(product_selected_data)
+
+        print(product_selected_data["product_name"])
+        context = {"product_selected_data": product_selected_data}
         return render(request, 'purbeurre_website/check_my_products.html', context)
 
 
 def display_results(request):
     if request.method == "POST":
         searched_product_name = request.POST.get('searched_product_name')
-        print(searched_product_name)
         searched_product_data = ProductExtractor()
         searched_products_url = searched_product_data.extract_products_url(searched_product_name)
         products_data = searched_product_data.extract_products(searched_products_url)
@@ -83,11 +83,8 @@ def display_substitute(request):
     if request.method == "POST":
         product_selected = request.POST.get('product_selected')
         product_selected_data = request.POST.get('product_selected_data')
-        print(product_selected)
-        print(product_selected_data)
-        test = ast.literal_eval(product_selected_data)
-        print(type(test))
-        context = {"product_selected" : product_selected, "product_selected_data": test}
+        product_selected_data = ast.literal_eval(product_selected_data)
+        context = {"product_selected" : product_selected, "product_selected_data": product_selected_data}
         return render(request, 'purbeurre_website/display_substitute.html', context)
 
     else:
