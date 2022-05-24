@@ -44,17 +44,18 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm">
-                            Nutriscore
+                            Nutriscore : <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product_selected_data.nutriscore}}.svg" width="100">
+
                         </div>
                         <div class="col-sm">
-                            Repères nutritionnels pour 100g
+                            Repères nutritionnels pour 100g : {{product_selected_data.ingredients}}
                         </div>
                     </div>
                 </div>
             </div>
 
             <div>
-                <a class="justify-d-flex" href="https://fr.openfoodfacts.org/"><button type="button" class="btn btn-primary btn-sm">Voir la fiche d'OpenFoodFacts</button>
+                <a class="justify-d-flex" href="{{product_selected_data.url}}"><button type="button" class="btn btn-primary btn-sm">Voir la fiche d'OpenFoodFacts</button>
 
                 </a>
             </div>

@@ -59,7 +59,7 @@ class ProductExtractor:
                 page_count = product_page_json["page_count"]
                 while number < page_count:
 
-                    product_dict = {"categories": "", "product_name": "", "nutriscore": "", "product_image": ""}
+                    product_dict = {"categories": "", "product_name": "", "nutriscore": "", "product_image": "", "url": "", "ingredients" :""}
 
                     product_category = product_page_json["products"][number]["categories"]
                     product_dict["categories"] = product_category
@@ -72,6 +72,12 @@ class ProductExtractor:
 
                     nutriscore = product_page_json["products"][number]["nutrition_grade_fr"]
                     product_dict["nutriscore"] = nutriscore
+
+                    url = product_page_json["products"][number]["url"]
+                    product_dict["url"] = url
+
+                    ingredients = product_page_json["products"][number]["ingredients_text_fr"]
+                    product_dict["ingredients"] = ingredients
 
                     products_list.append(product_dict)
                     number += 1
