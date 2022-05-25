@@ -5,20 +5,17 @@ import random
 class SubstituteExtractor:
 
     @staticmethod
-    def get_substitute(product_selected):
-        print(product_selected)
-        print(type(product_selected))
+    def get_substitute(products_list, product_selected_data):
 
-        print(product_selected[0:3])
         available_nutriscore_list = ["a", "b", "c", "d", "e"]
-        selected_product_nutriscore = product_selected["nutriscore"]
+        selected_product_nutriscore = product_selected_data["nutriscore"]
         selected_nutriscore_index = \
             available_nutriscore_list.index(selected_product_nutriscore)
         best_nutriscore_list = \
             available_nutriscore_list[0:selected_nutriscore_index]
 
         available_best_products_list = []
-        for product in product_selected:
+        for product in products_list:
             if product["nutriscore"] in best_nutriscore_list:
 
                 best_product_dict = {"product_name": product["product_name"], "nutriscore": product["nutriscore"],
@@ -30,5 +27,5 @@ class SubstituteExtractor:
                 print("Cet article possède déjà le meilleur nutriscore possible de la catégorie.")
 
             else:
-                substitute_proposed = random.choice(available_best_products_list)
-                return substitute_proposed
+                substitute_proposed_list = available_best_products_list
+                return substitute_proposed_list

@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 
 from .forms import CreateUser, ProductForm
 from .product_extractor import ProductExtractor
-
+from .category_extractor import CategoriesExtractor
+from .substitute_extractor import SubstituteExtractor
 
 @login_required(login_url='login')
 def home(request):
@@ -84,7 +85,26 @@ def display_substitute(request):
         product_selected = request.POST.get('product_selected')
         product_selected_data = request.POST.get('product_selected_data')
         product_selected_data = ast.literal_eval(product_selected_data)
-        context = {"product_selected" : product_selected, "product_selected_data": product_selected_data}
+        product_selected_category = product_selected_data["categories"]
+        #print(product_selected_category)
+        #print(type(product_selected_category))
+        product_selected_category = product_selected_category.split(",")
+        #print(product_selected_category)
+        #print(type(product_selected_category))
+        category_extracted = CategoriesExtractor()
+        categories_list_url = category_extracted.extract_categories_url(product_selected_category)
+        #print(categories_list_url)
+        products_list = ProductExtractor()
+        products_list = products_list.extract_products(categories_list_url)
+        #print(products_list)
+        substitute_proposed_list = SubstituteExtractor()
+        substitute_proposed_list = substitute_proposed_list.get_substitute(products_list,product_selected_data)
+        print(substitute_proposed_list)
+
+        context = {
+            "product_selected": product_selected,
+            "product_selected_data": product_selected_data,
+            "substitute_proposed_list": substitute_proposed_list}
         return render(request, 'purbeurre_website/display_substitute.html', context)
 
     else:

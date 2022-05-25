@@ -1,23 +1,39 @@
 """Internal imports """
-
-from category_loader import CategoriesLoader
+from requests import get, exceptions
 
 
 class CategoriesExtractor:
     """To extract categories datas loaded from the API OpenFoodFacts(OFF)."""
     @staticmethod
-    def extract_categories_datas():
+    def extract_categories_url(product_selected_category, retry=3):
         """Extracts a list with each category datas."""
 
-        categories_loaded_list = CategoriesLoader.load_categories()
+        categories_list_url = []
+        for category in product_selected_category:
+            category_name = category.split()
+            category_name = "+".join(category_name)
+            category_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
+                           "&search_terms=" + str(category_name)
+            category_page_url = get(category_url)
+            category_page_json = category_page_url.json()
+            nb_of_page = range(0, 1)
+            # nb_of_page = range(ceil(category_page_json["count"]/category_page_json["page_size"]))
+            for page in nb_of_page:
 
-        categories_extracted_list = []
+                while page <= len(nb_of_page):
 
-        for category in categories_loaded_list:
+                    try:
+                        category_name = category_name.split()
+                        category_name = "+".join(category_name)
+                        category_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process" \
+                                       "&search_simple=1&search_terms=" + str(category_name) + "&page=" + str(page)
+                        categories_list_url.append(category_url)
 
-            # We create an empty dictionnary to stock it in the category list.
-            category_extracted_dict = {"category_name": ""}
-            category_extracted_dict["category_name"] = category["name"]
-            categories_extracted_list.append(category_extracted_dict)
+                    except exceptions.RequestException:
 
-        return categories_extracted_list
+                        if retry <= 0:
+                            return CategoriesExtractor.extract_categories_url(category_name)
+                    page += 1
+
+                return categories_list_url
+
