@@ -1,5 +1,4 @@
 """Internal imports"""
-import random
 
 
 class SubstituteExtractor:

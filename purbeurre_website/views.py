@@ -96,10 +96,10 @@ def display_substitute(request):
         #print(categories_list_url)
         products_list = ProductExtractor()
         products_list = products_list.extract_products(categories_list_url)
-        #print(products_list)
+        print(products_list)
         substitute_proposed_list = SubstituteExtractor()
-        substitute_proposed_list = substitute_proposed_list.get_substitute(products_list,product_selected_data)
-        print(substitute_proposed_list)
+        substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
+        #print(substitute_proposed_list)
 
         context = {
             "product_selected": product_selected,
