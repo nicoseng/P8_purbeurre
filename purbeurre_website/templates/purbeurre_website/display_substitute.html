@@ -36,6 +36,7 @@
                             <div class="input-group text-center my-2">
                                 <input class="text-center btn btn-warning" type="submit" id="product_data" name="product_data" value="Fiche produit">
                                 <input type="hidden" name="product_selected_data" value="{{product_selected_data}}"><br>
+
                             </div>
                         </form>
 
@@ -56,11 +57,8 @@
 
           {% for substitute in substitute_proposed_list %}
           <div class="col-auto col-md-4">
-
               <div class="column">
-
                 <div class="card my-5 mx-5 bg-light border-0" style="width:90">
-
                     <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
                         <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{substitute.nutriscore}}.svg" width="100">
                     </span>
@@ -71,9 +69,9 @@
                             {% csrf_token %}
                             <div class="text-center my-2">
                                 <input class="text-center btn btn-success" type="submit" id="product_selected" name="product_selected" value="{{substitute.product_name}}">
-                                <input type="hidden" name="product_selected_data" value="{{substitute}}"><br>
-<!--                            <input type="checkbox" id="product_data" name="product_data" value="{{product}}">-->
-<!--                            <label for="product_data">Sauvegarder</label><br>-->
+                                <input type="hidden" id="substitute_selected_data" name="substitute_selected_data" value="{{substitute}}"><br>
+                                <input type="checkbox" id="product_data" name="product_data" value="{{product}}">
+                                <label for="substitute_selected_data">Sauvegarder</label><br>
                             </div>
                         </form>
                    </div>
