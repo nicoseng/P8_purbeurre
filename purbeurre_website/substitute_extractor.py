@@ -27,4 +27,5 @@ class SubstituteExtractor:
 
             else:
                 substitute_proposed_list = available_best_products_list
-                return substitute_proposed_list
+
+        return substitute_proposed_list
