@@ -34,7 +34,7 @@
                         <form method="POST" action="{% url 'check_my_products' %}">
                             {% csrf_token %}
                             <div class="input-group text-center my-2">
-                                <input class="text-center btn btn-warning" type="submit" id="product_data" name="product_data" value="Fiche produit">
+                                <input class="text-center btn btn-warning" type="submit" id="fiche_produit" name="fiche_produit" value="Fiche produit">
                                 <input type="hidden" name="product_selected_data" value="{{product_selected_data}}"><br>
 
                             </div>
