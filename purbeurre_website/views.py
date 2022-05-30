@@ -10,6 +10,7 @@ from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
 from .substitute_extractor import SubstituteExtractor
 
+
 @login_required(login_url='login')
 def home(request):
     return render(request, 'purbeurre_website/home.html')
@@ -65,6 +66,23 @@ def check_my_products(request):
         return render(request, 'purbeurre_website/check_my_products.html', context)
 
 
+def check_substitute(request):
+
+    if request.method == "POST":
+        substitute_selected = request.POST.get('substitute_selected')
+        print(substitute_selected)
+        substitute_selected_data = request.POST.get('substitute_selected_data')
+        substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        print(substitute_selected_data)
+
+
+        context = {
+            "product_name":substitute_selected,
+            "substitute_selected_data": substitute_selected_data,
+        }
+        return render(request, 'purbeurre_website/check_substitute.html', context)
+
+
 def display_results(request):
     if request.method == "POST":
         searched_product_name = request.POST.get('searched_product_name')
@@ -114,14 +132,22 @@ def display_substitute(request):
 
 def add_product(request):
     if request.method == "POST":
-        context = {}
-        product_name = request.POST.get('sauvegarder')
-        context["product_name"] = product_name
-        # product_data = ProductExtractor()
-        # get_products_url = product_data.extract_products_url(product_name)
-        # get_products_data = product_data.extract_products(get_products_url)
-        return render(request, 'purbeurre_website/add_product.html', context)
-    return render(request, 'purbeurre_website/add_product.html')
+        substitute_selected_list = request.POST.getlist('substitute_selected_data')
+        print(substitute_selected_list)
+        # product_name = request.POST.get('product_selected')
+        # print(product_name)
+        # substitute_selected_data = request.POST.getlist('substitute_selected_data')
+        # substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        # print(substitute_selected_data)
+        # print(type(substitute_selected_data))
+        #
+        # context = {
+        #     "product_name": product_name,
+        #     "substitute_selected_data": substitute_selected_data,
+        #     }
+
+        return render(request, 'purbeurre_website/add_product.html')
+
 
 
 def delete_product(request):
