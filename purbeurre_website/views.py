@@ -132,21 +132,19 @@ def display_substitute(request):
 
 def add_product(request):
     if request.method == "POST":
-        substitute_selected_list = request.POST.getlist('substitute_selected_data')
-        print(substitute_selected_list)
-        # product_name = request.POST.get('product_selected')
-        # print(product_name)
-        # substitute_selected_data = request.POST.getlist('substitute_selected_data')
-        # substitute_selected_data = ast.literal_eval(substitute_selected_data)
-        # print(substitute_selected_data)
-        # print(type(substitute_selected_data))
-        #
-        # context = {
-        #     "product_name": product_name,
-        #     "substitute_selected_data": substitute_selected_data,
-        #     }
+        product_name = request.POST.get('product_selected')
+        print(product_name)
+        substitute_selected_data = request.POST.get('substitute_selected_data')
+        substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        print(substitute_selected_data)
+        print(type(substitute_selected_data))
 
-        return render(request, 'purbeurre_website/add_product.html')
+        context = {
+            "product_name": product_name,
+            "substitute_selected_data": substitute_selected_data,
+            }
+
+        return render(request, 'purbeurre_website/add_product.html', context)
 
 
 
