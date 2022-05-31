@@ -73,22 +73,6 @@
 
 	<!--End of section 2-->
 
-        <!--{% for product in products %}
-        <div class="card mb-3" style="width: 18rem;">
-            <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
-                <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg" width="100">
-            </span>
-            <img src={{product.product_image}} alt="product_image" width="150" align="center">
-            <div class="card-body">
-                <h5 class="card-title">{{product.product_name}}</h5>
-
-                <button type="button" class="btn btn-success">Sauvegarder ce produit</button>
-            </div>
-        </div>
-
-        {% endfor %}-->
-
-
         <!-- Contact-->
         <section class="page-section" id="contact">
             <div class="container px-4 px-lg-5">
@@ -179,11 +163,8 @@
         <!-- SimpleLightbox plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="{% static 'js/script.js' %}"></script>
+
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
 {% endblock %}

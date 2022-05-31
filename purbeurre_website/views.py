@@ -132,8 +132,9 @@ def display_substitute(request):
 
 def add_product(request):
     if request.method == "POST":
-        product_name = request.POST.get('product_selected')
+        product_name = request.POST.get('substitute_selected')
         print(product_name)
+
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
         print(substitute_selected_data)
