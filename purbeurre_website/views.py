@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .forms import CreateUser, ProductForm
+from .forms import CreateUser
 from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
 from .substitute_extractor import SubstituteExtractor
@@ -54,7 +54,6 @@ def logout_user(request):
 
 
 def check_my_products(request):
-
     if request.method == "POST":
         product_selected_data = request.POST.get('product_selected_data')
         print(product_selected_data)
@@ -67,14 +66,12 @@ def check_my_products(request):
 
 
 def check_substitute(request):
-
     if request.method == "POST":
         substitute_selected = request.POST.get('substitute_selected')
         print(substitute_selected)
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
         print(substitute_selected_data)
-
 
         context = {
             "product_name": substitute_selected,
@@ -98,20 +95,19 @@ def display_results(request):
 
 
 def display_substitute(request):
-
     if request.method == "POST":
         product_selected = request.POST.get('product_selected')
         product_selected_data = request.POST.get('product_selected_data')
         product_selected_data = ast.literal_eval(product_selected_data)
         product_selected_category = product_selected_data["categories"]
-        #print(product_selected_category)
-        #print(type(product_selected_category))
+        # print(product_selected_category)
+        # print(type(product_selected_category))
         product_selected_category = product_selected_category.split(",")
-        #print(product_selected_category)
-        #print(type(product_selected_category))
+        # print(product_selected_category)
+        # print(type(product_selected_category))
         category_extracted = CategoriesExtractor()
         categories_list_url = category_extracted.extract_categories_url(product_selected_category)
-        #print(categories_list_url)
+        # print(categories_list_url)
         products_list = ProductExtractor()
         products_list = products_list.extract_products(categories_list_url)
         print(products_list)
@@ -132,32 +128,16 @@ def display_substitute(request):
 
 def add_product(request):
     if request.method == "POST":
+        substitute_selected_data = request.POST.get('substitute_selected_data')
+        substitute_selected_data = ast.literal_eval(substitute_selected_data)
 
-        check = request.POST.getlist('substitute_selected_data')
-        print(check)
+        print(substitute_selected_data)
+        print(type(substitute_selected_data))
 
+        context = {"substitute_selected_data": substitute_selected_data}
 
-
-
-
-        # product_name = request.POST.get('substitute_selected')
-        # print(product_name)
-        #
-        # substitute_selected_data = request.POST.get('substitute_selected_data')
-        # substitute_selected_data = ast.literal_eval(substitute_selected_data)
-        # print(substitute_selected_data)
-        # print(type(substitute_selected_data))
-        #
-        # context = {
-        #     "product_name": product_name,
-        #     "substitute_selected_data": substitute_selected_data,
-        #     }
-
-    return render(request, 'purbeurre_website/add_product.html')
-
+    return render(request, 'purbeurre_website/add_product.html', context)
 
 
 def delete_product(request):
     return render(request, 'purbeurre_website/display_results.html')
-
-
