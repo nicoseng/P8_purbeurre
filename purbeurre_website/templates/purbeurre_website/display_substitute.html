@@ -46,10 +46,7 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 mb-5"></p>
                     </div>
-
                 </div>
-
-
             </div>
         </header>
         <div class="row mx-5 pt-2 px-5">
@@ -64,20 +61,36 @@
                     </span>
                     <img src={{substitute.product_image}} alt="product_image" width="100" class="rounded mx-auto d-block mt-4">
                     <div class="card-body">
-
-
-
-                        <form method="POST" action="{% url 'add_product' %}">
+                        <form method="POST" action="{% url 'check_substitute' %}">
                             {% csrf_token %}
-                            <div class="text-center my-2">
-<!--                                <a class="justify-d-flex text-center" href="{% url 'check_substitute' %}"><button type="button" class="btn btn-warning btn-sm">{{substitute.product_name}}</button></a>-->
-                                <input class="text-center btn btn-success btn-sm" type="submit" id="product_selected" name="substitute_selected" value="{{substitute.product_name}}">
-<!--                                <input type="hidden" id="substitute_selected_data" name="substitute_selected_data" value="{{substitute}}"><br>-->
-                                <input type="checkbox" id="substitute_selected_data" name="substitute_selected_data" value="{{substitute}}">
-                                <label for="substitute_selected_data">Sauvegarder</label><br>
-                                <input class="btn" type="submit" value="Sauvegarder">
+                            <div class="col-sm text-center pt-5 my-2">
+                                <input class="btn btn-warning" type="submit" id="fiche_substitute" name="substitute_selected"
+                                       value="{{substitute.product_name}}">
+                                <input type="hidden" name="substitute_selected_data" value="{{substitute}}"><br>
+
                             </div>
                         </form>
+                        <form method="POST" action="{% url 'add_product' %}" id="substitute_form">
+                            {% csrf_token %}
+                            <div class="text-center my-2">
+<!--                                <input type="checkbox" name="substitute_selected_data" id="test" value={{substitute}} />-->
+<!--                                <label for="test"><b>{{substitute.product_name}}</b></label><br/>-->
+<!--                                <button type="button" class="btn btn-warning btn-sm">{{substitute.product_name}}</button></a>-->
+                                <a class="justify-d-flex text-center" href="{url 'check_substitute' }">{{substitute.product_name}}</a>
+
+<!--                                <input class="text-center btn btn-success btn-sm" type="text" id="product_selected"  name="substitute_selected" value="{{substitute.product_name}}">-->
+<!--                                <input type="hidden" id="substitute_selected_data" name="substitute_selected_data" value="{{substitute}}"><br>-->
+
+<!--                                <input type="checkbox" name="checks[]" value="{{substitute}}">-->
+
+<!--                                <input type="checkbox" id="substitute_selected_data" class="substitute_selected_data"-->
+<!--                                       name="substitute_selected_data" value="{{substitute}}">-->
+<!--                                <label for="substitute_selected_data">Sauvegarder</label><br>-->
+<!--                                        <input class="btn" type="submit" value="Sauvegarder">-->
+                            </div>
+
+                        </form>
+
                    </div>
                 </div>
              </div>
@@ -96,13 +109,7 @@
                 </div>
                 <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
                     <div class="col-lg-6">
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- * * SB Forms Contact Form * *-->
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- This form is pre-integrated with SB Forms.-->
-                        <!-- To make this form functional, sign up at-->
-                        <!-- https://startbootstrap.com/solution/contact-forms-->
-                        <!-- to get an API token!-->
+
                         <form id="contactForm" data-sb-form-api-token="API_TOKEN">
                             <!-- Name input-->
                             <div class="form-floating mb-3">
@@ -177,5 +184,24 @@
         <!-- Core theme JS-->
         <script src="{% static 'js/script.js' %}"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!--        	    <script>-->
+
+
+<!--		//Query All input fields-->
+<!--		let form = document.getElementById('substitute_form');-->
+<!--		let values = [];-->
+<!--		form.addEventListener('submit', function(e){-->
+<!--		    e.preventDefault();-->
+<!--		    let checkboxes = document.getElementByClass('substitute_selected_data');-->
+<!--		    for (let i = 0; i < checkboxes.length; i++) {-->
+<!--		        if(checkboxes[i].checked == true) {-->
+<!--		          console.log(checkboxes[i].value);-->
+<!--		        }-->
+<!--		    }-->
+<!--		    alert('Le(s) substitut(s):' + checkboxes);-->
+<!--		});-->
+
+<!--	    </script>-->
     </body>
 {% endblock %}
