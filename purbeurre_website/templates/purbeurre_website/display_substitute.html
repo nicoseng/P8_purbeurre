@@ -64,19 +64,18 @@
                         <form method="POST" action="{% url 'check_substitute' %}">
                             {% csrf_token %}
                             <div class="col-sm text-center pt-5 my-2">
-                                <input class="btn btn-warning" type="submit" id="fiche_substitute" name="substitute_selected"
+                                <input class="btn btn-success" type="submit" id="fiche_substitute" name="substitute_selected"
                                        value="{{substitute.product_name}}">
                                 <input type="hidden" name="substitute_selected_data" value="{{substitute}}"><br>
-
                             </div>
                         </form>
+
                         <form method="POST" action="{% url 'add_product' %}" id="substitute_form">
                             {% csrf_token %}
                             <div class="text-center my-2">
 <!--                                <input type="checkbox" name="substitute_selected_data" id="test" value={{substitute}} />-->
 <!--                                <label for="test"><b>{{substitute.product_name}}</b></label><br/>-->
 <!--                                <button type="button" class="btn btn-warning btn-sm">{{substitute.product_name}}</button></a>-->
-                                <a class="justify-d-flex text-center" href="{url 'check_substitute' }">{{substitute.product_name}}</a>
 
 <!--                                <input class="text-center btn btn-success btn-sm" type="text" id="product_selected"  name="substitute_selected" value="{{substitute.product_name}}">-->
 <!--                                <input type="hidden" id="substitute_selected_data" name="substitute_selected_data" value="{{substitute}}"><br>-->

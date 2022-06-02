@@ -18,7 +18,8 @@ class SubstituteExtractor:
             if product["nutriscore"] in best_nutriscore_list:
 
                 best_product_dict = {"product_name": product["product_name"], "nutriscore": product["nutriscore"],
-                                     "product_image": product["product_image"],"ingredients": product["ingredients"]}
+                                     "product_image": product["product_image"],"ingredients": product["ingredients"],
+                                     "url": product["url"]}
 
                 available_best_products_list.append(best_product_dict)
 
