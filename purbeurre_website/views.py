@@ -87,11 +87,17 @@ def check_my_basket(request):
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        print(substitute_selected_data)
         substitute_name = substitute_selected_data["product_name"]
         substitute_nutriscore = substitute_selected_data["nutriscore"]
+        substitute_image = substitute_selected_data["product_image"]
+        substitute_url = substitute_selected_data["url"]
 
         substitute_selected_data = Substitute(substitute_name=substitute_name,
-                                              substitute_nutriscore=substitute_nutriscore)
+                                              substitute_nutriscore=substitute_nutriscore,
+                                              substitute_image=substitute_image,
+                                              substitute_url=substitute_url
+                                              )
         substitute_selected_data.save()
 
         context = {"substitute_selected_data": substitute_selected_data}
