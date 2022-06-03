@@ -57,43 +57,26 @@
     <tr align="center">
         <!--<th>Categorie(s) associée(s)</th>--->
         <th>Substitut</th>
+    {% for substitute in table_displayed %}
     <tr>
-        <td>{{substitute_selected_data.substitute_name}}</td>
+        <td>{{substitute.substitute_name}}</td>
     </tr>
 
     <th>Image</th>
     <tr>
-        <td><img src="{{substitute_selected_data.substitute_image}}"></td>
+        <td><img src="{{substitute.substitute_image}}"></td>
     </tr>
     <th>Nutriscore</th>
     <tr>
-        <td>{{substitute_selected_data.substitute_nutriscore}}</td>
+        <td>{{substitute.substitute_nutriscore}}</td>
     </tr>
     <th>URL</th>
     <tr>
-        <td>{{substitute_selected_data.substitute_url}}</td>
-    </tr>
-    <th>Action</th>
-    <tr>
-        <td>Supprimer</td>
-        <td>Détails</td>
-    </tr>
-    </tr>
-    </thead>
-
-    <tbody>
-    {% for product in products %}
-    <tr>
-        <!--<th>{{product.categories}}</th>-->
-        <th>{{product.product_name}}</th>
-        <th><img src={{product.product_image}} alt="product_image"></th>
-        <th><img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"</th>
-        <th><a class="btn btn-sm btn-success" href="{% url 'add_product' %}">Ajouter</a></th>
-        <th><a class="btn btn-sm btn-danger" href="">Supprimer</a></th>
+        <td>{{substitute.substitute_url}}</td>
     </tr>
     {% endfor %}
-    </tbody>
 </table>
+
 <!-- Contact-->
 <section class="page-section" id="contact">
     <div class="container px-4 px-lg-5">

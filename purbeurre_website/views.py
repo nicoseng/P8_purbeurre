@@ -99,8 +99,9 @@ def check_my_basket(request):
                                               substitute_url=substitute_url
                                               )
         substitute_selected_data.save()
-
-        context = {"substitute_selected_data": substitute_selected_data}
+        table_displayed = Substitute.objects.all()
+        context = {"table_displayed": table_displayed}
+        #context = {"substitute_selected_data": substitute_selected_data}
 
     return render(request, 'purbeurre_website/check_my_basket.html', context)
 
