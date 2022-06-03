@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from .forms import CreateUser, SubstituteForm
+from .models import Substitute
 from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
 from .substitute_extractor import SubstituteExtractor
@@ -82,13 +83,19 @@ def check_substitute(request):
 
 def check_my_basket(request):
 
-    form = SubstituteForm()
+    substitute_selected_data = Substitute()
     if request.method == "POST":
-        form = SubstituteForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    context = {"form": form}
+        substitute_selected_data = request.POST.get('substitute_selected_data')
+        substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        substitute_name = substitute_selected_data["product_name"]
+        substitute_nutriscore = substitute_selected_data["nutriscore"]
+
+        substitute_selected_data = Substitute(substitute_name=substitute_name,
+                                              substitute_nutriscore=substitute_nutriscore)
+        substitute_selected_data.save()
+
+        context = {"substitute_selected_data": substitute_selected_data}
+
     return render(request, 'purbeurre_website/check_my_basket.html', context)
 
 
