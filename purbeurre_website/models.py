@@ -9,10 +9,10 @@ class Category(models.Model):
         return self.name
 
 
-class Product(models.Model):
-    name = models.fields.CharField(max_length=100, null=True)
-    category = models.ManyToManyField(Category)
+class Substitute(models.Model):
+    substitute_name = models.fields.CharField(max_length=100, null=True)
+    substitute_category = models.ManyToManyField(Category)
     nutriscore = models.fields.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.substitute_name

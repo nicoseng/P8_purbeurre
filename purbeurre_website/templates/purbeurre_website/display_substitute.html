@@ -84,7 +84,7 @@
                         </div>
                     </form>
 
-                    <form method="POST" action="{% url 'add_product' %}" id="substitute_form">
+                    <form method="POST" action="{% url 'check_my_basket' %}" id="substitute_form">
                         {% csrf_token %}
                         <div class="text-center my-2">
                             <input type="checkbox" name="substitute_name" value={{substitute.product_name}}>

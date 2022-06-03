@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
-from .models import Product
+from .models import Substitute
 
 
 class AccountCreationForm(forms.Form):
@@ -29,7 +29,7 @@ class SearchForm(forms.Form):
     search_product_name = forms.CharField(max_length=100, required=True)
 
 
-class ProductForm(ModelForm):
+class SubstituteForm(ModelForm):
     class Meta:
-        model= Product
+        model = Substitute
         fields = '__all__'

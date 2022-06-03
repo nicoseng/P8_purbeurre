@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .forms import CreateUser
+from .forms import CreateUser, SubstituteForm
 from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
 from .substitute_extractor import SubstituteExtractor
@@ -82,7 +82,14 @@ def check_substitute(request):
 
 def check_my_basket(request):
 
-    return render(request, 'purbeurre_website/check_my_basket.html')
+    form = SubstituteForm()
+    if request.method == "POST":
+        form = SubstituteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    context = {"form": form}
+    return render(request, 'purbeurre_website/check_my_basket.html', context)
 
 
 def display_results(request):
