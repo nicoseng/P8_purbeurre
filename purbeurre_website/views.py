@@ -53,7 +53,7 @@ def logout_user(request):
     return redirect('login')
 
 
-def check_my_products(request):
+def check_product(request):
     if request.method == "POST":
         product_selected_data = request.POST.get('product_selected_data')
         print(product_selected_data)
@@ -62,7 +62,7 @@ def check_my_products(request):
 
         print(product_selected_data["product_name"])
         context = {"product_selected_data": product_selected_data}
-        return render(request, 'purbeurre_website/check_my_products.html', context)
+        return render(request, 'purbeurre_website/check_product.html', context)
 
 
 def check_substitute(request):
@@ -78,6 +78,11 @@ def check_substitute(request):
             "substitute_selected_data": substitute_selected_data,
         }
         return render(request, 'purbeurre_website/check_substitute.html', context)
+
+
+def check_my_basket(request):
+
+    return render(request, 'purbeurre_website/check_my_basket.html')
 
 
 def display_results(request):
@@ -128,6 +133,7 @@ def display_substitute(request):
 
 def add_product(request):
     if request.method == "POST":
+
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
 

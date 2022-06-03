@@ -21,7 +21,7 @@
                                                                                   aria-label="rechercher"
                                                                                   aria-describedby="search-addon"/></a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'check_my_products' %}"><img
+                <li class="nav-item"><a class="nav-link" href="{% url 'check_my_basket' %}"><img
                         src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits</a></li>
                 {% if user is None %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img
@@ -43,7 +43,7 @@
         <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
             <div class="col-lg-8 align-self-end text-center ">
                 <h2 class="text-black font-weight-bold">Vous avez choisi le produit suivant : {{product_selected}}</h2>
-                <form method="POST" action="{% url 'check_my_products' %}">
+                <form method="POST" action="{% url 'check_product' %}">
                     {% csrf_token %}
                     <div class="col-sm text-center pt-5 my-2">
                         <input class="btn btn-warning" type="submit" id="fiche_produit" name="fiche_produit"
@@ -87,23 +87,11 @@
                     <form method="POST" action="{% url 'add_product' %}" id="substitute_form">
                         {% csrf_token %}
                         <div class="text-center my-2">
-                            <input type="checkbox" name="substitute_name" id="test" value={{substitute.product_name}}>
-                            <!--                                <label for="test"><b>{{substitute.product_name}}</b></label><br/>-->
-                            <!--                                <button type="button" class="btn btn-warning btn-sm">{{substitute.product_name}}</button></a>-->
-
-                            <!--                                <input class="text-center btn btn-success btn-sm" type="text" id="product_selected"  name="substitute_selected" value="{{substitute.product_name}}">-->
+                            <input type="checkbox" name="substitute_name" value={{substitute.product_name}}>
                             <input type="hidden" id="substitute_selected_data" name="substitute_selected_data" value="{{substitute}}"><br/>
-
-                            <!--                                <input type="checkbox" name="checks[]" value="{{substitute}}">-->
-
-                            <!--                                <input type="checkbox" id="substitute_selected_data" class="substitute_selected_data"-->
-                            <!--                                       name="substitute_selected_data" value="{{substitute}}">-->
-                            <!--                                <label for="substitute_selected_data">Sauvegarder</label><br>-->
-                            <input class="btn" type="submit" value="Sauvegarder">
+                            <input class="btn btn-warning" type="submit" value="Sauvegarder">
                         </div>
-
                     </form>
-
                 </div>
             </div>
         </div>
