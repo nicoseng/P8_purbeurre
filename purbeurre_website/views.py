@@ -82,8 +82,6 @@ def check_substitute(request):
 
 
 def check_my_basket(request):
-
-    substitute_selected_data = Substitute()
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
@@ -93,15 +91,26 @@ def check_my_basket(request):
         substitute_image = substitute_selected_data["product_image"]
         substitute_url = substitute_selected_data["url"]
 
-        substitute_selected_data = Substitute(substitute_name=substitute_name,
-                                              substitute_nutriscore=substitute_nutriscore,
-                                              substitute_image=substitute_image,
-                                              substitute_url=substitute_url
-                                              )
-        substitute_selected_data.save()
+        substitute_selected_data_table = Substitute.objects.all()
+
+        substitute_selected_data = Substitute(
+            substitute_name=substitute_name,
+            substitute_nutriscore=substitute_nutriscore,
+            substitute_image=substitute_image,
+            substitute_url=substitute_url
+        )
+        for row in substitute_selected_data_table:
+            print("je suis là")
+            print(row)
+            if substitute_selected_data.substitute_url == row.substitute_url:
+                print("Vous avez déjà enregsitré ce produit")
+            else:
+                print("Produit bien enregistré ")
+                substitute_selected_data.save()
+
         table_displayed = Substitute.objects.all()
+        print(table_displayed)
         context = {"table_displayed": table_displayed}
-        #context = {"substitute_selected_data": substitute_selected_data}
 
     return render(request, 'purbeurre_website/check_my_basket.html', context)
 
@@ -154,7 +163,6 @@ def display_substitute(request):
 
 def add_product(request):
     if request.method == "POST":
-
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
 

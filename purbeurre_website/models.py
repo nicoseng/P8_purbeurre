@@ -10,9 +10,8 @@ class Category(models.Model):
 
 
 class Substitute(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    substitute_id = models.IntegerField(primary_key=True)
     substitute_name = models.fields.CharField(max_length=100, null=True)
-    #substitute_category = models.ManyToManyField(Category)
     substitute_image = models.fields.CharField(max_length=100, null=True)
     substitute_url = models.fields.CharField(max_length=100, null=True)
     substitute_nutriscore = models.fields.CharField(max_length=100)
