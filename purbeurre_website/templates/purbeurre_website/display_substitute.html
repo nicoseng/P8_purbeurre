@@ -63,24 +63,25 @@
 <div class="row mx-5 pt-2 px-5">
     <h1 class="text-center">Substituts proposés :</h1>
 
-    {% for substitute in substitute_proposed_list %}
+    {% for substitute in substitute_table_displayed %}
     <div class="col-auto col-md-4">
         <div class="column">
             <div class="card my-5 mx-5 bg-light border-0" style="width:90">
                     <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
-                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{substitute.nutriscore}}.svg"
+                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{substitute.substitute_nutriscore}}.svg"
                              width="100">
                     </span>
-                <img src={{substitute.product_image}} alt="product_image" width="100"
+                <img src={{substitute.substitute_image}} alt="product_image" width="100"
                      class="rounded mx-auto d-block mt-4">
                 <div class="card-body">
                     <form method="POST" action="{% url 'check_substitute' %}">
                         {% csrf_token %}
                         <div class="col-sm text-center pt-5 my-2">
+                            <p>id:{{substitute.substitute_id}}</p>
                             <input class="btn btn-success btn-block" type="submit" id="fiche_substitute"
                                    name="substitute_selected"
-                                   value="{{substitute.product_name}}">
-                            <input type="hidden" name="substitute_selected_data" value="{{substitute}}"><br/>
+                                   value="{{substitute.substitute_name}}">
+                            <input type="hidden" name="substitute_selected_data" value="{{substitute.substitute_id}}"><br/>
                         </div>
                     </form>
 
