@@ -23,8 +23,8 @@ class SubstituteExtractor:
 
                 available_best_products_list.append(best_product_dict)
 
-            if len(available_best_products_list) == 0:
-                print("Cet article possède déjà le meilleur nutriscore possible de la catégorie.")
+            # if len(available_best_products_list) == 0:
+            #     print("Cet article possède déjà le meilleur nutriscore possible de la catégorie.")
 
             else:
                 substitute_proposed_list = available_best_products_list

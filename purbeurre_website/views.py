@@ -123,13 +123,15 @@ def display_results(request):
         searched_product_name = request.POST.get('searched_product_name')
         searched_product_data = ProductExtractor()
         searched_products_url = searched_product_data.extract_products_url(searched_product_name)
+
         products_data = searched_product_data.extract_products(searched_products_url)
 
         if len(products_data) == 0:
-            none_message = messages.info(request, "Il n'y a pas de produit correspondant à votre recherche.")
+            messages.info(request, "Il n'y a pas de produit correspondant à votre recherche.")
             return redirect('home')
 
         else:
+
             context = {"product_name": searched_product_name, "products": products_data}
             return render(request, 'purbeurre_website/display_results.html', context)
 
@@ -152,30 +154,47 @@ def display_substitute(request):
         substitute_proposed_list = SubstituteExtractor()
         substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
 
+        substitute_table = Substitute.objects.all()
+        substitute_table.delete()
+
         for substitute in substitute_proposed_list:
-            substitute_selected_data = Substitute(
-                substitute_name=substitute["product_name"],
-                substitute_nutriscore=substitute["nutriscore"],
-                substitute_image=substitute["product_image"],
-                substitute_url=substitute["url"]
-            )
-            substitute_selected_data.save()
 
-        substitute_table_displayed = Substitute.objects.all()
+            if substitute["product_name"] != Substitute.substitute_name:
+                print("les noms sont différents.")
 
-        print(substitute_table_displayed)
+                substitute_selected_data = Substitute(
+                    substitute_name=substitute["product_name"],
+                    substitute_nutriscore=substitute["nutriscore"],
+                    substitute_image=substitute["product_image"],
+                    substitute_url=substitute["url"]
+                )
+                substitute_selected_data.save()
+            else:
+
+                print("les noms sont pareils")
+
+        print("coupure")
+        print(substitute_table)
+
+        for substitute in substitute_table.reverse():
+            if Substitute.objects.filter(substitute_name=substitute.substitute_name).count() > 1:
+                substitute.delete()
+                print("bien filtré")
+
+        print(substitute_table)
 
         context = {
             "product_selected": product_selected,
             "product_selected_data": product_selected_data,
             "substitute_proposed_list": substitute_proposed_list,
-            "substitute_table_displayed": substitute_table_displayed
+            "substitute_table": substitute_table
         }
-        return render(request, 'purbeurre_website/display_substitute.html', context)
 
-    else:
-        messages.info(request, "Il n'y a pas de substitut disponible.")
-        return render(request, 'purbeurre_website/display_results.html', messages)
+        return render(request, 'purbeurre_website/display_substitute.html', context)
+    #
+    # else:
+    #     messages.info(request, "Il n'y a pas de substitut disponible.")
+    #     return render(request, 'purbeurre_website/display_results.html', messages)
 
 
 @login_required(login_url='login')
