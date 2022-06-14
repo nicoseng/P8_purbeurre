@@ -160,7 +160,6 @@ def display_substitute(request):
         for substitute in substitute_proposed_list:
 
             if substitute["product_name"] != Substitute.substitute_name:
-                print("les noms sont différents.")
 
                 substitute_selected_data = Substitute(
                     substitute_name=substitute["product_name"],
@@ -169,19 +168,10 @@ def display_substitute(request):
                     substitute_url=substitute["url"]
                 )
                 substitute_selected_data.save()
-            else:
-
-                print("les noms sont pareils")
-
-        print("coupure")
-        print(substitute_table)
 
         for substitute in substitute_table.reverse():
             if Substitute.objects.filter(substitute_name=substitute.substitute_name).count() > 1:
                 substitute.delete()
-                print("bien filtré")
-
-        print(substitute_table)
 
         context = {
             "product_selected": product_selected,
