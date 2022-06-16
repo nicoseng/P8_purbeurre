@@ -5,9 +5,9 @@ from django.db import models
 
 class Basket(models.Model):
     class Meta:
-        ordering = ['substitute_name']
+        ordering = ['substitute_id']
 
-    # substitute_id = models.IntegerField(primary_key=True)
+    substitute_id = models.IntegerField(primary_key=True)
     substitute_name = models.fields.CharField(max_length=100, null=True)
     substitute_image = models.fields.CharField(max_length=100, null=True)
     substitute_url = models.fields.CharField(max_length=100, null=True)
@@ -16,9 +16,9 @@ class Basket(models.Model):
 
 class Substitute(models.Model):
     class Meta:
-        ordering = ['substitute_name']
+        ordering = ['substitute_id']
 
-    # substitute_id = models.IntegerField(primary_key=True)
+    substitute_id = models.IntegerField(primary_key=True)
     substitute_name = models.fields.CharField(max_length=100, null=True)
     substitute_image = models.fields.CharField(max_length=100, null=True)
     substitute_url = models.fields.CharField(max_length=100, null=True)

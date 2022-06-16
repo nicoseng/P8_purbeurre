@@ -26,7 +26,7 @@ def access_login(request):
     return render(request, 'purbeurre_website/access_login.html')
 
 
-def add_product(request):
+def add_product(request, pk):
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
@@ -94,14 +94,17 @@ def check_substitute(request):
         substitute_selected = request.POST.get('substitute_selected')
         print(substitute_selected)
         substitute_selected_data = request.POST.get('substitute_selected_data')
-        substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        #substitute_selected_data = ast.literal_eval(substitute_selected_data)
         print(substitute_selected_data)
+        print(type(substitute_selected_data))
+        #print(substitute_selected_data.substitute_url)
+        return render(request, 'purbeurre_website/check_substitute.html')
 
-        context = {
-            "product_name": substitute_selected,
-            "substitute_selected_data": substitute_selected_data,
-        }
-        return render(request, 'purbeurre_website/check_substitute.html', context)
+        # context = {
+        #     "product_name": substitute_selected,
+        #     "substitute_selected_data": substitute_selected_data
+        # }
+        # return render(request, 'purbeurre_website/check_substitute.html', context)
 
 
 def create_account(request):
@@ -172,6 +175,11 @@ def display_substitute(request):
         for substitute in substitute_table.reverse():
             if Substitute.objects.filter(substitute_name=substitute.substitute_name).count() > 1:
                 substitute.delete()
+
+        for element in substitute_table:
+            print(element.substitute_name)
+
+
 
         context = {
             "product_selected": product_selected,
