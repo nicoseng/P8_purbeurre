@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from requests import exceptions
+from requests import exceptions, get
 from urllib3.util import retry
 
 from .category_loader import CategoriesLoader
@@ -140,22 +140,30 @@ def display_results(request):
             category_list = CategoriesLoader()
             category_list = category_list.load_categories()
             print(category_list)
-
-            try :
-                for category in category_list:
-                    category_data = Category(
-                        category_name=category["category_name"],
-                        category_url=category["url"]
-                    )
-                    category_data.save()
-
-            except exceptions.RequestException:
-
-                if retry > 0:
-                    return display_results(retry - 1)
-
             category_table = Category.objects.all()
+            category_table.delete()
 
+            for category in category_list:
+                category_data = Category(
+                    category_name=category["category_name"],
+                    category_url=category["url"]
+                )
+                category_data.save()
+
+            # for category in category_list:
+            #     try:
+            #         category_data = Category(
+            #             category_name=category["category_name"],
+            #             category_url=category["url"]
+            #         )
+            #         category_data.save()
+            #     except KeyError:
+            #         continue
+
+            # except exceptions.RequestException:
+            #
+            #     if retry > 0:
+            #         return display_results(retry - 1)
 
             product_table = Product.objects.all()
             product_table.delete()

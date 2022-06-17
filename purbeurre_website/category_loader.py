@@ -31,7 +31,7 @@ class CategoriesLoader:
             # To get the json format
             categories_url_json = request.json()
 
-            for category in categories_url_json["tags"]:
+            for category in categories_url_json["tags"][:1]:
                 category_dict = {"category_name": category["name"],
                                  "category_url": category["url"]
                                  }

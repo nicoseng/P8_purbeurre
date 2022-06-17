@@ -16,7 +16,7 @@ class Product(models.Model):
     class Meta:
         ordering = ['product_id']
 
-    category_key = models.ForeignKey(Category, on_delete=models.CASCADE)
+    #category_key = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_id = models.IntegerField(primary_key=True)
     product_name = models.fields.CharField(max_length=100, null=True)
     product_image = models.fields.CharField(max_length=100, null=True)
