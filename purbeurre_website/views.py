@@ -150,21 +150,6 @@ def display_results(request):
                 )
                 category_data.save()
 
-            # for category in category_list:
-            #     try:
-            #         category_data = Category(
-            #             category_name=category["category_name"],
-            #             category_url=category["url"]
-            #         )
-            #         category_data.save()
-            #     except KeyError:
-            #         continue
-
-            # except exceptions.RequestException:
-            #
-            #     if retry > 0:
-            #         return display_results(retry - 1)
-
             product_table = Product.objects.all()
             product_table.delete()
             for product in products_data:
