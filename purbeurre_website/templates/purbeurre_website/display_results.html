@@ -64,7 +64,7 @@
         <div class="column">
             <div class="card my-5 mx-5 bg-light border-0" style="width:90">
                     <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
-                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"
+                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.product_nutriscore}}.svg"
                              width="100">
                     </span>
                 <img src={{product.product_image}} alt="product_image" width="100" class="rounded mx-auto d-block mt-4">
@@ -73,9 +73,11 @@
                     <form method="POST" action="{% url 'display_substitute'%}">
                         {% csrf_token %}
                         <div class="text-center my-2">
+                            <p>{{product.product_id}}</p>
                             <input class="text-center btn btn-success" style="font-size:smaller" type="submit" id="product_selected"
                                    name="product_selected" value="{{product.product_name}}">
                             <input type="hidden" name="product_selected_data" value="{{product}}"><br>
+                            <input type="hidden" name="product_selected_id" value="{{product.product_id}}"><br>
                         </div>
                     </form>
                 </div>

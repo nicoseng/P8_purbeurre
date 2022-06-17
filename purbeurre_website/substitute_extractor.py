@@ -17,8 +17,10 @@ class SubstituteExtractor:
         for product in products_list:
             if product["nutriscore"] in best_nutriscore_list or product["nutriscore"] == "a":
 
-                best_product_dict = {"product_name": product["product_name"], "nutriscore": product["nutriscore"],
-                                     "product_image": product["product_image"],"ingredients": product["ingredients"],
+                best_product_dict = {"product_name": product["product_name"],
+                                     "nutriscore": product["nutriscore"],
+                                     "product_image": product["product_image"],
+                                     "ingredients": product["ingredients"],
                                      "url": product["url"]}
 
                 available_best_products_list.append(best_product_dict)

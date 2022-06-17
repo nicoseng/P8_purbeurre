@@ -4,7 +4,7 @@ from requests import get, exceptions
 from urllib3.util import retry
 
 
-class CategoryExtractor:
+class CategoriesLoader:
     """
     Loads categories of products from the API OpenFoodFacts(OFF).
     """
@@ -32,12 +32,15 @@ class CategoryExtractor:
             categories_url_json = request.json()
 
             for category in categories_url_json["tags"]:
-                categories_loaded_list.append(category["name"])
+                category_dict = {"category_name": category["name"],
+                                 "category_url": category["url"]
+                                 }
+                categories_loaded_list.append(category_dict)
 
         except exceptions.RequestException:
 
             if retry > 0:
-                return CategoryExtractor.load_categories(retry - 1)
+                return CategoriesLoader.load_categories(retry - 1)
 
         return categories_loaded_list
 

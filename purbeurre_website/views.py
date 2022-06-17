@@ -4,9 +4,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from requests import exceptions
+from urllib3.util import retry
 
+from .category_loader import CategoriesLoader
 from .forms import CreateUser
-from .models import Substitute, Basket
+from .models import Substitute, Basket, Product, Category
 from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
 from .substitute_extractor import SubstituteExtractor
@@ -26,7 +29,7 @@ def access_login(request):
     return render(request, 'purbeurre_website/access_login.html')
 
 
-def add_product(request, pk):
+def add_product(request):
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
@@ -134,8 +137,56 @@ def display_results(request):
             return redirect('home')
 
         else:
+            category_list = CategoriesLoader()
+            category_list = category_list.load_categories()
+            print(category_list)
 
-            context = {"product_name": searched_product_name, "products": products_data}
+            try :
+                for category in category_list:
+                    category_data = Category(
+                        category_name=category["category_name"],
+                        category_url=category["url"]
+                    )
+                    category_data.save()
+
+            except exceptions.RequestException:
+
+                if retry > 0:
+                    return display_results(retry - 1)
+
+            category_table = Category.objects.all()
+
+
+            product_table = Product.objects.all()
+            product_table.delete()
+            for product in products_data:
+
+                if product["product_name"] != Product.product_name:
+                    product_data = Product(
+                        product_name=product["product_name"],
+                        product_nutriscore=product["nutriscore"],
+                        product_image=product["product_image"],
+                        product_url=product["url"]
+                    )
+                    product_data.save()
+
+            for product in product_table.reverse():
+                if Product.objects.filter(product_name=product.product_name).count() > 1:
+                    product.delete()
+
+            for element in product_table:
+                print(element.product_name)
+
+            # context = {
+            #     "product_selected": product_selected,
+            #     "product_selected_data": product_selected_data,
+            #     "substitute_proposed_list": substitute_proposed_list,
+            #     "substitute_table": substitute_table
+            # }
+            # return render(request, 'purbeurre_website/display_substitute.html', context)
+            context = {"product_name": searched_product_name,
+                       "products": product_table
+                       }
             return render(request, 'purbeurre_website/display_results.html', context)
 
 
@@ -143,9 +194,12 @@ def display_substitute(request):
     if request.method == "POST":
         product_selected = request.POST.get('product_selected')
         product_selected_data = request.POST.get('product_selected_data')
-        product_selected_data = ast.literal_eval(product_selected_data)
+        # product_selected_data = ast.literal_eval(product_selected_data)
 
-        product_selected_category = product_selected_data["categories"]
+        product_selected_id = request.POST.get('product_selected_id')
+
+        # Récupérer la catégorie du produit sélectionné
+        # product_selected_category = product_selected_data["categories"]
         product_selected_category = product_selected_category.split(",")
 
         category_extracted = CategoriesExtractor()
@@ -165,6 +219,7 @@ def display_substitute(request):
             if substitute["product_name"] != Substitute.substitute_name:
 
                 substitute_selected_data = Substitute(
+                    reference_product_key= product_selected_id,
                     substitute_name=substitute["product_name"],
                     substitute_nutriscore=substitute["nutriscore"],
                     substitute_image=substitute["product_image"],
