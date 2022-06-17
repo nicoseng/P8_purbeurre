@@ -146,7 +146,7 @@ def display_results(request):
             for category in category_list:
                 category_data = Category(
                     category_name=category["category_name"],
-                    category_url=category["url"]
+                    category_url=category["category_url"]
                 )
                 category_data.save()
 
