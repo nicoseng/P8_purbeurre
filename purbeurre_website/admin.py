@@ -18,7 +18,7 @@ class SubstituteAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_id', 'product_name', 'product_nutriscore', 'product_image', 'product_url')
+    list_display = ('category_key', 'product_id', 'product_name', 'product_nutriscore', 'product_image', 'product_url')
 
 
 admin.site.register(Category, CategoryAdmin)

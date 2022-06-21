@@ -156,27 +156,36 @@ def display_results(request):
 
                 if product["product_name"] != Product.product_name:
                     product_data = Product(
+
                         product_name=product["product_name"],
                         product_nutriscore=product["nutriscore"],
                         product_image=product["product_image"],
                         product_url=product["url"]
                     )
+
                     product_data.save()
 
             for product in product_table.reverse():
                 if Product.objects.filter(product_name=product.product_name).count() > 1:
                     product.delete()
 
-            for element in product_table:
-                print(element.product_name)
+            # for product in products_data:
+            #     for category in category_table:
+            #         if product["categories"] == category.category_name:
+            #             product_data = Product(
+            #                 category_key=category.category_id
+            #             )
+            # print(product_table.category_key)
 
-            # context = {
-            #     "product_selected": product_selected,
-            #     "product_selected_data": product_selected_data,
-            #     "substitute_proposed_list": substitute_proposed_list,
-            #     "substitute_table": substitute_table
-            # }
-            # return render(request, 'purbeurre_website/display_substitute.html', context)
+            for product, category in zip(products_data,category_table):
+
+                if product["categories"] == category.category_name:
+                    product_data = Product(
+                        category_key=category.category_id
+                    )
+
+            product_data.save()
+
             context = {"product_name": searched_product_name,
                        "products": product_table
                        }
