@@ -59,7 +59,13 @@ class ProductExtractor:
                 page_count = product_page_json["page_count"]
                 while number < page_count:
 
-                    product_dict = {"categories": "", "product_name": "", "nutriscore": "", "product_image": "", "url": "", "ingredients" :""}
+                    product_dict = {"categories": "",
+                                    "product_name": "",
+                                    "nutriscore": "",
+                                    "product_image": "",
+                                    "url": "",
+                                    "ingredients":""
+                                    }
 
                     product_category = product_page_json["products"][number]["categories"]
                     product_dict["categories"] = product_category

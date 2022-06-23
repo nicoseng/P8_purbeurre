@@ -7,11 +7,13 @@ from django.shortcuts import render, redirect
 from requests import exceptions, get
 from urllib3.util import retry
 
+from .category_injector_in_table import CategoryInjectorInTable
 from .category_loader import CategoriesLoader
 from .forms import CreateUser
 from .models import Substitute, Basket, Product, Category
 from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
+from .product_injector_in_table import ProductInjectorInTable
 from .substitute_extractor import SubstituteExtractor
 
 
@@ -130,61 +132,46 @@ def display_results(request):
         searched_product_data = ProductExtractor()
         searched_products_url = searched_product_data.extract_products_url(searched_product_name)
 
-        products_data = searched_product_data.extract_products(searched_products_url)
+        products_list = searched_product_data.extract_products(searched_products_url)
 
-        if len(products_data) == 0:
+        if len(products_list) == 0:
             messages.info(request, "Il n'y a pas de produit correspondant à votre recherche.")
             return redirect('home')
 
         else:
             category_list = CategoriesLoader()
             category_list = category_list.load_categories()
-            print(category_list)
-            category_table = Category.objects.all()
-            category_table.delete()
 
-            for category in category_list:
-                category_data = Category(
-                    category_name=category["category_name"],
-                    category_url=category["category_url"]
-                )
-                category_data.save()
+            category_table = CategoryInjectorInTable()
+            category_table = category_table.inject_category_in_table(category_list)
+            print(category_table)
 
-            product_table = Product.objects.all()
-            product_table.delete()
-            for product in products_data:
+            product_table = ProductInjectorInTable()
+            product_table = product_table.inject_product_in_table(products_list)
+            print(product_table)
 
-                if product["product_name"] != Product.product_name:
-                    product_data = Product(
+            for product in products_list:
 
-                        product_name=product["product_name"],
-                        product_nutriscore=product["nutriscore"],
-                        product_image=product["product_image"],
-                        product_url=product["url"]
-                    )
+                product_category = product["categories"].split(",")
+                print(product_category)
 
-                    product_data.save()
+                for category in product_category:
+                    category = category.strip()
+                    print("-----categorie du produit--------")
+                    print(category)
+                    print("------fin categorie du produit-------")
 
-            for product in product_table.reverse():
-                if Product.objects.filter(product_name=product.product_name).count() > 1:
-                    product.delete()
-
-            # for product in products_data:
-            #     for category in category_table:
-            #         if product["categories"] == category.category_name:
-            #             product_data = Product(
-            #                 category_key=category.category_id
-            #             )
-            # print(product_table.category_key)
-
-            for product, category in zip(products_data,category_table):
-
-                if product["categories"] == category.category_name:
-                    product_data = Product(
-                        category_key=category.category_id
-                    )
-
-            product_data.save()
+                    # for element in category_table:
+                    #     print(element.category_name)
+                    #     if category == element.category_name:
+                    #         print("--------------------")
+                    #         print("Oui c'est bien dans la table category")
+                    #         print("--------------------")
+                    #         category_key = Category(element.category_id)
+                    #         product_data = Product(
+                    #             category_key=category_key
+                    #         )
+                    #         product_data.save()
 
             context = {"product_name": searched_product_name,
                        "products": product_table
@@ -235,8 +222,6 @@ def display_substitute(request):
 
         for element in substitute_table:
             print(element.substitute_name)
-
-
 
         context = {
             "product_selected": product_selected,
