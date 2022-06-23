@@ -148,22 +148,6 @@ def display_results(request):
 
             product_table = ProductInjectorInTable()
             product_table = product_table.inject_product_in_table(products_list, category_table)
-            print(product_table)
-
-            # for product in products_list:
-            #     print(product["categories"])
-            #     for category in category_table:
-            #         if category.category_name in product["categories"]:
-            #             category_key = Category(category.category_id)
-            #             product_data = Product(
-            #                 category_key=category_key,
-            #                 product_name=product["product_name"],
-            #                 product_nutriscore=product["nutriscore"],
-            #                 product_image=product["product_image"],
-            #                 product_url=product["url"]
-            #             )
-            #             product_data.save()
-
             product_table = Product.objects.all()
             context = {"product_name": searched_product_name,
                        "products": product_table
