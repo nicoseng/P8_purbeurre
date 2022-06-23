@@ -24,13 +24,6 @@ class ProductInjectorInTable:
                             product_url=product["url"]
                         )
                         product_data.save()
-            # if product["product_name"] != Product.product_name:
-            #     product_data = Product(
-            #         product_name=product["product_name"],
-            #         product_nutriscore=product["nutriscore"],
-            #         product_image=product["product_image"],
-            #         product_url=product["url"]
-            #     )
 
         for product in product_table.reverse():
             if Product.objects.filter(product_name=product.product_name).count() > 1:
