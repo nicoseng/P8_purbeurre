@@ -1,10 +1,8 @@
-from purbeurre_website.category_loader import CategoriesLoader
 from purbeurre_website.models import Category
 
 
 class CategoryInjectorInTable:
     """To inject categories datas in category table """
-
 
     @staticmethod
     def inject_category_in_table(category_list):

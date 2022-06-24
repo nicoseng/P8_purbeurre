@@ -1,6 +1,3 @@
-from django.db.models import Sum
-
-from purbeurre_website.category_loader import CategoriesLoader
 from purbeurre_website.models import Category, Product
 
 

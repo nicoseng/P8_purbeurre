@@ -15,6 +15,7 @@ from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
 from .product_injector_in_table import ProductInjectorInTable
 from .substitute_extractor import SubstituteExtractor
+from .substitute_injector_in_table import SubstituteInjectorInTable
 
 
 def access_login(request):
@@ -67,16 +68,13 @@ def check_my_basket(request):
             substitute_url=substitute_url
         )
         for row in substitute_selected_data_table:
-            print("je suis là")
-            print(row)
             if substitute_selected_data.substitute_url == row.substitute_url:
-                print("Vous avez déjà enregsitré ce produit")
+                pass
+
             else:
-                print("Produit bien enregistré ")
                 substitute_selected_data.save()
 
         table_displayed = Substitute.objects.all()
-        print(table_displayed)
         context = {"table_displayed": table_displayed}
 
     return render(request, 'purbeurre_website/check_my_basket.html', context)
@@ -85,11 +83,8 @@ def check_my_basket(request):
 def check_product(request):
     if request.method == "POST":
         product_selected_data = request.POST.get('product_selected_data')
-        print(product_selected_data)
         product_selected_data = ast.literal_eval(product_selected_data)
-        print(product_selected_data)
 
-        print(product_selected_data["product_name"])
         context = {"product_selected_data": product_selected_data}
         return render(request, 'purbeurre_website/check_product.html', context)
 
@@ -97,12 +92,7 @@ def check_product(request):
 def check_substitute(request):
     if request.method == "POST":
         substitute_selected = request.POST.get('substitute_selected')
-        print(substitute_selected)
         substitute_selected_data = request.POST.get('substitute_selected_data')
-        #substitute_selected_data = ast.literal_eval(substitute_selected_data)
-        print(substitute_selected_data)
-        print(type(substitute_selected_data))
-        #print(substitute_selected_data.substitute_url)
         return render(request, 'purbeurre_website/check_substitute.html')
 
         # context = {
@@ -144,11 +134,10 @@ def display_results(request):
 
             category_table = CategoryInjectorInTable()
             category_table = category_table.inject_category_in_table(category_list)
-            print(category_table)
 
             product_table = ProductInjectorInTable()
             product_table = product_table.inject_product_in_table(products_list, category_table)
-            product_table = Product.objects.all()
+
             context = {"product_name": searched_product_name,
                        "products": product_table
                        }
@@ -158,6 +147,7 @@ def display_results(request):
 def display_substitute(request):
     if request.method == "POST":
         product_selected = request.POST.get('product_selected')
+        print(product_selected)
         product_selected_data = request.POST.get('product_selected_data')
         # product_selected_data = ast.literal_eval(product_selected_data)
 
@@ -165,7 +155,7 @@ def display_substitute(request):
 
         # Récupérer la catégorie du produit sélectionné
         # product_selected_category = product_selected_data["categories"]
-        product_selected_category = product_selected_category.split(",")
+        #product_selected_category = product_selected_category.split(",")
 
         category_extracted = CategoriesExtractor()
         categories_list_url = category_extracted.extract_categories_url(product_selected_category)
@@ -176,28 +166,8 @@ def display_substitute(request):
         substitute_proposed_list = SubstituteExtractor()
         substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
 
-        substitute_table = Substitute.objects.all()
-        substitute_table.delete()
-
-        for substitute in substitute_proposed_list:
-
-            if substitute["product_name"] != Substitute.substitute_name:
-
-                substitute_selected_data = Substitute(
-                    reference_product_key= product_selected_id,
-                    substitute_name=substitute["product_name"],
-                    substitute_nutriscore=substitute["nutriscore"],
-                    substitute_image=substitute["product_image"],
-                    substitute_url=substitute["url"]
-                )
-                substitute_selected_data.save()
-
-        for substitute in substitute_table.reverse():
-            if Substitute.objects.filter(substitute_name=substitute.substitute_name).count() > 1:
-                substitute.delete()
-
-        for element in substitute_table:
-            print(element.substitute_name)
+        substitute_table = SubstituteInjectorInTable()
+        substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list,)
 
         context = {
             "product_selected": product_selected,
