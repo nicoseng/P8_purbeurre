@@ -1,3 +1,5 @@
+from django.db.models import Sum
+
 from purbeurre_website.category_loader import CategoriesLoader
 from purbeurre_website.models import Category, Product
 
@@ -12,21 +14,22 @@ class ProductInjectorInTable:
         product_table.delete()
 
         for product in product_list:
-            if product["product_name"] != Product.product_name:
-                for category in category_table:
-                    if category.category_name in product["categories"]:
-                        category_key = Category(category.category_id)
-                        product_data = Product(
-                            category_key=category_key,
-                            product_name=product["product_name"],
-                            product_nutriscore=product["nutriscore"],
-                            product_image=product["product_image"],
-                            product_url=product["url"]
-                        )
-                        product_data.save()
+            for category in category_table:
 
-        for product in product_table.reverse():
-            if Product.objects.filter(product_name=product.product_name).count() > 1:
-                product.delete()
+                if category.category_name in product["categories"]:
+
+                    category_key = Category(category.category_id)
+                    product_data = Product(
+                        category_key=category_key,
+                        product_name=product["product_name"],
+                        product_nutriscore=product["nutriscore"],
+                        product_image=product["product_image"],
+                        product_url=product["url"]
+                    )
+                    product_data.save()
+
+            for product in product_table.reverse():
+                if Product.objects.filter(product_name=product.product_name).count() > 1:
+                    product.delete()
 
         return product_table
