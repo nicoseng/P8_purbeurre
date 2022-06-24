@@ -28,8 +28,8 @@ class ProductInjectorInTable:
                     )
                     product_data.save()
 
-            for product in product_table.reverse():
-                if Product.objects.filter(product_name=product.product_name).count() > 1:
-                    product.delete()
+            for row in product_table.reverse():
+                if Product.objects.filter(product_name=row.product_name).count() > 1:
+                    row.delete()
 
         return product_table
