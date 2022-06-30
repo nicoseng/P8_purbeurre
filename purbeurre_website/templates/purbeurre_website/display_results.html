@@ -73,11 +73,14 @@
                     <form method="POST" action="{% url 'display_substitute'%}">
                         {% csrf_token %}
                         <div class="text-center my-2">
+                            <p>{{product.category_key.category_name}}</p>
                             <p>{{product.product_id}}</p>
                             <input class="text-center btn btn-success" style="font-size:smaller" type="submit" id="product_selected"
-                                   name="product_selected" value="{{product.product_name}}">
-                            <input type="hidden" name="product_selected_data" value="{{product}}"><br>
-                            <input type="hidden" name="product_selected_id" value="{{product.product_id}}"><br>
+                                   name="product_selected_name" value="{{product.product_name}}">
+                            <input type="hidden" name="product_selected_category" value="{{product.category_key.category_name}}"><br>
+                            <input type="hidden" name="product_selected_nutriscore" value="{{product.product_nutriscore}}"><br>
+                            <input type="hidden" name="product_selected_url" value="{{product.product_url}}"><br>
+                            <input type="hidden" name="product_selected_image" value="{{product.product_image}}"><br>
                         </div>
                     </form>
                 </div>

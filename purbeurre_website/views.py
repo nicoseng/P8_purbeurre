@@ -82,10 +82,17 @@ def check_my_basket(request):
 
 def check_product(request):
     if request.method == "POST":
-        product_selected_data = request.POST.get('product_selected_data')
-        product_selected_data = ast.literal_eval(product_selected_data)
+        product_selected_name = request.POST.get('product_selected_name')
+        product_selected_category = request.POST.get('product_selected_data')
+        product_selected_image = request.POST.get('product_selected_image')
+        product_selected_url = request.POST.get('product_selected_url')
 
-        context = {"product_selected_data": product_selected_data}
+        context = {
+            "product_selected_category": product_selected_category,
+            "product_selected_url": product_selected_url,
+            "product_selected_image": product_selected_image,
+            "product_selected_name": product_selected_name,
+        }
         return render(request, 'purbeurre_website/check_product.html', context)
 
 
@@ -146,32 +153,36 @@ def display_results(request):
 
 def display_substitute(request):
     if request.method == "POST":
-        product_selected = request.POST.get('product_selected')
-        print(product_selected)
-        product_selected_data = request.POST.get('product_selected_data')
-        # product_selected_data = ast.literal_eval(product_selected_data)
+        product_selected_name = request.POST.get('product_selected_name')
+        product_selected_category = request.POST.get('product_selected_category')
+        product_selected_image = request.POST.get('product_selected_image')
+        product_selected_url = request.POST.get('product_selected_url')
 
-        product_selected_id = request.POST.get('product_selected_id')
-
-        # Récupérer la catégorie du produit sélectionné
-        # product_selected_category = product_selected_data["categories"]
-        #product_selected_category = product_selected_category.split(",")
+        print(type(product_selected_category))
+        print(product_selected_category)
 
         category_extracted = CategoriesExtractor()
-        categories_list_url = category_extracted.extract_categories_url(product_selected_category)
+        categories_url = category_extracted.extract_categories_url(product_selected_category)
 
         products_list = ProductExtractor()
-        products_list = products_list.extract_products(categories_list_url)
+        products_list = products_list.extract_products(categories_url)
+
+        product_selected_nutriscore = request.POST.get('product_selected_nutriscore')
+        print(type(product_selected_nutriscore))
+        print(product_selected_nutriscore)
 
         substitute_proposed_list = SubstituteExtractor()
-        substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
+        substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_nutriscore)
 
+        print(substitute_proposed_list)
         substitute_table = SubstituteInjectorInTable()
-        substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list,)
+        substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list)
 
         context = {
-            "product_selected": product_selected,
-            "product_selected_data": product_selected_data,
+            "product_selected_category": product_selected_category,
+            "product_selected_url": product_selected_url,
+            "product_selected_image": product_selected_image,
+            "product_selected_name": product_selected_name,
             "substitute_proposed_list": substitute_proposed_list,
             "substitute_table": substitute_table
         }

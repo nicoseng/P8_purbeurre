@@ -38,17 +38,22 @@
     </div>
 </nav>
 <!-- Masthead-->
-<header class="masthead" style="background-image:url('{{product_selected_data.product_image}}')">
+<header class="masthead" style="background-image:url('{{product_selected_image}}')">
     <div class="container px-4 px-lg-5 h-100">
         <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
             <div class="col-lg-8 align-self-end text-center ">
-                <h2 class="text-black bg-light font-weight-bold">Vous avez choisi le produit suivant : {{product_selected}}</h2>
+                <h2 class="text-black bg-light font-weight-bold">Vous avez choisi le produit suivant : {{product_selected_name}}</h2>
                 <form method="POST" action="{% url 'check_product' %}">
                     {% csrf_token %}
                     <div class="col-sm text-center pt-5 my-2">
                         <input class="btn btn-warning" type="submit" id="fiche_produit" name="fiche_produit"
                                value="Fiche produit">
-                        <input type="hidden" name="product_selected_data" value="{{product_selected_data}}"><br/>
+                        <input type="hidden" name="product_selected_category"
+                               value="{{product.category_key.category_name}}"><br>
+                        <input type="hidden" name="product_selected_nutriscore"
+                               value="{{product.product_nutriscore}}"><br>
+                        <input type="hidden" name="product_selected_url" value="{{product.product_url}}"><br>
+                        <input type="hidden" name="product_selected_image" value="{{product.product_image}}"><br>
                     </div>
                 </form>
             </div>

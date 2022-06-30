@@ -14,7 +14,7 @@ class BasketAdmin(admin.ModelAdmin):
 
 
 class SubstituteAdmin(admin.ModelAdmin):
-    list_display = ('reference_product_key', 'substitute_id', 'substitute_name', 'substitute_nutriscore', 'substitute_image', 'substitute_url')
+    list_display = ('substitute_id', 'substitute_name', 'substitute_nutriscore', 'substitute_image', 'substitute_url')
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -25,4 +25,3 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Substitute, SubstituteAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Basket, BasketAdmin)
-

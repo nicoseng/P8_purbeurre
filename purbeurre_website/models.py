@@ -40,7 +40,6 @@ class Substitute(models.Model):
     class Meta:
         ordering = ['substitute_id']
 
-    reference_product_key = models.ForeignKey(Product, on_delete=models.CASCADE)
     substitute_id = models.IntegerField(primary_key=True)
     substitute_name = models.fields.CharField(max_length=100, null=True)
     substitute_image = models.fields.CharField(max_length=100, null=True)
