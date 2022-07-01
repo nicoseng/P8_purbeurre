@@ -101,6 +101,7 @@ def check_substitute(request):
         substitute_selected = request.POST.get('substitute_selected')
         print(substitute_selected)
         substitute_selected_data = request.POST.get('substitute_selected_data')
+        substitute_selected_data = ast.literal_eval(substitute_selected_data)
         print(substitute_selected_data)
 
         context = {
