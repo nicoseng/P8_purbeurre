@@ -4,13 +4,12 @@
 class SubstituteExtractor:
 
     @staticmethod
-    def get_substitute(products_list, product_selected_nutriscore):
+    def get_substitute(products_list, product_selected_data):
 
-        global substitute_proposed_list
         available_nutriscore_list = ["a", "b", "c", "d", "e"]
 
         selected_nutriscore_index = \
-            available_nutriscore_list.index(product_selected_nutriscore)
+            available_nutriscore_list.index(product_selected_data["product_selected_nutriscore"])
         best_nutriscore_list = \
             available_nutriscore_list[0:selected_nutriscore_index]
 

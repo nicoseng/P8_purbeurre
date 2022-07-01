@@ -6,19 +6,37 @@ from .models import Substitute, Basket, Product, Category
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('category_id', 'category_name', 'category_url')
+    list_display = ('category_id',
+                    'category_name',
+                    'category_url')
 
 
 class BasketAdmin(admin.ModelAdmin):
-    list_display = ('substitute_id', 'substitute_name', 'substitute_nutriscore', 'substitute_image', 'substitute_url')
+    list_display = ('substitute_id',
+                    'substitute_name',
+                    'substitute_nutriscore',
+                    'substitute_image',
+                    'substitute_ingredients',
+                    'substitute_url')
 
 
 class SubstituteAdmin(admin.ModelAdmin):
-    list_display = ('substitute_id', 'substitute_name', 'substitute_nutriscore', 'substitute_image', 'substitute_url')
+    list_display = ('substitute_id',
+                    'substitute_name',
+                    'substitute_nutriscore',
+                    'substitute_image',
+                    'substitute_ingredients',
+                    'substitute_url')
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('category_key', 'product_id', 'product_name', 'product_nutriscore', 'product_image', 'product_url')
+    list_display = ('category_key',
+                    'product_id',
+                    'product_name',
+                    'product_nutriscore',
+                    'product_image',
+                    'product_ingredients',
+                    'product_url')
 
 
 admin.site.register(Category, CategoryAdmin)

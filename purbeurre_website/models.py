@@ -21,6 +21,7 @@ class Product(models.Model):
     product_name = models.fields.CharField(max_length=100, null=True)
     product_image = models.fields.CharField(max_length=100, null=True)
     product_url = models.fields.CharField(max_length=100, null=True)
+    product_ingredients = models.fields.CharField(max_length=500, null=True)
     product_nutriscore = models.fields.CharField(max_length=100)
 
 
@@ -33,6 +34,7 @@ class Basket(models.Model):
     substitute_name = models.fields.CharField(max_length=100, null=True)
     substitute_image = models.fields.CharField(max_length=100, null=True)
     substitute_url = models.fields.CharField(max_length=100, null=True)
+    substitute_ingredients = models.fields.CharField(max_length=500, null=True)
     substitute_nutriscore = models.fields.CharField(max_length=100)
 
 
@@ -44,4 +46,5 @@ class Substitute(models.Model):
     substitute_name = models.fields.CharField(max_length=100, null=True)
     substitute_image = models.fields.CharField(max_length=100, null=True)
     substitute_url = models.fields.CharField(max_length=100, null=True)
+    substitute_ingredients = models.fields.CharField(max_length=500, null=True)
     substitute_nutriscore = models.fields.CharField(max_length=100)

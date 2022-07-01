@@ -21,6 +21,7 @@ class ProductInjectorInTable:
                         product_name=product["product_name"],
                         product_nutriscore=product["nutriscore"],
                         product_image=product["product_image"],
+                        product_ingredients=product["ingredients"],
                         product_url=product["url"]
                     )
                     product_data.save()

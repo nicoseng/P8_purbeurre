@@ -1,4 +1,5 @@
 import ast
+import pickle
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -83,14 +84,13 @@ def check_my_basket(request):
 def check_product(request):
     if request.method == "POST":
         product_selected_name = request.POST.get('product_selected_name')
-        product_selected_category = request.POST.get('product_selected_data')
-        product_selected_image = request.POST.get('product_selected_image')
-        product_selected_url = request.POST.get('product_selected_url')
+        product_selected_data = request.POST.get('product_selected_data')
+        product_selected_data = ast.literal_eval(product_selected_data)
+        print(product_selected_data)
+        print(type(product_selected_data))
 
         context = {
-            "product_selected_category": product_selected_category,
-            "product_selected_url": product_selected_url,
-            "product_selected_image": product_selected_image,
+            "product_selected_data": product_selected_data,
             "product_selected_name": product_selected_name,
         }
         return render(request, 'purbeurre_website/check_product.html', context)
@@ -99,14 +99,15 @@ def check_product(request):
 def check_substitute(request):
     if request.method == "POST":
         substitute_selected = request.POST.get('substitute_selected')
+        print(substitute_selected)
         substitute_selected_data = request.POST.get('substitute_selected_data')
-        return render(request, 'purbeurre_website/check_substitute.html')
+        print(substitute_selected_data)
 
-        # context = {
-        #     "product_name": substitute_selected,
-        #     "substitute_selected_data": substitute_selected_data
-        # }
-        # return render(request, 'purbeurre_website/check_substitute.html', context)
+        context = {
+            "product_name": substitute_selected,
+            "substitute_selected_data": substitute_selected_data
+        }
+        return render(request, 'purbeurre_website/check_substitute.html', context)
 
 
 def create_account(request):
@@ -145,43 +146,36 @@ def display_results(request):
             product_table = ProductInjectorInTable()
             product_table = product_table.inject_product_in_table(products_list, category_table)
 
-            context = {"product_name": searched_product_name,
-                       "products": product_table
-                       }
+            context = {
+                "product_name": searched_product_name,
+                "products": product_table
+            }
             return render(request, 'purbeurre_website/display_results.html', context)
 
 
 def display_substitute(request):
     if request.method == "POST":
         product_selected_name = request.POST.get('product_selected_name')
-        product_selected_category = request.POST.get('product_selected_category')
-        product_selected_image = request.POST.get('product_selected_image')
-        product_selected_url = request.POST.get('product_selected_url')
-
-        print(type(product_selected_category))
-        print(product_selected_category)
+        product_selected_data = request.POST.get('product_selected_data')
+        product_selected_data = ast.literal_eval(product_selected_data)
+        print(product_selected_data)
+        print(type(product_selected_data))
 
         category_extracted = CategoriesExtractor()
-        categories_url = category_extracted.extract_categories_url(product_selected_category)
+        categories_url = category_extracted.extract_categories_url(product_selected_data["product_selected_category"])
 
         products_list = ProductExtractor()
         products_list = products_list.extract_products(categories_url)
 
-        product_selected_nutriscore = request.POST.get('product_selected_nutriscore')
-        print(type(product_selected_nutriscore))
-        print(product_selected_nutriscore)
-
         substitute_proposed_list = SubstituteExtractor()
-        substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_nutriscore)
+        substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
 
-        print(substitute_proposed_list)
+        #print(substitute_proposed_list)
         substitute_table = SubstituteInjectorInTable()
         substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list)
 
         context = {
-            "product_selected_category": product_selected_category,
-            "product_selected_url": product_selected_url,
-            "product_selected_image": product_selected_image,
+            "product_selected_data": product_selected_data,
             "product_selected_name": product_selected_name,
             "substitute_proposed_list": substitute_proposed_list,
             "substitute_table": substitute_table
