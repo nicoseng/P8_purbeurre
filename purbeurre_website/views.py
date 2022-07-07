@@ -55,28 +55,24 @@ def check_my_basket(request):
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
         print(substitute_selected_data)
-        substitute_name = substitute_selected_data["product_name"]
-        substitute_nutriscore = substitute_selected_data["nutriscore"]
-        substitute_image = substitute_selected_data["product_image"]
-        substitute_url = substitute_selected_data["url"]
+        # substitute_name = substitute_selected_data["product_name"]
+        # substitute_nutriscore = substitute_selected_data["nutriscore"]
+        # substitute_image = substitute_selected_data["product_image"]
+        # substitute_url = substitute_selected_data["url"]
 
         substitute_selected_data_table = Basket.objects.all()
 
         substitute_selected_data = Basket(
-            substitute_name=substitute_name,
-            substitute_nutriscore=substitute_nutriscore,
-            substitute_image=substitute_image,
-            substitute_url=substitute_url
+            substitute_name=substitute_selected_data["substitute_name"],
+            substitute_nutriscore=substitute_selected_data["nutriscore"],
+            substitute_image=substitute_selected_data["substitute_image"],
+            substitute_url=substitute_selected_data["url"]
         )
-        for row in substitute_selected_data_table:
-            if substitute_selected_data.substitute_url == row.substitute_url:
-                pass
 
-            else:
-                substitute_selected_data.save()
+        substitute_selected_data.save()
 
-        table_displayed = Substitute.objects.all()
-        context = {"table_displayed": table_displayed}
+        basket_displayed = Basket.objects.all()
+        context = {"basket_displayed": basket_displayed}
 
     return render(request, 'purbeurre_website/check_my_basket.html', context)
 
@@ -99,14 +95,8 @@ def check_product(request):
 def check_substitute(request):
     if request.method == "POST":
         substitute_selected = request.POST.get('substitute_selected')
-        print(substitute_selected)
-
         substitute_selected_data = request.POST.get('substitute_selected_data')
-
-        #substitute_selected_data = re.escape(substitute_selected_data)
-        #substitute_selected_data = re.sub('\W+&\'', '', substitute_selected_data)
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
-        print(substitute_selected_data)
 
         context = {
             "product_name": substitute_selected,

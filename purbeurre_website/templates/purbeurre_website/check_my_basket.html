@@ -57,7 +57,7 @@
     <tr align="center">
         <!--<th>Categorie(s) associée(s)</th>--->
         <th>Substitut</th>
-    {% for substitute in table_displayed %}
+    {% for substitute in basket_displayed %}
     <tr>
         <td>{{substitute.substitute_name}}</td>
     </tr>
@@ -68,11 +68,11 @@
     </tr>
     <th>Nutriscore</th>
     <tr>
-        <td>{{substitute.substitute_nutriscore}}</td>
+        <td>{{substitute.nutriscore}}</td>
     </tr>
     <th>URL</th>
     <tr>
-        <td>{{substitute.substitute_url}}</td>
+        <td>{{substitute.url}}</td>
     </tr>
     {% endfor %}
 </table>
