@@ -1,5 +1,5 @@
 import ast
-import pickle
+import json
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -100,7 +100,11 @@ def check_substitute(request):
     if request.method == "POST":
         substitute_selected = request.POST.get('substitute_selected')
         print(substitute_selected)
+
         substitute_selected_data = request.POST.get('substitute_selected_data')
+
+        #substitute_selected_data = re.escape(substitute_selected_data)
+        #substitute_selected_data = re.sub('\W+&\'', '', substitute_selected_data)
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
         print(substitute_selected_data)
 
@@ -147,10 +151,14 @@ def display_results(request):
             product_table = ProductInjectorInTable()
             product_table = product_table.inject_product_in_table(products_list, category_table)
 
+            product_list_from_table = ProductInjectorInTable()
+            product_list_from_table = product_list_from_table.retrieve_product_from_table(product_table)
+
             context = {
                 "product_name": searched_product_name,
-                "products": product_table
+                "product_list_from_table": product_list_from_table
             }
+
             return render(request, 'purbeurre_website/display_results.html', context)
 
 
@@ -158,12 +166,13 @@ def display_substitute(request):
     if request.method == "POST":
         product_selected_name = request.POST.get('product_selected_name')
         product_selected_data = request.POST.get('product_selected_data')
+
         product_selected_data = ast.literal_eval(product_selected_data)
         print(product_selected_data)
         print(type(product_selected_data))
 
         category_extracted = CategoriesExtractor()
-        categories_url = category_extracted.extract_categories_url(product_selected_data["product_selected_category"])
+        categories_url = category_extracted.extract_categories_url(product_selected_data["category_name"])
 
         products_list = ProductExtractor()
         products_list = products_list.extract_products(categories_url)
@@ -171,15 +180,18 @@ def display_substitute(request):
         substitute_proposed_list = SubstituteExtractor()
         substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
 
-        #print(substitute_proposed_list)
+        print(substitute_proposed_list)
         substitute_table = SubstituteInjectorInTable()
         substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list)
+
+        substitute_list_from_table = SubstituteInjectorInTable()
+        substitute_list_from_table = substitute_list_from_table.retrieve_substitute_from_table(substitute_table)
 
         context = {
             "product_selected_data": product_selected_data,
             "product_selected_name": product_selected_name,
             "substitute_proposed_list": substitute_proposed_list,
-            "substitute_table": substitute_table
+            "substitute_list_from_table": substitute_list_from_table
         }
 
         return render(request, 'purbeurre_website/display_substitute.html', context)

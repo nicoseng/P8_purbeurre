@@ -22,3 +22,20 @@ class SubstituteInjectorInTable:
             substitute_selected_data.save()
 
         return substitute_table
+
+    @staticmethod
+    def retrieve_substitute_from_table(substitute_table):
+
+        substitute_list_from_table = []
+        for substitute in substitute_table:
+            substitute_dict = {"substitute_id": substitute.substitute_id,
+                               "substitute_name": substitute.substitute_name,
+                               "nutriscore": substitute.substitute_nutriscore,
+                               "substitute_image": substitute.substitute_image,
+                               "url": substitute.substitute_url,
+                               "ingredients": substitute.substitute_ingredients
+                               }
+
+            substitute_list_from_table.append(substitute_dict)
+
+        return substitute_list_from_table

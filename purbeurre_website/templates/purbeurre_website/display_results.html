@@ -59,12 +59,12 @@
 
 <div class="row mx-5 pt-2 px-5">
 
-    {% for product in products %}
+    {% for product in product_list_from_table %}
     <div class="col-auto col-md-4">
         <div class="column">
             <div class="card my-5 mx-5 bg-light border-0" style="width:90">
                     <span class="position-absolute top-0 start-100 translate-middle p-2 rounded-circle">
-                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.product_nutriscore}}.svg"
+                        <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{product.nutriscore}}.svg"
                              width="100">
                     </span>
                 <img src={{product.product_image}} alt="product_image" width="100" class="rounded mx-auto d-block mt-4">
@@ -73,20 +73,15 @@
                     <form method="POST" action="{% url 'display_substitute'%}">
                         {% csrf_token %}
                         <div class="text-center my-2">
-                            <p>{{product.category_key.category_name}}</p>
+                            <p>{{product.category_key}}</p>
+                            <p>{{product.category_name}}</p>
                             <p>{{product.product_id}}</p>
                             <input class="text-center btn btn-success" style="font-size:smaller" type="submit"
                                    id="product_selected"
                                    name="product_selected_name" value="{{product.product_name}}">
+
                             <input type="hidden" name="product_selected_data"
-                                   value="{
-                                   'product_selected_category':'{{product.category_key.category_name}}',
-                                   'product_selected_name':'{{product.product_name}}',
-                                   'product_selected_url':'{{product.product_url}}',
-                                   'product_selected_image':'{{product.product_image}}',
-                                   'product_selected_ingredients':'{{product.product_ingredients}}',
-                                   'product_selected_nutriscore':'{{product.product_nutriscore}}'
-                                   }"><br>
+                                   value="{{product}}"><br>
                         </div>
                     </form>
                 </div>

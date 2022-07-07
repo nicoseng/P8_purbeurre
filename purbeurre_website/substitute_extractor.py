@@ -9,7 +9,7 @@ class SubstituteExtractor:
         available_nutriscore_list = ["a", "b", "c", "d", "e"]
 
         selected_nutriscore_index = \
-            available_nutriscore_list.index(product_selected_data["product_selected_nutriscore"])
+            available_nutriscore_list.index(product_selected_data["nutriscore"])
         best_nutriscore_list = \
             available_nutriscore_list[0:selected_nutriscore_index]
 
@@ -24,8 +24,5 @@ class SubstituteExtractor:
                                      "url": product["url"]}
 
                 substitute_proposed_list.append(best_product_dict)
-
-            # if len(available_best_products_list) == 0:
-            #     print("Cet article possède déjà le meilleur nutriscore possible de la catégorie.")
 
         return substitute_proposed_list
