@@ -13,7 +13,7 @@
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{% url 'check_my_basket' %}"><img
+                <li class="nav-item"><a class="nav-link" href="{% url 'display_my_basket' %}"><img
                         src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits</a></li>
                 {% if user is None %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img

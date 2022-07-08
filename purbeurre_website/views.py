@@ -1,17 +1,14 @@
 import ast
-import json
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from requests import exceptions, get
-from urllib3.util import retry
 
+from .product_injector_in_basket import ProductInjectorInBasket
 from .category_injector_in_table import CategoryInjectorInTable
 from .category_loader import CategoriesLoader
 from .forms import CreateUser
-from .models import Substitute, Basket, Product, Category
 from .product_extractor import ProductExtractor
 from .category_extractor import CategoriesExtractor
 from .product_injector_in_table import ProductInjectorInTable
@@ -38,9 +35,6 @@ def add_product(request):
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
 
-        print(substitute_selected_data)
-        print(type(substitute_selected_data))
-
         context = {"substitute_selected_data": substitute_selected_data}
 
         return render(request, 'purbeurre_website/add_product.html', context)
@@ -50,31 +44,17 @@ def check_my_account(request):
     return render(request, 'purbeurre_website/check_my_account.html')
 
 
-def check_my_basket(request):
+def display_my_basket(request):
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
-        print(substitute_selected_data)
-        # substitute_name = substitute_selected_data["product_name"]
-        # substitute_nutriscore = substitute_selected_data["nutriscore"]
-        # substitute_image = substitute_selected_data["product_image"]
-        # substitute_url = substitute_selected_data["url"]
 
-        substitute_selected_data_table = Basket.objects.all()
+        basket_list = ProductInjectorInBasket()
+        basket_list = basket_list.inject_substitute_in_basket(substitute_selected_data)
+        print(basket_list)
 
-        substitute_selected_data = Basket(
-            substitute_name=substitute_selected_data["substitute_name"],
-            substitute_nutriscore=substitute_selected_data["nutriscore"],
-            substitute_image=substitute_selected_data["substitute_image"],
-            substitute_url=substitute_selected_data["url"]
-        )
-
-        substitute_selected_data.save()
-
-        basket_displayed = Basket.objects.all()
-        context = {"basket_displayed": basket_displayed}
-
-    return render(request, 'purbeurre_website/check_my_basket.html', context)
+    context = {"basket_list": basket_list}
+    return render(request, 'purbeurre_website/display_my_basket.html', context)
 
 
 def check_product(request):
@@ -82,8 +62,6 @@ def check_product(request):
         product_selected_name = request.POST.get('product_selected_name')
         product_selected_data = request.POST.get('product_selected_data')
         product_selected_data = ast.literal_eval(product_selected_data)
-        print(product_selected_data)
-        print(type(product_selected_data))
 
         context = {
             "product_selected_data": product_selected_data,
@@ -158,8 +136,6 @@ def display_substitute(request):
         product_selected_data = request.POST.get('product_selected_data')
 
         product_selected_data = ast.literal_eval(product_selected_data)
-        print(product_selected_data)
-        print(type(product_selected_data))
 
         category_extracted = CategoriesExtractor()
         categories_url = category_extracted.extract_categories_url(product_selected_data["category_name"])
@@ -170,7 +146,6 @@ def display_substitute(request):
         substitute_proposed_list = SubstituteExtractor()
         substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
 
-        print(substitute_proposed_list)
         substitute_table = SubstituteInjectorInTable()
         substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list)
 

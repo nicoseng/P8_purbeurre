@@ -21,7 +21,7 @@
                                                                                   aria-label="rechercher"
                                                                                   aria-describedby="search-addon"/></a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'check_my_basket' %}"><img
+                <li class="nav-item"><a class="nav-link" href="{% url 'display_my_basket' %}"><img
                         src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits</a></li>
                 {% if user is None %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img
@@ -87,7 +87,7 @@
                         </div>
                     </form>
 
-                    <form method="POST" action="{% url 'check_my_basket' %}" id="substitute_form">
+                    <form method="POST" action="{% url 'display_my_basket' %}" id="substitute_form">
                         {% csrf_token %}
                         <div class="text-center my-2">
                             <input type="checkbox" name="substitute_name" value={{substitute.product_name}}>

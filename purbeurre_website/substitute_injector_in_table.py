@@ -1,4 +1,4 @@
-from purbeurre_website.models import Product, Substitute
+from purbeurre_website.models import Substitute
 
 
 class SubstituteInjectorInTable:
