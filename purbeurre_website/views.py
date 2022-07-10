@@ -51,7 +51,6 @@ def display_my_basket(request):
 
         basket_list = ProductInjectorInBasket()
         basket_list = basket_list.inject_substitute_in_basket(substitute_selected_data)
-        print(basket_list)
 
     context = {"basket_list": basket_list}
     return render(request, 'purbeurre_website/display_my_basket.html', context)

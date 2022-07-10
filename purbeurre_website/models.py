@@ -26,6 +26,7 @@ class Product(models.Model):
 
 
 class Basket(models.Model):
+
     class Meta:
         ordering = ['substitute_id']
 
