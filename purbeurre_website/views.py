@@ -44,6 +44,7 @@ def check_my_account(request):
     return render(request, 'purbeurre_website/check_my_account.html')
 
 
+@login_required
 def display_my_basket(request):
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')

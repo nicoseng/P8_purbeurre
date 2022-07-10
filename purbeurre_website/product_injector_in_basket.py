@@ -7,6 +7,7 @@ class ProductInjectorInBasket:
     @staticmethod
     def inject_substitute_in_basket(substitute_selected_data):
         basket_list = Basket.objects.all()
+        Product.objects.filter(customer=request.user)
 
         if Basket.objects.filter(substitute_name=substitute_selected_data["substitute_name"]).exists():
             print("le produit existe déjà dans votre panier.On en va pas l'ajouter")

@@ -1,7 +1,17 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
 # Create your models here.
+
+class Customer(models.Model):
+    class Meta:
+        ordering = ['customer_id']
+
+    customer_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100, default=None)
+    user = models.OneToOneField(User, related_name='userwithCustomer', on_delete=models.CASCADE)
+
 
 class Category(models.Model):
     class Meta:
@@ -31,6 +41,7 @@ class Basket(models.Model):
         ordering = ['substitute_id']
 
     # foreign_key = models.ForeignKey(Substitute, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     substitute_id = models.IntegerField(primary_key=True)
     substitute_name = models.fields.CharField(max_length=100, null=True)
     substitute_image = models.fields.CharField(max_length=100, null=True)

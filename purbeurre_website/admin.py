@@ -1,8 +1,12 @@
 from django.contrib import admin
-from .models import Substitute, Basket, Product, Category
+from .models import Substitute, Basket, Product, Category, Customer
 
 
 # Register your models here.
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('customer_id',
+                    'name',
+                    'user')
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -43,3 +47,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Substitute, SubstituteAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Basket, BasketAdmin)
+admin.site.register(Customer, CustomerAdmin)
