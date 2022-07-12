@@ -180,4 +180,5 @@ def logout_user(request):
 
 
 def delete_product(request):
-    return render(request, 'purbeurre_website/display_results.html')
+
+    return render(request, 'purbeurre_website/display_basket.html')
