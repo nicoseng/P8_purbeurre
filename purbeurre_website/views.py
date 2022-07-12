@@ -30,31 +30,25 @@ def access_login(request):
     return render(request, 'purbeurre_website/access_login.html')
 
 
-def add_product(request):
-    if request.method == "POST":
-        substitute_selected_data = request.POST.get('substitute_selected_data')
-        substitute_selected_data = ast.literal_eval(substitute_selected_data)
-
-        context = {"substitute_selected_data": substitute_selected_data}
-
-        return render(request, 'purbeurre_website/add_product.html', context)
-
-
 def check_my_account(request):
     return render(request, 'purbeurre_website/check_my_account.html')
 
 
-@login_required
 def display_my_basket(request):
+
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')
+        print(type(substitute_selected_data))
+
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        print(type(substitute_selected_data))
+        # print(substitute_selected_data["category_key"])
 
         basket_list = ProductInjectorInBasket()
         basket_list = basket_list.inject_substitute_in_basket(substitute_selected_data)
 
-    context = {"basket_list": basket_list}
-    return render(request, 'purbeurre_website/display_my_basket.html', context)
+        context = {"basket_list": basket_list}
+        return render(request, 'purbeurre_website/display_my_basket.html', context)
 
 
 def check_product(request):
@@ -101,8 +95,7 @@ def display_results(request):
     if request.method == "POST":
         searched_product_name = request.POST.get('searched_product_name')
         searched_product_data = ProductExtractor()
-        searched_products_url = searched_product_data.extract_products_url(searched_product_name)
-
+        searched_products_url = searched_product_data.get_products_url(searched_product_name)
         products_list = searched_product_data.extract_products(searched_products_url)
 
         if len(products_list) == 0:
@@ -134,28 +127,38 @@ def display_substitute(request):
     if request.method == "POST":
         product_selected_name = request.POST.get('product_selected_name')
         product_selected_data = request.POST.get('product_selected_data')
-
         product_selected_data = ast.literal_eval(product_selected_data)
 
+        # We fetch the categories of the product
         category_extracted = CategoriesExtractor()
         categories_url = category_extracted.extract_categories_url(product_selected_data["category_name"])
 
+        # We fetch the products from the relevant categories
         products_list = ProductExtractor()
         products_list = products_list.extract_products(categories_url)
 
+        # From the products list extracted above, we choose adapted substitutes
         substitute_proposed_list = SubstituteExtractor()
         substitute_proposed_list = substitute_proposed_list.get_substitute(products_list, product_selected_data)
+        print(substitute_proposed_list)
+
+        category_list = CategoriesLoader()
+        category_list = category_list.load_categories()
+
+        category_table = CategoryInjectorInTable()
+        category_table = category_table.inject_category_in_table(category_list)
 
         substitute_table = SubstituteInjectorInTable()
-        substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list)
+        substitute_table = substitute_table.inject_substitute_in_table(substitute_proposed_list, category_table)
+        print(substitute_table)
 
         substitute_list_from_table = SubstituteInjectorInTable()
         substitute_list_from_table = substitute_list_from_table.retrieve_substitute_from_table(substitute_table)
+        print(substitute_list_from_table)
 
         context = {
             "product_selected_data": product_selected_data,
             "product_selected_name": product_selected_name,
-            "substitute_proposed_list": substitute_proposed_list,
             "substitute_list_from_table": substitute_list_from_table
         }
 

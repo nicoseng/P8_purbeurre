@@ -4,13 +4,13 @@ from django.db import models
 
 # Create your models here.
 
-class Customer(models.Model):
-    class Meta:
-        ordering = ['customer_id']
-
-    customer_id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100, default=None)
-    user = models.OneToOneField(User, related_name='userwithCustomer', on_delete=models.CASCADE)
+# class Customer(models.Model):
+#     class Meta:
+#         ordering = ['customer_id']
+#
+#     customer_id = models.IntegerField(primary_key=True)
+#     name = models.CharField(max_length=100, default=None)
+#     user = models.OneToOneField(User, related_name='userwithCustomer', on_delete=models.CASCADE)
 
 
 class Category(models.Model):
@@ -35,13 +35,25 @@ class Product(models.Model):
     product_nutriscore = models.fields.CharField(max_length=100)
 
 
+class Substitute(models.Model):
+    class Meta:
+        ordering = ['substitute_id']
+
+    category_key = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    substitute_id = models.IntegerField(primary_key=True)
+    substitute_name = models.fields.CharField(max_length=100, null=True)
+    substitute_image = models.fields.CharField(max_length=100, null=True)
+    substitute_url = models.fields.CharField(max_length=100, null=True)
+    substitute_ingredients = models.fields.CharField(max_length=500, null=True)
+    substitute_nutriscore = models.fields.CharField(max_length=100)
+
+
 class Basket(models.Model):
 
     class Meta:
         ordering = ['substitute_id']
 
-    # foreign_key = models.ForeignKey(Substitute, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    category_key = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     substitute_id = models.IntegerField(primary_key=True)
     substitute_name = models.fields.CharField(max_length=100, null=True)
     substitute_image = models.fields.CharField(max_length=100, null=True)
@@ -50,13 +62,4 @@ class Basket(models.Model):
     substitute_nutriscore = models.fields.CharField(max_length=100)
 
 
-class Substitute(models.Model):
-    class Meta:
-        ordering = ['substitute_id']
 
-    substitute_id = models.IntegerField(primary_key=True)
-    substitute_name = models.fields.CharField(max_length=100, null=True)
-    substitute_image = models.fields.CharField(max_length=100, null=True)
-    substitute_url = models.fields.CharField(max_length=100, null=True)
-    substitute_ingredients = models.fields.CharField(max_length=500, null=True)
-    substitute_nutriscore = models.fields.CharField(max_length=100)

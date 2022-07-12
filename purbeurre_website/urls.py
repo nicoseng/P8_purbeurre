@@ -13,6 +13,6 @@ urlpatterns = [
     path('check_substitute/', views.check_substitute, name='check_substitute'),
     path('display_results/', views.display_results, name='display_results'),
     path('display_substitute/', views.display_substitute, name='display_substitute'),
-    path('add_product/', views.add_product, name='add_product'),
+    # path('add_product/', views.add_product, name='add_product'),
     path('admin/', admin.site.urls),
 ]

@@ -8,7 +8,6 @@ class ProductInjectorInTable:
     def inject_product_in_table(product_list, category_table):
 
         product_table = Product.objects.all()
-        product_table.delete()
 
         for product in product_list:
             for category in category_table:
@@ -33,7 +32,8 @@ class ProductInjectorInTable:
 
         products_list_from_table = []
         for product in product_table:
-            product_dict = {"category_key": product.category_key.category_id,
+            product_dict = {
+                            "category_key": product.category_key.category_id,
                             "category_name": product.category_key.category_name,
                             "product_id": product.product_id,
                             "product_name": product.product_name,

@@ -1,4 +1,4 @@
-from purbeurre_website.models import Basket
+from purbeurre_website.models import Basket, Category
 
 
 class ProductInjectorInBasket:
@@ -7,13 +7,13 @@ class ProductInjectorInBasket:
     @staticmethod
     def inject_substitute_in_basket(substitute_selected_data):
         basket_list = Basket.objects.all()
-        Product.objects.filter(customer=request.user)
 
         if Basket.objects.filter(substitute_name=substitute_selected_data["substitute_name"]).exists():
-            print("le produit existe déjà dans votre panier.On en va pas l'ajouter")
+            print("le produit existe déjà dans votre panier.On ne va pas l'ajouter")
 
         else:
             new_substitute_added = Basket(
+                category_key=Category.objects.get(category_id=substitute_selected_data["category_key"]),
                 substitute_name=substitute_selected_data["substitute_name"],
                 substitute_nutriscore=substitute_selected_data["nutriscore"],
                 substitute_image=substitute_selected_data["substitute_image"],

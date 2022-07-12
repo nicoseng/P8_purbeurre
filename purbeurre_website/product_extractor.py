@@ -1,26 +1,17 @@
 """Internal imports"""
-from math import ceil
-import random
-
 from requests import get, exceptions
-from urllib3.util import retry
 
 
 class ProductExtractor:
 
     @staticmethod
-    def extract_products_url(product_name, retry=3):
+    def get_products_url(product_name, retry=3):
 
         """
         Extracts products URLS from the API OpenFoodFacts(OFF).
         """
 
         products_list_url = []
-        product_name = product_name.split()
-        product_name = "+".join(product_name)
-        product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms=" + str(product_name)
-        product_page_url = get(product_url)
-        product_page_json = product_page_url.json()
         nb_of_page = range(0, 1)
         # nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
         for page in nb_of_page:
@@ -30,13 +21,14 @@ class ProductExtractor:
                 try:
                     product_name = product_name.split()
                     product_name = "+".join(product_name)
-                    product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms=" + str(product_name) + "&page=" + str(page)
+                    product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
+                                  "&search_terms=" + str(product_name) + "&page=" + str(page)
                     products_list_url.append(product_url)
 
                 except exceptions.RequestException:
 
                     if retry <= 0:
-                        return ProductExtractor.extract_products_url(product_name)
+                        return ProductExtractor.get_products_url(product_name)
                 page += 1
 
             return products_list_url
@@ -58,13 +50,12 @@ class ProductExtractor:
                 number = 0
                 page_count = product_page_json["page_count"]
                 while number < page_count:
-
                     product_dict = {"categories": "",
                                     "product_name": "",
                                     "nutriscore": "",
                                     "product_image": "",
                                     "url": "",
-                                    "ingredients":""
+                                    "ingredients": ""
                                     }
 
                     product_category = product_page_json["products"][number]["categories"]
@@ -95,4 +86,3 @@ class ProductExtractor:
                 pass
 
         return products_list
-

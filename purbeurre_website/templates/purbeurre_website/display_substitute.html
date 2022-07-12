@@ -43,14 +43,15 @@
     <div class="container px-4 px-lg-5 h-100">
         <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
             <div class="col-lg-8 align-self-end text-center ">
-                <h2 class="text-black bg-light font-weight-bold">Vous avez choisi le produit suivant : {{product_selected_name}}</h2>
+                <h2 class="text-black bg-light font-weight-bold">Vous avez choisi le produit suivant :
+                    {{product_selected_name}}</h2>
                 <form method="POST" action="{% url 'check_product' %}">
                     {% csrf_token %}
                     <div class="col-sm text-center pt-5 my-2">
                         <input class="btn btn-warning" type="submit" id="fiche_produit" name="fiche_produit"
                                value="Fiche produit">
-                            <input type="hidden" name="product_selected_data"
-                                   value="{{product_selected_data}}"><br>
+                        <input type="hidden" name="product_selected_data"
+                               value="{{product_selected_data}}"><br>
                     </div>
                 </form>
             </div>
@@ -72,13 +73,15 @@
                         <img src="https://static.openfoodfacts.org/images/attributes/nutriscore-{{substitute.nutriscore}}.svg"
                              width="100">
                     </span>
+
                 <img src={{substitute.substitute_image}} alt="product_image" width="100"
                      class="rounded mx-auto d-block mt-4">
                 <div class="card-body">
                     <form method="POST" action="{% url 'check_substitute' %}">
                         {% csrf_token %}
                         <div class="col-sm text-center pt-5 my-2">
-                           <input class="btn btn-success btn-block" type="submit" id="fiche_substitute"
+                            <p>{{substitute.category_key.category_name}}</p>
+                            <input class="btn btn-success btn-block" type="submit" id="fiche_substitute"
                                    name="substitute_selected"
                                    value="{{substitute.substitute_name}}">
 
@@ -91,7 +94,8 @@
                         {% csrf_token %}
                         <div class="text-center my-2">
                             <input type="checkbox" name="substitute_name" value={{substitute.product_name}}>
-                            <input type="hidden" id="substitute_selected_data" name="substitute_selected_data" value="{{substitute}}"><br/>
+                            <input type="hidden" id="substitute_selected_data" name="substitute_selected_data"
+                                   value="{{substitute}}"><br/>
                             <input class="btn btn-warning" type="submit" value="Sauvegarder">
                         </div>
                     </form>
