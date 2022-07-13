@@ -1,9 +1,10 @@
 """Internal imports """
-from requests import get, exceptions
+from requests import exceptions
 
 
 class CategoriesExtractor:
     """To extract categories datas loaded from the API OpenFoodFacts(OFF)."""
+
     @staticmethod
     def extract_categories_url(category_name, retry=3):
         """Extracts a list with each category datas."""
@@ -17,7 +18,6 @@ class CategoriesExtractor:
 
                 try:
 
-                    #category_name = "+".join(category_name)
                     category_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process" \
                                    "&search_simple=1&search_terms=" + str(category_name) + "&page=" + str(page)
                     categories_list_url.append(category_url)

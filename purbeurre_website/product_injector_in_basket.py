@@ -17,7 +17,8 @@ class ProductInjectorInBasket:
                 substitute_name=substitute_selected_data["substitute_name"],
                 substitute_nutriscore=substitute_selected_data["nutriscore"],
                 substitute_image=substitute_selected_data["substitute_image"],
-                substitute_url=substitute_selected_data["url"]
+                substitute_url=substitute_selected_data["url"],
+                substitute_ingredients=substitute_selected_data["ingredients"]
             )
             new_substitute_added.save()
 
@@ -27,3 +28,24 @@ class ProductInjectorInBasket:
 
         basket_list.update()
         return basket_list
+
+    @staticmethod
+    def retrieve_substitute_from_basket(basket_list):
+
+        basket_list_from_table = []
+        for substitute in basket_list:
+            substitute_dict = {
+
+                "category_key": substitute.category_key.category_id,
+                "category_name": substitute.category_key.category_name,
+                "substitute_id": substitute.substitute_id,
+                "substitute_name": substitute.substitute_name,
+                "nutriscore": substitute.substitute_nutriscore,
+                "substitute_image": substitute.substitute_image,
+                "url": substitute.substitute_url,
+                "ingredients": substitute.substitute_ingredients
+            }
+
+            basket_list_from_table.append(substitute_dict)
+
+        return basket_list_from_table

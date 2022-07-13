@@ -36,9 +36,10 @@
 </nav>
 <!-- Masthead-->
 <header class="masthead">
-    <div class="container px-4 px-lg-5 h-100">
-        <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-            <div class="col-lg-8 align-self-end mb-5">
+
+    <div class="container px-lg-5 h-50">
+        <div class="row gx-4 gx-lg-5 h-50 align-items-center justify-content-center text-center">
+            <div class="col-lg-8 align-self-end">
                 <img src="{{product_image}}" width="100" class="my-3">
                 <h1 class="text-white font-weight-bold">Vous avez tapé :<br>{{product_name}}</h1>
             </div>
@@ -49,8 +50,8 @@
 <!-- Section 1-->
 <div class="row gx-4 gx-lg-5 h-40 pt-5 align-items-center justify-content-center text-center">
     <div class="col-lg-8 align-self-end">
-        <h2 class="text-black font-weight-bold">Il y a plusieurs produits correpondant à votre recherche.</h2>
-        <h2>Veuillez en sélectionner un :</h2>
+        <h3 class="text-black font-weight-bold">Il y a plusieurs produits correpondant à votre recherche.</h3>
+        <h3>Veuillez en sélectionner un :</h3>
     </div>
 </div>
 <!-- Fin section 1 -->
@@ -73,9 +74,9 @@
                     <form method="POST" action="{% url 'display_substitute'%}">
                         {% csrf_token %}
                         <div class="text-center my-2">
-                            <p>{{product.category_key}}</p>
-                            <p>{{product.category_name}}</p>
-                            <p>{{product.product_id}}</p>
+                            <!--                            <p>Clé catégorie: {{product.category_key}}</p>-->
+                            <h5>Catégorie : {{product.category_name}}</h5>
+                            <!--                            <h6>Numéro id du produit: {{product.product_id}}</h6>-->
                             <input class="text-center btn btn-success" style="font-size:smaller" type="submit"
                                    id="product_selected"
                                    name="product_selected_name" value="{{product.product_name}}">

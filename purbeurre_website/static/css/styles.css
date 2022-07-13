@@ -11394,7 +11394,7 @@ header.masthead h1, header.masthead .h1 {
 @media (min-width: 992px) {
   header.masthead {
     height: 100vh;
-    min-height: 40rem;
+    min-height: 4rem;
     padding-top: 4.5rem;
     padding-bottom: 0;
   }
@@ -11448,9 +11448,3 @@ header.masthead h1, header.masthead .h1 {
 }
 
 
-body {
-  background: #eecda3;
-  background: -webkit-linear-gradient(to right, #eecda3, #ef629f);
-  background: linear-gradient(to right, #eecda3, #ef629f);
-  min-height: 100vh;
-}

@@ -7,6 +7,7 @@ class CategoriesLoader:
     """
     Loads categories of products from the API OpenFoodFacts(OFF).
     """
+
     @staticmethod
     def load_categories(retry=3):
         """
@@ -33,8 +34,8 @@ class CategoriesLoader:
             # We chose to fetch 10 categories for example
             for category in categories_url_json["tags"][:10]:
                 category_dict = {
-                                "category_name": category["name"],
-                                "category_url": category["url"]
+                    "category_name": category["name"],
+                    "category_url": category["url"]
                 }
                 categories_loaded_list.append(category_dict)
 

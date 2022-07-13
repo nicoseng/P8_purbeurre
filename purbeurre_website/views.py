@@ -38,16 +38,17 @@ def display_my_basket(request):
 
     if request.method == "POST":
         substitute_selected_data = request.POST.get('substitute_selected_data')
-        print(type(substitute_selected_data))
-
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
-        print(type(substitute_selected_data))
-        # print(substitute_selected_data["category_key"])
 
         basket_list = ProductInjectorInBasket()
         basket_list = basket_list.inject_substitute_in_basket(substitute_selected_data)
 
-        context = {"basket_list": basket_list}
+        basket_list_from_table = ProductInjectorInBasket()
+        basket_list_from_table = basket_list_from_table.retrieve_substitute_from_basket(basket_list)
+
+        print(basket_list_from_table)
+
+        context = {"basket_list_from_table": basket_list_from_table}
         return render(request, 'purbeurre_website/display_my_basket.html', context)
 
 
