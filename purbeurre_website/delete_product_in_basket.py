@@ -5,12 +5,10 @@ class ProductEraserInBasket:
     """To inject products datas in basket table """
 
     @staticmethod
-    def delete_substitute_in_basket(basket_list):
+    def delete_substitute_in_basket(substitute_selected_data):
         basket_list = Basket.objects.all()
-        instance = Basket.objects.get(substitute_id=id)
-        instance.delete()
-
-
+        delete_row = Basket.objects.get(substitute_id=substitute_selected_data["substitute_id"])
+        delete_row.delete()
 
         basket_list.update()
         return basket_list

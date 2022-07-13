@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from .delete_product_in_basket import ProductEraserInBasket
 from .product_injector_in_basket import ProductInjectorInBasket
 from .category_injector_in_table import CategoryInjectorInTable
 from .category_loader import CategoriesLoader
@@ -182,4 +183,17 @@ def logout_user(request):
 
 def delete_product(request):
 
-    return render(request, 'purbeurre_website/display_basket.html')
+    if request.method == "POST":
+        substitute_selected_data = request.POST.get('substitute_selected_data')
+        substitute_selected_data = ast.literal_eval(substitute_selected_data)
+
+        basket_list = ProductEraserInBasket()
+        basket_list = basket_list.delete_substitute_in_basket(substitute_selected_data)
+
+        basket_list_from_table = ProductInjectorInBasket()
+        basket_list_from_table = basket_list_from_table.retrieve_substitute_from_basket(basket_list)
+
+        print(basket_list_from_table)
+        # messages.info(request, "Il n'y a pas de produit correspondant à votre recherche.")
+    # return redirect('display_my_basket')
+    return render(request, 'purbeurre_website/display_my_basket.html')

@@ -30,46 +30,55 @@
                             <thead>
                             <tr>
                                 <th scope="col" class="border-0 bg-light">
-                                    <div class="p-2 px-3 text-uppercase">Product</div>
+                                    <div class="p-2 px-3 text-uppercase">Nom du produit</div>
                                 </th>
-                                <th scope="col" class="border-0 bg-light">
+                                <th scope="col" class="border-0 bg-light align-middle text-center ">
                                     <div class="p-2 px-3 text-uppercase">Nutriscore</div>
                                 </th>
-                                <th scope="col" class="border-0 bg-light">
-                                    <div class="p-2 px-3 text-uppercase">Name</div>
-                                </th>
-                                <th scope="col" class="border-0 bg-light">
+                                <th scope="col" class="border-0 bg-light align-middle text-center ">
                                     <div class="py-2 text-uppercase">Remove</div>
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
-
                             {% for substitute in basket_list_from_table %}
                             <tr>
                                 <th scope="row">
                                     <div class="p-2">
-                                        <img src={{substitute.substitute_image}} alt="product_image" width="100"><br>
+                                        <img src={{substitute.substitute_image}} alt="product_image" width="80"><br>
                                         <div class="ml-3 d-inline-block align-middle">
                                             <form method="POST" action="{% url 'check_substitute' %}">
                                                 {% csrf_token %}
-                                                <input class="text-dark d-inline-block" type="submit"
+                                                <input class="text-dark d-inline-block mt-3" type="submit"
                                                        id="fiche_substitute"
                                                        name="substitute_selected"
                                                        value="{{substitute.substitute_name}}">
-
                                                 <input type="hidden" name="substitute_selected_data"
                                                        value="{{substitute}}"><br>
-                                                <span class="text-muted font-weight-normal font-italic">Catégorie:{{substitute.category_key.category_name}}</span>
+                                                <span class="text-muted font-weight-normal font-italic align-middle text-center">Catégorie:{{substitute.category_name}}</span>
                                             </form>
-
                                         </div>
                                     </div>
-                                <td class="align-middle"><a href="{% url 'delete_product' %}" class="text-dark"><i
-                                        class="fa fa-trash"></i></a>
-                                    <input type="hidden" name="substitute_selected_data"
-                                           value="{{substitute}}"><br>
+                                    <!--                                <td class="align-middle"><a href="{% url 'delete_product' %}" class="text-dark"><i-->
+                                    <!--                                        class="fa fa-trash"></i></a>-->
+                                    <!--                                    <input type="hidden" name="substitute_selected_data"-->
+                                    <!--                                           value="{{substitute}}"><br>-->
+                                    <!--                                </td>-->
+                                </th>
+                                </th>
+                                <td class="align-middle text-center"><strong>{{substitute.nutriscore}}</strong></td>
+                                <td class="align-middle">
+                                    <form method="POST" action="{% url 'delete_product' %}">
+                                        {% csrf_token %}
+                                        <input class="text-white d-inline-block btn btn-danger align-middle text-center"
+                                               type="submit"
+                                               name="supprimer_produit"
+                                               value="Supprimer">
+                                        <input type="hidden" name="substitute_selected_data"
+                                               value="{{substitute}}"><br>
+                                </form>
                                 </td>
+
                                 {% endfor %}
                             </tr>
                             </tbody>
