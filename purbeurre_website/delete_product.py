@@ -1,4 +1,4 @@
-from purbeurre_website.models import Basket
+# from purbeurre_website.models import Basket
 
 
 class ProductEraserInBasket:

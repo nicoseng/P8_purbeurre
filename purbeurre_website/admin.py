@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Substitute, Basket, Product, Category
+from .models import Category, Product
 
 
 # Register your models here.
-# class CustomerAdmin(admin.ModelAdmin):
-#     list_display = ('customer_id',
-#                     'name',
-#                     'user')
+# class UserAdmin(admin.ModelAdmin):
+#     list_display = ('user_id',
+#                     'username',
+#                     )
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -15,29 +15,14 @@ class CategoryAdmin(admin.ModelAdmin):
                     'category_url')
 
 
-class BasketAdmin(admin.ModelAdmin):
-    list_display = ('category_key',
-                    'substitute_id',
-                    'substitute_name',
-                    'substitute_nutriscore',
-                    'substitute_image',
-                    'substitute_ingredients',
-                    'substitute_url'
-                    )
-
-
-class SubstituteAdmin(admin.ModelAdmin):
-    list_display = ('category_key',
-                    'substitute_id',
-                    'substitute_name',
-                    'substitute_nutriscore',
-                    'substitute_image',
-                    'substitute_ingredients',
-                    'substitute_url')
+# class FavouriteAdmin(admin.ModelAdmin):
+#     list_display = ('user_id',
+#                     'product_id'
+#                     )
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('category_key',
+    list_display = ('category_id',
                     'product_id',
                     'product_name',
                     'product_nutriscore',
@@ -47,7 +32,6 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Substitute, SubstituteAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Basket, BasketAdmin)
-# admin.site.register(Customer, CustomerAdmin)
+# admin.site.register(Favourite, FavouriteAdmin)
+# admin.site.register(User, UserAdmin)

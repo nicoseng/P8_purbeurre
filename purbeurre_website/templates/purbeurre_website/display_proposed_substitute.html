@@ -3,40 +3,7 @@
 {% block content %}
 {% load static %}
 <body id="page-top" xmlns="http://www.w3.org/1999/html">
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-    <div class="container px-4 px-lg-5">
 
-
-        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/pur_beurre_logo.png' %}"
-                                                             alt="pur_beurre_logo">Pur Beurre</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#recherche"><input type="search"
-                                                                                  class="form-control rounded"
-                                                                                  placeholder="Recherche"
-                                                                                  aria-label="rechercher"
-                                                                                  aria-describedby="search-addon"/></a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'display_favourite' %}"><img
-                        src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits</a></li>
-                {% if user is None %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img
-                        src="{% static 'images/create_account.png' %}" alt="create_account_icon">Se connecter</a></li>
-                {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'display_user_account' %}"><img
-                        src="{% static 'images/my_account.png' %}" alt="my_account_icon">{{user.username}}</a></li>
-                {% endif %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><img
-                        src="{% static 'images/logout.png' %}" alt="logout_icon">Se déconnecter</a></li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
 <!-- Masthead-->
 
 <header class="masthead" style="background-image:url('{{product_selected_data.product_image}}')">
@@ -44,14 +11,14 @@
         <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
             <div class="col-lg-8 align-self-end text-center ">
                 <h2 class="text-black bg-light font-weight-bold">Vous avez choisi le produit suivant :
-                    {{product_selected_name}}</h2>
-                <form method="POST" action="{% url 'check_product' %}">
+                    {{product_selected_data.product_name}}</h2>
+                <form method="POST" action="{% url 'display_product_data' %}">
                     {% csrf_token %}
                     <div class="col-sm text-center pt-5 my-2">
                         <input class="btn btn-warning" type="submit" id="fiche_produit" name="fiche_produit"
                                value="Fiche produit">
-                        <input type="hidden" name="product_selected_data"
-                               value="{{product_selected_data}}"><br>
+                        <input type="hidden" name="product_selected_id"
+                               value="{{product_selected_data.product_id}}"><br>
                     </div>
                 </form>
             </div>
@@ -63,9 +30,8 @@
     </div>
 </header>
 <div class="row mx-5 pt-2 px-5">
-    <h1 class="text-center">Vous pouvez remplacer cet aliment par :</h1>
-
-    {% for substitute in substitute_list_from_table %}
+    <h1 class="text-center">Vous pouvez remplacer "{{product_selected_data.product_name}}" par :</h1>
+    {% for substitute in substitute_list %}
     <div class="col-auto col-md-4">
         <div class="column">
             <div class="card my-5 mx-5 bg-light border-0" style="width:90">
@@ -74,31 +40,25 @@
                              width="100">
                     </span>
 
-                <img src={{substitute.substitute_image}} alt="product_image" width="100"
+                <img src={{substitute.product_image}} alt="product_image" width="100"
                      class="rounded mx-auto d-block mt-4">
                 <div class="card-body">
-                    <form method="POST" action="{% url 'check_substitute' %}">
+                    <form method="POST" action="{% url 'display_substitute_data' %}">
                         {% csrf_token %}
-                        <div class="col-sm text-center pt-5 my-2">
-                            <p>{{substitute.category_key.category_name}}</p>
-                            <input class="btn btn-success btn-block" type="submit" id="fiche_substitute"
-                                   name="substitute_selected"
-                                   value="{{substitute.substitute_name}}">
-
+                        <div class="col-sm text-center pt-1 my-2">
+                            <input class="btn btn-success btn-block" type="submit"
+                                   name="substitute_selected_name"
+                                   value="{{substitute.product_name}}">
                             <input type="hidden" name="substitute_selected_data"
-                                   value="{{substitute.substitute_id}}"><br>
+                                   value="{{substitute}}"><br>
                         </div>
                     </form>
-
                     <form method="POST" action="{% url 'display_favourite' %}" id="substitute_form">
                         {% csrf_token %}
                         <div class="text-center my-2">
-                            <input type="checkbox" name="substitute_selected_data" value="{{substitute}}" checked>
-
-                            <!--                            <input type="checkbox" name="substitute_name" value="{{substitute.product_name}}" checked>-->
-                            <input type="hidden" id="substitute_selected_data_1" name="substitute_selected_data_1"
-                                   value="{{substitute}}"><br/>
                             <input class="btn btn-warning " type="submit" value="Sauvegarder">
+                            <input type="hidden" name="substitute_selected_data"
+                                   value="{{substitute}}"><br>
                         </div>
                     </form>
                 </div>

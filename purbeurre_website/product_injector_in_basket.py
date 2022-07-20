@@ -1,4 +1,4 @@
-from purbeurre_website.models import Basket, Category
+from purbeurre_website.models import Category
 
 
 class ProductInjectorInBasket:

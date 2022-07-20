@@ -11447,4 +11447,7 @@ header.masthead h1, header.masthead .h1 {
   opacity: 1;
 }
 
-
+@media screen and (max-width: 1280px)
+{
+    /* Rédigez vos propriétés CSS ici */
+}

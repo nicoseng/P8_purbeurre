@@ -22,20 +22,28 @@
     <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container px-4 px-lg-5">
-
-
                 <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/pur_beurre_logo.png' %}" alt="pur_beurre_logo">Pur Beurre</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'display_favourite' %}"><img src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits favoris</a></li>
+                        <li>
+                            <form method="POST" action="{% url 'display_searched_results' %}">
+                                {% csrf_token %}
+                                <div class="input-group" id="recherche">
+                                    <input type="search" class="form-control rounded" name="searched_product_name"
+                                           placeholder="Tapez ici le nom de votre produit"
+                                           aria-label="rechercher" aria-describedby="search-addon" required/>
+                                    <input class="btn btn-warning" type="submit" name="Chercher" value="Chercher">
+                                </div>
+                            </form>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'display_favourite' %}"><img src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes favoris</a></li>
                         {% if user is None %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'images/create_account.png' %}" alt="create_account_icon">Se connecter</a></li>
                         {% else %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'display_user_account' %}"><img src="{% static 'images/my_account.png' %}" alt="my_account_icon">{{user.username}}</a></li>
                         {% endif %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><img src="{% static 'images/logout.png' %}" alt="logout_icon">Se déconnecter</a></li>
-
                     </ul>
                 </div>
             </div>

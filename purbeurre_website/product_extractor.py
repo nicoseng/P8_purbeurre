@@ -13,7 +13,6 @@ class ProductExtractor:
 
         products_list_url = []
         nb_of_page = range(0, 1)
-        # nb_of_page = range(ceil(product_page_json["count"]/product_page_json["page_size"]))
         for page in nb_of_page:
 
             while page <= len(nb_of_page):
