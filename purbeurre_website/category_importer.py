@@ -1,10 +1,5 @@
 """Internal imports"""
-
-# from category_extractor import CategoryExtractor
-from typing import List, Any
-
 from requests import get, exceptions
-
 from purbeurre_website.models import Category
 
 

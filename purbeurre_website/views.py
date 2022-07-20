@@ -7,11 +7,9 @@ from django.shortcuts import render, redirect
 
 from .delete_product_in_basket import ProductEraserInBasket
 from .product_injector_in_basket import ProductInjectorInBasket
-from .category_injector_in_table import CategoryInjectorInTable
-from .category_loader import CategoryImporter
+from .category_importer import CategoryImporter
 from .forms import CreateUser
 from .product_extractor import ProductExtractor
-from .category_extractor import CategoriesExtractor
 from .product_injector_in_table import ProductInjectorInTable
 from .substitute_extractor import SubstituteExtractor
 from .substitute_injector_in_table import SubstituteInjectorInTable

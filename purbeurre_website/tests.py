@@ -4,7 +4,7 @@ from django.test import TestCase
 from requests import get, exceptions
 from urllib3.util import retry
 
-from purbeurre_website.category_loader import CategoriesLoader
+from purbeurre_website.category_importer import CategoriesLoader
 
 
 def load_categories():
