@@ -80,7 +80,7 @@ class CategoryImporter:
                     except exceptions.RequestException:
     
                         if retry <= 0:
-                            return CategoryImporter.extract_category_url(self, category_list)
+                            return CategoryImporter.paginate_category_url(self, category_list)
                     page += 1
 
         return self.category_url_list
