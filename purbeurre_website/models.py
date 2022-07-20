@@ -46,7 +46,7 @@ class Substitute(models.Model):
     substitute_url = models.fields.CharField(max_length=100, null=True)
     substitute_ingredients = models.fields.CharField(max_length=500, null=True)
     substitute_nutriscore = models.fields.CharField(max_length=100)
-
+    # créer u
 
 class Basket(models.Model):
 

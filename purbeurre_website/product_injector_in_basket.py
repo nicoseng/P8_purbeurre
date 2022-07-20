@@ -12,19 +12,20 @@ class ProductInjectorInBasket:
             print("le produit existe déjà dans votre panier.On ne va pas l'ajouter")
 
         else:
-            new_substitute_added = Basket(
-                category_key=Category.objects.get(category_id=substitute_selected_data["category_key"]),
-                substitute_name=substitute_selected_data["substitute_name"],
-                substitute_nutriscore=substitute_selected_data["nutriscore"],
-                substitute_image=substitute_selected_data["substitute_image"],
-                substitute_url=substitute_selected_data["url"],
-                substitute_ingredients=substitute_selected_data["ingredients"]
-            )
-            new_substitute_added.save()
+            for substitute in substitute_selected_data:
+                new_substitute_added = Basket(
+                    category_key=Category.objects.get(category_id=substitute["category_key"]),
+                    substitute_name=substitute["substitute_name"],
+                    substitute_nutriscore=substitute["nutriscore"],
+                    substitute_image=substitute["substitute_image"],
+                    substitute_url=substitute["url"],
+                    substitute_ingredients=substitute["ingredients"]
+                )
+                new_substitute_added.save()
 
-            print(new_substitute_added.substitute_name)
-            print(substitute_selected_data["substitute_name"])
-            print("Produit bien ajouté dans votre panier.")
+                print(new_substitute_added.substitute_name)
+                print(substitute_selected_data["substitute_name"])
+                print("Produit bien ajouté dans votre panier.")
 
         basket_list.update()
         return basket_list
