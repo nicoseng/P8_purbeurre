@@ -151,7 +151,7 @@ def delete_product(request):
         print(type(substitute_selected_id))
 
         substitute_deleted = ProductEliminator()
-        substitute_deleted = substitute_deleted.delete_substitute(substitute_selected_id)
+        favourite_database = substitute_deleted.delete_substitute(substitute_selected_id)
         print(substitute_deleted)
-
-    return render(request, 'purbeurre_website/display_favourite.html')
+        context = {"favourite_database": favourite_database}
+    return render(request, 'purbeurre_website/display_favourite.html', context)
