@@ -147,11 +147,8 @@ def logout_user(request):
 def delete_product(request):
     if request.method == "POST":
         substitute_selected_id = request.POST.get('substitute_selected_id')
-        print(substitute_selected_id)
-        print(type(substitute_selected_id))
-
         substitute_deleted = ProductEliminator()
         favourite_database = substitute_deleted.delete_substitute(substitute_selected_id)
-        print(substitute_deleted)
         context = {"favourite_database": favourite_database}
+
     return render(request, 'purbeurre_website/display_favourite.html', context)
