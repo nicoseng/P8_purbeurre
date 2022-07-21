@@ -1,14 +1,15 @@
 # from purbeurre_website.models import Basket
+from purbeurre_website.models import Favourite
 
 
-class ProductEraserInBasket:
-    """To inject products datas in basket table """
+class ProductEliminator:
+    """Eliminates products datas in Favourite database"""
 
     @staticmethod
-    def delete_substitute_in_basket(substitute_selected_data):
-        basket_list = Basket.objects.all()
-        delete_row = Basket.objects.get(substitute_id=substitute_selected_data["substitute_id"])
-        delete_row.delete()
+    def delete_substitute(substitute_selected_id):
+        favourite_database = Favourite.objects.all()
+        substitute_selected_data = Favourite.objects.get(substitute_id=substitute_selected_id)
+        substitute_selected_data.delete()
 
-        basket_list.update()
-        return basket_list
+        favourite_database.update()
+        return favourite_database

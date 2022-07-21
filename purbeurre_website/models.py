@@ -4,12 +4,12 @@ from django.db import models
 
 # Create your models here.
 
-# class User(models.Model):
-#     class Meta:
-#         ordering = ['user_id']
-#
-#     user_id = models.IntegerField(primary_key=True)
-#     username = models.CharField(max_length=100, default=None)
+class User(models.Model):
+    class Meta:
+        ordering = ['user_id']
+
+    user_id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=100, default=None)
 
 
 class Category(models.Model):
@@ -34,15 +34,15 @@ class Product(models.Model):
     product_nutriscore = models.fields.CharField(max_length=100)
 
 
-# class Favourite(models.Model):
-#
-#     class Meta:
-#         ordering = ['product_id']
-#
-#     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-#     product_id = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+class Favourite(models.Model):
 
+    class Meta:
+        ordering = ['substitute_id']
 
-
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    substitute_id = models.AutoField(primary_key=True)
+    substitute_name = models.fields.CharField(max_length=100, null=True)
+    substitute_image = models.fields.CharField(max_length=100, null=True)
+    substitute_nutriscore = models.fields.CharField(max_length=100)
 
 

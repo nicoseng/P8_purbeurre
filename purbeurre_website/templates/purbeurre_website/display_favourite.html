@@ -3,7 +3,9 @@
 {% block content %}
 {% load static %}
 <body id="page-top" xmlns="http://www.w3.org/1999/html">
-
+<!--{% for message in messages %}-->
+<!--    <h3 class="text-white">{{message}}</h3>-->
+<!--{% endfor %}-->
     <div class="pb-5">
         <div class="container">
             <div class="row">
@@ -18,6 +20,9 @@
                             <thead>
                             <tr>
                                 <th scope="col" class="border-0 bg-light">
+                                    <div class="p-2 px-3 text-uppercase">Image du produit</div>
+                                </th>
+                                <th scope="col" class="border-0 bg-light">
                                     <div class="p-2 px-3 text-uppercase">Nom du produit</div>
                                 </th>
                                 <th scope="col" class="border-0 bg-light align-middle text-center ">
@@ -29,32 +34,20 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for substitute in basket_list_from_table %}
+                            {% for substitute in favourite_database %}
                             <tr>
                                 <th scope="row">
                                     <div class="p-2">
                                         <img src={{substitute.substitute_image}} alt="product_image" width="80"><br>
-                                        <div class="ml-3 d-inline-block align-middle">
-                                            <form method="POST" action="{% url 'display_substitute_data' %}">
-                                                {% csrf_token %}
-                                                <input class="text-dark d-inline-block mt-3" type="submit"
-                                                       id="fiche_substitute"
-                                                       name="substitute_selected"
-                                                       value="{{substitute.substitute_name}}">
-                                                <input type="hidden" name="substitute_selected_data"
-                                                       value="{{substitute}}"><br>
-                                                <span class="text-muted font-weight-normal font-italic align-middle text-center">Catégorie:{{substitute.category_name}}</span>
-                                            </form>
-                                        </div>
                                     </div>
-                                    <!--                                <td class="align-middle"><a href="{% url 'delete_product' %}" class="text-dark"><i-->
-                                    <!--                                        class="fa fa-trash"></i></a>-->
-                                    <!--                                    <input type="hidden" name="substitute_selected_data"-->
-                                    <!--                                           value="{{substitute}}"><br>-->
-                                    <!--                                </td>-->
                                 </th>
+                                <th scope="row">
+                                    <div class="p-2 text-center">
+                                            {{substitute.substitute_name}}
+                                        </div>
+
                                 </th>
-                                <td class="align-middle text-center"><strong>{{substitute.nutriscore}}</strong></td>
+                                <td class="align-middle text-center"><strong>{{substitute.substitute_nutriscore}}</strong></td>
                                 <td class="align-middle">
                                     <form method="POST" action="{% url 'delete_product' %}">
                                         {% csrf_token %}
@@ -62,8 +55,8 @@
                                                type="submit"
                                                name="supprimer_produit"
                                                value="Supprimer">
-                                        <input type="hidden" name="substitute_selected_data"
-                                               value="{{substitute}}"><br>
+                                        <input type="hidden" name="substitute_selected_id"
+                                               value="{{substitute.substitute_id}}"><br>
                                 </form>
                                 </td>
 
@@ -81,40 +74,7 @@
 </div>
 
 
-<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-    <div class="container px-4 px-lg-5">
 
-
-        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/pur_beurre_logo.png' %}"
-                                                             alt="pur_beurre_logo">Pur Beurre</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#recherche"><input type="search"
-                                                                                  class="form-control rounded"
-                                                                                  placeholder="Recherche"
-                                                                                  aria-label="rechercher"
-                                                                                  aria-describedby="search-addon"/></a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'display_my_basket' %}"><img
-                        src="{% static 'images/carrot.png' %}" alt="carrot_icon">Mes produits</a></li>
-                {% if user is None %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><img
-                        src="{% static 'images/create_account.png' %}" alt="create_account_icon">Se connecter</a></li>
-                {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'check_my_account' %}"><img
-                        src="{% static 'images/my_account.png' %}" alt="my_account_icon">{{user.username}}</a></li>
-                {% endif %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><img
-                        src="{% static 'images/logout.png' %}" alt="logout_icon">Se déconnecter</a></li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
-<!-- Masthead-->
 <!-- Contact-->
 <section class="page-section" id="contact">
     <div class="container px-4 px-lg-5">

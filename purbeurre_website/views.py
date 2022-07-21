@@ -5,11 +5,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .delete_product import ProductEraserInBasket
 from .product_importer import ProductImporter
-from .product_injector_in_basket import ProductInjectorInBasket
 from .category_importer import CategoryImporter
 from .forms import CreateUser
+from .substitute_in_favourite import SubstituteInFavourite
+from .delete_product import ProductEliminator
 
 
 def access_login(request):
@@ -45,37 +45,19 @@ def display_user_account(request):
 
 
 def display_favourite(request):
-
     if request.method == "POST":
+
         substitute_selected_data = request.POST.get('substitute_selected_data')
-        for substitute in substitute_selected_data:
-            print(substitute)
-        substitute_selected_data = request.POST.get('substitute_selected_data')
-        print(type(substitute_selected_data))
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
 
-        print(type(substitute_selected_data))
-        print("---------Voici vos produits sélectionnés----------")
-        print(substitute_selected_data)
-        print("---------Fin des produits sélectionnés----------")
+        favourite_imported = SubstituteInFavourite()
+        favourite_database = favourite_imported.inject_substitute_in_favourite(substitute_selected_data)
 
-        basket_list = ProductInjectorInBasket()
-        basket_list = basket_list.inject_substitute_in_basket(substitute_selected_data)
-
-        basket_list_from_table = ProductInjectorInBasket()
-        basket_list_from_table = basket_list_from_table.retrieve_substitute_from_basket(basket_list)
-
-        print(basket_list_from_table)
-
-    else:
-        print("Il n'y a rien dans vos favoris.")
-
-    context = {"basket_list_from_table": basket_list_from_table}
-    return render(request, 'purbeurre_website/display_favourite.html', context)
+        context = {"favourite_database": favourite_database}
+        return render(request, 'purbeurre_website/display_favourite.html', context)
 
 
 def display_product_data(request):
-
     if request.method == "POST":
         product_selected_id = request.POST.get('product_selected_id')
 
@@ -100,7 +82,6 @@ def display_substitute_data(request):
 
 
 def display_searched_results(request):
-
     category_imported = CategoryImporter()
     category_list = category_imported.load_category()
     category_database = category_imported.inject_category_in_database(category_list)
@@ -120,8 +101,8 @@ def display_searched_results(request):
             return redirect('home')
 
         context = {
-                "searched_product_name": searched_product_name,
-                "product_database": product_database}
+            "searched_product_name": searched_product_name,
+            "product_database": product_database}
 
         return render(request, 'purbeurre_website/display_searched_results.html', context)
 
@@ -152,15 +133,9 @@ def display_proposed_substitute(request):
         }
         return render(request, 'purbeurre_website/display_proposed_substitute.html', context)
 
-    #
-    # else:
-    #     messages.info(request, "Il n'y a pas de substitut(s) disponible(s).")
-    #     return render(request, 'purbeurre_website/display_proposed_substitute.html', messages)
-
 
 @login_required(login_url='login')
 def home(request):
-
     return render(request, 'purbeurre_website/home.html')
 
 
@@ -170,18 +145,13 @@ def logout_user(request):
 
 
 def delete_product(request):
-
     if request.method == "POST":
-        substitute_selected_data = request.POST.get('substitute_selected_data')
-        substitute_selected_data = ast.literal_eval(substitute_selected_data)
+        substitute_selected_id = request.POST.get('substitute_selected_id')
+        print(substitute_selected_id)
+        print(type(substitute_selected_id))
 
-        basket_list = ProductEraserInBasket()
-        basket_list = basket_list.delete_substitute_in_basket(substitute_selected_data)
+        substitute_deleted = ProductEliminator()
+        substitute_deleted = substitute_deleted.delete_substitute(substitute_selected_id)
+        print(substitute_deleted)
 
-        basket_list_from_table = ProductInjectorInBasket()
-        basket_list_from_table = basket_list_from_table.retrieve_substitute_from_basket(basket_list)
-
-        print(basket_list_from_table)
-        # messages.info(request, "Il n'y a pas de produit correspondant à votre recherche.")
-    # return redirect('display_my_basket')
     return render(request, 'purbeurre_website/display_favourite.html')
