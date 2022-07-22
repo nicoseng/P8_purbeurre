@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Category, Product, Favourite, User
+from .models import Category, Product, Favourite
 
 
 # Register your models here.
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('user_id',
-                    'username',
-                    )
+# class UserAdmin(admin.ModelAdmin):
+#     list_display = ('user_id',
+#                     'username',
+#                     )
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -37,4 +37,4 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Favourite, FavouriteAdmin)
-admin.site.register(User, UserAdmin)
+# admin.site.register(User, UserAdmin)

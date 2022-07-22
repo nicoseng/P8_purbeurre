@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from .models import Category
 from .product_importer import ProductImporter
 from .category_importer import CategoryImporter
 from .forms import CreateUser
@@ -45,13 +46,18 @@ def display_user_account(request):
 
 
 def display_favourite(request):
+    current_user = request.user
+    user_id = current_user.id
+    print(user_id)
+    print(type(user_id))
+
     if request.method == "POST":
 
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
 
-        favourite_imported = SubstituteInFavourite()
-        favourite_database = favourite_imported.inject_substitute_in_favourite(substitute_selected_data)
+        favourite_database = SubstituteInFavourite()
+        favourite_database = favourite_database.inject_substitute_in_favourite(substitute_selected_data, user_id)
 
         context = {"favourite_database": favourite_database}
         return render(request, 'purbeurre_website/display_favourite.html', context)
@@ -82,10 +88,8 @@ def display_substitute_data(request):
 
 
 def display_searched_results(request):
-    category_imported = CategoryImporter()
-    category_list = category_imported.load_category()
-    category_database = category_imported.inject_category_in_database(category_list)
-    category_imported.paginate_category_url(category_list)
+
+    category_database = Category.objects.all()
 
     if request.method == "POST":
         searched_product_name = request.POST.get('searched_product_name')
@@ -136,6 +140,9 @@ def display_proposed_substitute(request):
 
 @login_required(login_url='login')
 def home(request):
+    current_user = request.user
+    user_id = current_user.id
+    print(user_id)
     return render(request, 'purbeurre_website/home.html')
 
 
@@ -149,6 +156,6 @@ def delete_product(request):
         substitute_selected_id = request.POST.get('substitute_selected_id')
         substitute_deleted = ProductEliminator()
         favourite_database = substitute_deleted.delete_substitute(substitute_selected_id)
-        context = {"favourite_database": favourite_database}
 
-    return render(request, 'purbeurre_website/display_favourite.html', context)
+        context = {"favourite_database": favourite_database}
+        return render(request, 'purbeurre_website/display_favourite.html', context)
