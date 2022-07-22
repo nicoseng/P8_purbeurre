@@ -6,7 +6,7 @@ from django.db import models
 
 
 class Category(models.Model):
-    DoesNotExist = True
+    DoesExist = True
 
     class Meta:
         ordering = ['category_id']
