@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-f!me*y-f52^)vdjz8&5lngvlabko(tj#e=tz--(33uhtj5=qr%
 DEBUG = False if os.environ.get("ENV", "development") == "production" else True
 
 # ALLOWED_HOSTS = ["127.0.0.1"]
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["purbeurre-website.herokuapp.com"]
 
 
 # Application definition
