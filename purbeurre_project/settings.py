@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'purbeurre_db',
         'USER': 'postgres',
         'PASSWORD': 'a8ln17',
-        'PORT': '5434',
+        'PORT': '5432',
     }
 }
 
