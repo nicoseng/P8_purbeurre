@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-f!me*y-f52^)vdjz8&5lngvlabko(tj#e=tz--(33uhtj5=qr%
 # DEBUG = True
 DEBUG = False if os.environ.get("ENV", "development") == "production" else True
 
-# ALLOWED_HOSTS = ["127.0.0.1"]
-ALLOWED_HOSTS = ["purbeurre-website.herokuapp.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "purbeurre-website.herokuapp.com"]
+# ALLOWED_HOSTS = ["purbeurre-website.herokuapp.com"]
 
 
 # Application definition
@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd9c2o07osucgdl',
-        'USER': 'fkaxmioupwjozl',
-        'PASSWORD': 'cfc04da737ac71b565437a05e84bc1ab7ba7ecac36ac2df079c7af787a745cfa',
+        'NAME': 'purbeurre_db',
+        'USER': 'postgres',
+        'PASSWORD': 'a8ln17',
         'PORT': '5432',
     }
 }
