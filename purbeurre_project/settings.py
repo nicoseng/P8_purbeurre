@@ -90,7 +90,7 @@ if os.environ.get("ENV", "development") == "production":
             'NAME': 'd9c2o07osucgdl',
             'USER': 'fkaxmioupwjozl',
             'PASSWORD': 'cfc04da737ac71b565437a05e84bc1ab7ba7ecac36ac2df079c7af787a745cfa',
-            'HOST': '127.0.0.1',
+            'HOST': 'purbeurre-website.herokuapp.com',
             'PORT': '5432',
         }
     }
