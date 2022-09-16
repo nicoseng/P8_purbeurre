@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-f!me*y-f52^)vdjz8&5lngvlabko(tj#e=tz--(33uhtj5=qr%
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = False if os.environ.get("VENV", "development") == "production" else True
+DEBUG = False if os.environ.get("ENV", "development") == "production" else True
 
 ALLOWED_HOSTS = ["127.0.0.1", "purbeurre-website.herokuapp.com"]
 # ALLOWED_HOSTS = ["purbeurre-website.herokuapp.com"]
@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-if os.environ.get("VENV", "development") == "production":
+if os.environ.get("ENV", "development") == "production":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -152,7 +152,7 @@ MEDIA_URL = '/images/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Activate heroku settings for Django
-if os.environ.get("VENV") == "production":
+if os.environ.get("ENV") == "production":
     import django_on_heroku
 
     django_on_heroku.settings(locals())
