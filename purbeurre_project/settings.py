@@ -83,16 +83,26 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'purbeurre_db',
-        'USER': 'postgres',
-        'PASSWORD': 'a8ln17',
-        'PORT': '5432',
+if os.environ.get("ENV", "development") == "production":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'd9c2o07osucgdl',
+            'USER': 'fkaxmioupwjozl',
+            'PASSWORD': 'cfc04da737ac71b565437a05e84bc1ab7ba7ecac36ac2df079c7af787a745cfa',
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'purbeurre_db',
+            'USER': 'postgres',
+            'PASSWORD': 'a8ln17',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
