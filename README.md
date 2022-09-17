@@ -28,11 +28,11 @@ pip install -r requirements.txt
 
 Dans le terminal, entrez la commande heroku run python manage.py insert_data. Cette commande permet d'ajouter les données catégories nécessaires afin pouvoir effectuer des recherches de produits.
 
-# VI°) Démarrer l'application
+# V°) Démarrer l'application
 
 Dans le terminal, entrez la commande heroku open. Cette commande permet de se connecter à l'adresse URL où est hébergé l'application sur heroku : https://purbeurre-website.herokuapp.com/
 
-# VII°) Gérer l'application depuis django admin
+# VI°) Gérer l'application depuis django admin
 
 Dans votre terminal, créer un super utilisateur (superuser) permet de pouvoir gérer votre application via une fenêtre d'administration Django. Pour ce faire, taper la commande suivante :
 ```
