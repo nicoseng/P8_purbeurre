@@ -23,12 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f!me*y-f52^)vdjz8&5lngvlabko(tj#e=tz--(33uhtj5=qr%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = False if os.environ.get("ENV", "development") == "production" else True
 
 ALLOWED_HOSTS = ["127.0.0.1", "purbeurre-website.herokuapp.com"]
-# ALLOWED_HOSTS = ["purbeurre-website.herokuapp.com"]
-
 
 # Application definition
 
@@ -77,12 +74,6 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 if os.environ.get("ENV", "development") == "production":
     DATABASES = {
         'default': {
