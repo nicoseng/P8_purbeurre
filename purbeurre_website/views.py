@@ -76,11 +76,6 @@ def propose_substitute(request):
             messages.info(request, "Il n'y a pas de produit correspondant à votre recherche.")
             return redirect('home')
 
-        # We fetch the category of the product selected
-        category_imported = CategoryImporter()
-        product_selected_category = category_imported.category_table.get(
-            category_id=product_selected_data.category_id.category_id).category_name
-
         # We fetch the products of this category
         substitute_list = Product.objects.filter(category_id=product_selected_data.category_id.category_id)
         product_imported = ProductImporter()
