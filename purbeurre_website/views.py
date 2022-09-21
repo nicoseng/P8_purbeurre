@@ -1,16 +1,17 @@
 import ast
-
+import random
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .models import Category
+from .models import Category, Product
 from .product_importer import ProductImporter
 from .category_importer import CategoryImporter
 from .forms import CreateUser
 from .substitute_in_favourite import SubstituteInFavourite
 from .delete_product import ProductEliminator
+from django.contrib.auth.models import User
 
 
 @login_required(login_url='login_user')
@@ -33,7 +34,9 @@ def create_account(request):
 
 def login_user(request):
     if request.method == "POST":
-        username = request.POST.get('username')
+
+        email = request.POST.get('email')
+        username = User.objects.get(email=email).username
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -41,7 +44,7 @@ def login_user(request):
             messages.success(request, 'Bienvenue sur le site de Pur Beurre ' + user.username + ' !')
             return redirect('home')
         else:
-            messages.error(request, "Utilisateur et/ou mot de passe inconnus")
+            messages.error(request, "Email et/ou mot de passe inconnus")
     return render(request, 'login_user.html')
 
 
@@ -61,22 +64,17 @@ def user_account(request):
 
 
 def propose_substitute(request):
-    category_database = Category.objects.all()
+    # category_database = Category.objects.all()
 
     if request.method == "POST":
+        product_database = Product.objects.all()
         searched_product_name = request.POST.get('searched_product_name')
-        searched_product_imported = ProductImporter()
-        searched_products_url = searched_product_imported.load_products_url(searched_product_name)
-
-        products_list = searched_product_imported.extract_products(searched_products_url, 1)
-        product_database = searched_product_imported.inject_product_in_database(products_list, category_database)
-
+        product_imported = ProductImporter()
+        products_list = product_imported.check_product_in_database(searched_product_name, product_database)
+        product_selected_data = product_imported.retrieve_product_data(products_list)
         if len(products_list) == 0:
             messages.info(request, "Il n'y a pas de produit correspondant à votre recherche.")
             return redirect('home')
-
-        product_selected_data = ProductImporter()
-        product_selected_data = product_selected_data.retrieve_product_data_from_database()
 
         # We fetch the category of the product selected
         category_imported = CategoryImporter()
@@ -84,15 +82,11 @@ def propose_substitute(request):
             category_id=product_selected_data.category_id.category_id).category_name
 
         # We fetch the products of this category
+        substitute_list = Product.objects.filter(category_id=product_selected_data.category_id.category_id)
         product_imported = ProductImporter()
-        substitute_url_list = product_imported.load_products_url(product_selected_category)
-
-        # We filter the products of the list to have a substitute list
-        substitute_list = product_imported.extract_products(substitute_url_list, 20)
         substitute_list = product_imported.propose_substitute(product_selected_data, substitute_list)
+        # We filter the products of the list to have a substitute list
         context = {
-            "searched_product_name": searched_product_name,
-            "product_database": product_database,
             "product_selected_data": product_selected_data,
             "substitute_list": substitute_list,
         }
@@ -101,13 +95,11 @@ def propose_substitute(request):
 
 @login_required(login_url='login_user')
 def add_favourite(request):
-
     # We fetch the id of the user
     current_user = request.user
     user_id = current_user.id
 
     if request.method == "POST":
-
         substitute_selected_data = request.POST.get('substitute_selected_data')
         substitute_selected_data = ast.literal_eval(substitute_selected_data)
 
@@ -152,9 +144,7 @@ def display_favourite(request):
 
 def product_data(request):
     if request.method == "POST":
-
-        product_imported = ProductImporter()
-        product_selected_data = product_imported.retrieve_product_data_from_database()
-
+        product_selected_id = request.POST.get('product_selected_id')
+        product_selected_data = Product.objects.get(product_id=product_selected_id)
         context = {"product_selected_data": product_selected_data}
         return render(request, 'product_data.html', context)

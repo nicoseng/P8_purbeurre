@@ -1,6 +1,6 @@
 """Internal imports"""
 from operator import itemgetter
-
+import random
 import requests
 import unidecode
 from requests import get
@@ -21,37 +21,23 @@ class ProductImporter:
         self.substitute_data = {}
         self.substitute_proposed_list = []
 
-    def load_products_url(self, product_name):
-
+    def load_category_url(self):
         """
-        Extracts products URLS from the API OpenFoodFacts(OFF).
+        Loads category URLS from the category table.
         """
+        category_database = Category.objects.all()
+        category_url_list = []
+        for category in category_database:
+            category_url_json = category.category_url + "&json=1"
+            category_url_list.append(category_url_json)
+        print(category_url_list)
+        return category_url_list
 
-        nb_of_page = 0
-
-        product_name.split()
-        if " " in product_name:
-            product_name = product_name.replace(" ", "+")
-
-        product_url = "https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1" \
-                      "&search_terms={}&page={}".format(product_name, str(nb_of_page))
-        product_url_normalized = unidecode.unidecode(product_url)
-        self.product_url_list.append(product_url_normalized)
-        return self.product_url_list
-
-    def extract_products(self, products_list_url, nb_product):
-
-        """
-        To extract the products from url of the products.
-        :param nb_product: number of product we want to extract
-        :param products_list_url: list of product URLS
-        """
-        for url in products_list_url:
-
-            product_page_url = get(url)
-            product_page_json = product_page_url.json()
+    def extract_products(self, category_url_list, nb_product):
+        for url in category_url_list:
+            request = get(url)
+            product_page_json = request.json()
             number = 0
-
             while number < nb_product:
                 self.product_data = {"categories": "",
                                      "product_name": "",
@@ -84,37 +70,46 @@ class ProductImporter:
 
                 except KeyError:
                     number += 1
-
+        print(self.products_list)
         return self.products_list
 
     def inject_product_in_database(self, products_list, category_table):
 
         num_id = 1
-        nb_of_products = len(products_list)
-        while num_id <= nb_of_products:
-            for product in products_list:
-                for category in category_table:
-                    if category.category_name in product["categories"]:
-                        category_id = Category(category.category_id)
-                        product_data = Product(
-                            category_id=category_id,
-                            product_id=num_id,
-                            product_name=product["product_name"],
-                            product_nutriscore=product["nutriscore"],
-                            product_image=product["product_image"],
-                            product_ingredients=product["ingredients"],
-                            product_url=product["url"]
-                        )
-                        product_data.save()
-            num_id = num_id + 1
-
+        for product in products_list:
+            print(product)
+            for category in category_table:
+                if category.category_name in product["categories"]:
+                    category_id = Category(category.category_id)
+                    print(category_id)
+                    product_data = Product(
+                        category_id=category_id,
+                        product_id=num_id,
+                        product_name=product["product_name"],
+                        product_nutriscore=product["nutriscore"],
+                        product_image=product["product_image"],
+                        product_ingredients=product["ingredients"],
+                        product_url=product["url"]
+                    )
+                    product_data.save()
+                    num_id = num_id + 1
+        print(self.product_database)
         return self.product_database
 
     @staticmethod
-    def retrieve_product_data_from_database():
+    def check_product_in_database(searched_product_name, product_database):
+        products_list = []
+        for product in product_database:
+            for word in searched_product_name.split():
+                if word.capitalize() in product.product_name.split():
+                    product_selected = Product.objects.filter(product_name__contains=word.capitalize())
+                    products_list.append(product_selected)
+        return products_list[0]
 
-        product_selected_data = Product.objects.get(product_id=1)
-        return product_selected_data
+    @staticmethod
+    def retrieve_product_data(products_list):
+        random_product_selected = random.choice(products_list)
+        return random_product_selected
 
     def propose_substitute(self, product_selected_data, product_list):
 
@@ -126,13 +121,13 @@ class ProductImporter:
             available_nutriscore_list[0:selected_nutriscore_index]
 
         for product in product_list:
-            if product["nutriscore"] in best_nutriscore_list or product["nutriscore"] == "a":
+            if product.product_nutriscore in best_nutriscore_list or product.product_nutriscore == "a":
                 self.substitute_data = {
-                    "product_name": product["product_name"],
-                    "nutriscore": product["nutriscore"],
-                    "product_image": product["product_image"],
-                    "ingredients": product["ingredients"],
-                    "url": product["url"]
+                    "product_name": product.product_name,
+                    "nutriscore": product.product_nutriscore,
+                    "product_image": product.product_image,
+                    "ingredients": product.product_ingredients,
+                    "url": product.product_url
                 }
                 self.substitute_proposed_list.append(self.substitute_data)
 

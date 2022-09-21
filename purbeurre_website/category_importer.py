@@ -71,5 +71,4 @@ class CategoryImporter:
                     category_url_page = "{}&page={}".format(category_url, str(number))
                     category_url_list.append(category_url_page)
                     page += 1
-
         return category_url_list
