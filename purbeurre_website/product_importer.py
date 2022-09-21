@@ -21,7 +21,8 @@ class ProductImporter:
         self.substitute_data = {}
         self.substitute_proposed_list = []
 
-    def load_category_url(self):
+    @staticmethod
+    def load_category_url():
         """
         Loads category URLS from the category table.
         """
