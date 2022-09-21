@@ -31,7 +31,6 @@ class ProductImporter:
         for category in category_database:
             category_url_json = category.category_url + "&json=1"
             category_url_list.append(category_url_json)
-        print(category_url_list)
         return category_url_list
 
     def extract_products(self, category_url_list, nb_product):
@@ -71,18 +70,15 @@ class ProductImporter:
 
                 except KeyError:
                     number += 1
-        print(self.products_list)
         return self.products_list
 
     def inject_product_in_database(self, products_list, category_table):
 
         num_id = 1
         for product in products_list:
-            print(product)
             for category in category_table:
                 if category.category_name in product["categories"]:
                     category_id = Category(category.category_id)
-                    print(category_id)
                     product_data = Product(
                         category_id=category_id,
                         product_id=num_id,
@@ -94,7 +90,6 @@ class ProductImporter:
                     )
                     product_data.save()
                     num_id = num_id + 1
-        print(self.product_database)
         return self.product_database
 
     @staticmethod

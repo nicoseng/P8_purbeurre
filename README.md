@@ -26,7 +26,11 @@ pip install -r requirements.txt
 ```
 # IV°) Ajouter les données dans l'application
 
-Dans le terminal, entrez la commande heroku run python manage.py insert_data. Cette commande permet d'ajouter les données catégories nécessaires afin pouvoir effectuer des recherches de produits.
+Dans le terminal, entrez la commande heroku run python manage.py insert_category. 
+Cette commande permet d'ajouter les données catégories nécessaires afin pouvoir effectuer des recherches de produits.
+Dans le terminal, entrez la commande heroku run python manage.py insert_products. 
+Cette commande permet d'ajouter les données produits nécessaires afin pouvoir effectuer des recherches de produits.
+
 
 # V°) Démarrer l'application
 
