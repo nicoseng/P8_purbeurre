@@ -64,7 +64,6 @@ def user_account(request):
 
 
 def propose_substitute(request):
-    # category_database = Category.objects.all()
 
     if request.method == "POST":
         product_database = Product.objects.all()

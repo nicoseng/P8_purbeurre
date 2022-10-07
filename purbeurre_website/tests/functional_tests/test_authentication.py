@@ -35,9 +35,9 @@ class TestAuthentication(LiveServerTestCase):
         self.browser.get('http://127.0.0.1:8000/login_user/')
         time.sleep(5)
 
-        username = self.browser.find_element(By.NAME, "username")
+        email = self.browser.find_element(By.NAME, "email")
         password = self.browser.find_element(By.NAME, "password")
-        username.send_keys("jean")
+        email.send_keys("abc@gmail.com")
         password.send_keys("molaires")
         submit = self.browser.find_element(By.NAME, "submit")
         submit.send_keys(Keys.RETURN)

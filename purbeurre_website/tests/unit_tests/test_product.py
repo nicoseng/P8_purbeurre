@@ -29,13 +29,17 @@ class TestDeleteSubstitute(TestCase):
             product_nutriscore="a"
         )
 
-    def test_load_products_url(self):
-        product_name = "sauce soja"
+    def test_load_category_url(self):
+        category_database = Category.objects.create(
+            category_id=10,
+            category_name="Fruits",
+            category_url="https://fr.openfoodfacts.org/categorie/fruits"
+        )
+        print(category_database.category_url)
         product_imp = ProductImporter()
-        product_url_list = product_imp.load_products_url(product_name)
-        expected_value = ["https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1"
-                          "&search_terms=sauce+soja&page=0"]
-        assert product_url_list == expected_value
+        category_url_list = product_imp.load_category_url()
+        expected_value = ["https://fr.openfoodfacts.org/categorie/fruits&json=1"]
+        assert category_url_list == expected_value
 
     def test_extract_products(self):
         products_list_url = ["https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1"

@@ -4,7 +4,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from purbeurre_website.forms import CreateUser
-from purbeurre_website.models import Favourite, Product
+from purbeurre_website.models import Favourite, Product, Category
 from purbeurre_website.product_importer import ProductImporter
 from purbeurre_website.substitute_in_favourite import SubstituteInFavourite
 
@@ -69,7 +69,7 @@ class TestViews(TestCase):
         assert response.status_code == 200
 
     def test_login_user_view(self):
-        credentials = {"username": "Jeanne", "password": "lunaires"}
+        credentials = {"username": "jeanne", "password":"lunaires", "email": "abc@gmail.com"}
         User.objects.create_user(**credentials)
 
         # send login data
@@ -95,17 +95,46 @@ class TestViews(TestCase):
         self.client.logout()
 
     def test_propose_substitute_view(self):
-        credentials = {"product_name": "haribo"}
+        category = Category.objects.create(
+            category_id=19,
+            category_name="Fruits",
+            category_url="https://fr.openfoodfacts.org/categorie/fruits?json=1"
+        )
+        products_list = Product.objects.create(
+            category_id=Category(category.category_id),
+            product_id=18,
+            product_name="orange",
+            product_image="https://images.openfoodf…/0397/front_fr.4.200.jpg",
+            product_url="https://fr.openfoodfacts…anges-a-dessert-marque-u",
+            product_ingredients="orange",
+            product_nutriscore="a"
+        )
+        credentials = Product.objects.create(
+            category_id=Category(category.category_id),
+            product_id=11,
+            product_name="Pâte à tartiner Nutella noisettes et cacao - 200g",
+            product_image="https://images.openfoodf…463/front_fr.168.400.jpg",
+            product_url="https://fr.openfoodfacts…es-et-cacao-200g-ferrero",
+            product_ingredients="nutella",
+            product_nutriscore="e"
+        )
         response = self.client.post('propose_substitute/', credentials, follow=True)
         reverse('propose_substitute')
         assert response.status_code == 404
 
         prod_imp = ProductImporter()
-        searched_prod_url = prod_imp.load_products_url(credentials["product_name"])
-        expected_value = [
-            'https://fr.openfoodfacts.org/cgi/search.pl?json=1&action=process&search_simple=1&search_terms=haribo'
-            '&page=0']
-        assert searched_prod_url == expected_value
+        searched_prod = prod_imp.propose_substitute(credentials, products_list)
+        print(searched_prod)
+        expected_value = Product.objects.create(
+            category_id=Category(category.category_id),
+            product_id=18,
+            product_name="orange",
+            product_image="https://images.openfoodf…/0397/front_fr.4.200.jpg",
+            product_url="https://fr.openfoodfacts…anges-a-dessert-marque-u",
+            product_ingredients="orange",
+            product_nutriscore="a"
+        )
+        assert searched_prod == expected_value
 
     def test_add_favourite_view(self):
 
